@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {TickSquare} from 'iconsax-react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import HeaderPrimary from '../../components/Header/HeaderPrimary';
 import VerticalSpace from '../../components/VerticalSpace';
@@ -13,9 +14,15 @@ import {BLACK, PINBALL, THEME, WHITE} from '../../constants/colors';
 import {sR, wR} from '../../constants/dimensions';
 import {PROXIMA_NOVA_REGULAR} from '../../constants/fonts';
 import useToggle from '../../hooks';
+import { NavigationProp } from '../../constants/navigationTypes';
 
 const RegisterScreen: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
   const [registerConsent, toggleRegisterConsent] = useToggle(true);
+
+  const goToVerifyPhone = useCallback(() => {
+    navigation.navigate('VerifyPhone');
+  }, [navigation]);
 
   return (
     <View style={styles.rootContainer}>
@@ -63,7 +70,7 @@ const RegisterScreen: React.FC = () => {
 
           <VerticalSpace h={4} />
 
-          <SolidButton size={`xl`} label={`Agree & Continue`} />
+          <SolidButton size={`xl`} label={`Agree & Continue`} onPress={goToVerifyPhone} />
         </View>
       </View>
     </View>
