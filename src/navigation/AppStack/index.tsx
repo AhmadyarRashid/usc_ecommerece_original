@@ -12,7 +12,7 @@ const Stack = createNativeStackNavigator();
 const AppStack: React.FC = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Register"
+      initialRouteName="ShoppingCart"
       screenOptions={{
         headerShown: false,
       }}
