@@ -1,10 +1,11 @@
 import {
   FlatList,
-  FlatListComponent,
   ScrollView,
-  Text,
   View,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useCallback } from 'react';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 import HeaderSecondary from '../../components/Header/HeaderSecondary';
 import SearchBox from '../../components/SearchBox';
@@ -23,6 +24,7 @@ import {
   WHITE,
 } from '../../constants/colors';
 import {wR} from '../../constants/dimensions';
+import { AppNavigationProps } from '../../constants/navigationTypes';
 
 const CATEGORIES_DATA = [
   {
@@ -65,9 +67,20 @@ const PRODUCTS_DATA = [
 ];
 
 const HomeScreen = () => {
+  const navigation = useNavigation<AppNavigationProps>();
+  const tabBarHeight = useBottomTabBarHeight();
+
+  const goToShoppingCart = useCallback(() => {
+    navigation.navigate('ShoppingCart');
+  }, [navigation]);
+
+  const goToProductDetails = useCallback(() => {
+    navigation.navigate('ProductDetails');
+  }, [navigation]);
+
   return (
     <View style={{backgroundColor: WHITE, flex: 1}}>
-      <HeaderSecondary />
+      <HeaderSecondary onLeftPress={()=>alert('location screen in-progress')} onRightPress={goToShoppingCart}/>
 
       <ScrollView contentContainerStyle={{paddingHorizontal: wR * 4}} showsVerticalScrollIndicator={false}>
         <VerticalSpace h={2} />
@@ -95,7 +108,7 @@ const HomeScreen = () => {
 
         <FlatList
           data={PRODUCTS_DATA}
-          renderItem={({item}) => <ProductsCard data={item} />}
+          renderItem={({item}) => <ProductsCard data={item} onPress={goToProductDetails}/>}
           horizontal
           showsHorizontalScrollIndicator={false}
         />
@@ -108,12 +121,10 @@ const HomeScreen = () => {
 
         <FlatList
           data={PRODUCTS_DATA}
-          renderItem={({item}) => <ProductsCard data={item} />}
+          renderItem={({item}) => <ProductsCard data={item} onPress={goToProductDetails}/>}
           horizontal
           showsHorizontalScrollIndicator={false}
         />
-
-        <VerticalSpace h={2} />
       </ScrollView>
     </View>
   );

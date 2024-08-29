@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Image,
   StyleSheet,
@@ -9,6 +9,7 @@ import {
   ImageStyle,
   ScrollView,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import HeaderPrimary from '../../components/Header/HeaderPrimary';
 import VerticalSpace from '../../components/VerticalSpace';
@@ -24,11 +25,18 @@ import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
 } from '../../constants/fonts';
+import { AppNavigationProps } from '../../constants/navigationTypes';
 
 const ProductDetailsScreen: React.FC = () => {
+  const navigation = useNavigation<AppNavigationProps>();
+
+  const goBack = useCallback(() => {
+    navigation.goBack()
+  }, [navigation]);
+
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label="Product Details" />
+      <HeaderPrimary label="Product Details" onPress={goBack}/>
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.childContainer}>

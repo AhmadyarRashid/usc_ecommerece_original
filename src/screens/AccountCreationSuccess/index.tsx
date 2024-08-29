@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {View, StyleSheet, Text} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import VerticalSpace from '../../components/VerticalSpace';
 import SolidButton from '../../components/Button/SolidButton';
@@ -9,8 +10,15 @@ import {CHECK} from '../../constants/animations';
 import {sR} from '../../constants/dimensions';
 import {BLACK, FLINT_STONE, WHITE} from '../../constants/colors';
 import { PROXIMA_NOVA_REGULAR, PROXIMA_NOVA_SEMIBOLD } from '../../constants/fonts';
+import { AppNavigationProps } from '../../constants/navigationTypes';
 
 const AccountCreationSuccessScreen: React.FC = () => {
+  const navigation = useNavigation<AppNavigationProps>();
+
+  const goToAppBottomTab = useCallback(() => {
+    navigation.navigate('AppBottomTab');
+  }, [navigation]);
+
   return (
     <View style={styles.rootContainer}>
       <LottieAnimation
@@ -29,7 +37,7 @@ const AccountCreationSuccessScreen: React.FC = () => {
 
       <VerticalSpace h={2} />
 
-      <SolidButton label={`Explore Home Page`} size={`xl`} />
+      <SolidButton label={`Explore Home Page`} size={`xl`} onPress={goToAppBottomTab}/>
     </View>
   );
 };

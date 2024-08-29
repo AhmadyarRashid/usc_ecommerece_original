@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   FlatList,
   ScrollView,
@@ -8,6 +8,7 @@ import {
   ViewStyle,
   TextStyle,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -28,6 +29,7 @@ import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
 } from "../../constants/fonts";
+import { AppNavigationProps } from "../../constants/navigationTypes";
 
 interface CartItem {
   name: string;
@@ -58,9 +60,15 @@ const CART_DATA: CartItem[] = [
 ];
 
 const ShoppingCartScreen: React.FC = () => {
+  const navigation = useNavigation<AppNavigationProps>();
+
+  const goBack = useCallback(() => {
+    navigation.goBack()
+  }, [navigation]);
+
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label="Shopping Bag" />
+      <HeaderPrimary label="Shopping Bag" onPress={goBack}/>
 
       <ScrollView contentContainerStyle={styles.scrollViewContentContainer}>
         <VerticalSpace h={2} />

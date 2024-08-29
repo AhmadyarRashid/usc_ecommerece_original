@@ -1,34 +1,40 @@
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Location, ShoppingCart} from 'iconsax-react-native';
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Location, ShoppingCart } from "iconsax-react-native";
 
-import HorizontalSpace from '../../HorizontalSpace';
+import HorizontalSpace from "../../HorizontalSpace";
 
-import {hR, sR, wR} from '../../../constants/dimensions';
-import {FLINT_STONE, THEME} from '../../../constants/colors';
+import { hR, sR, wR } from "../../../constants/dimensions";
+import { FLINT_STONE, THEME } from "../../../constants/colors";
 import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
-} from '../../../constants/fonts';
+} from "../../../constants/fonts";
 
-interface HeaderPrimaryProps {}
+interface HeaderSecondaryProps {
+  onLeftPress?: () => void;
+  onRightPress?: () => void;
+}
 
-const HeaderSecondary: React.FC<HeaderPrimaryProps> = ({}) => {
+const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({
+  onLeftPress,
+  onRightPress,
+}) => {
   return (
     <View style={styles.rootContainer}>
-      <View style={styles.leftContainer}>
-        <Location size={sR * 2.6} color={THEME} variant={'Bulk'} />
+      <TouchableOpacity style={styles.leftContainer} onPress={onLeftPress}>
+        <Location size={sR * 2.6} color={THEME} variant={"Bulk"} />
 
         <HorizontalSpace w={2} />
 
-        <TouchableOpacity>
+        <View>
           <Text style={styles.deliveryAddressText}>Delivery Address</Text>
           <Text style={styles.actualAddressText}>92 High Street, London ▼</Text>
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
 
-      <TouchableOpacity>
-        <ShoppingCart size={sR * 2.6} color={THEME} variant={'Bulk'} />
+      <TouchableOpacity onPress={onRightPress}>
+        <ShoppingCart size={sR * 2.6} color={THEME} variant={"Bulk"} />
       </TouchableOpacity>
     </View>
   );
@@ -40,11 +46,11 @@ const styles = StyleSheet.create({
   rootContainer: {
     paddingVertical: hR * 2,
     paddingHorizontal: wR * 4,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  leftContainer: {flexDirection: 'row', alignItems: 'center'},
+  leftContainer: { flexDirection: "row", alignItems: "center" },
   deliveryAddressText: {
     fontFamily: PROXIMA_NOVA_REGULAR,
     color: FLINT_STONE,

@@ -13,11 +13,11 @@ import SolidButton from '../../components/Button/SolidButton';
 import {BLACK, PINBALL, THEME, WHITE} from '../../constants/colors';
 import {sR, wR} from '../../constants/dimensions';
 import {PROXIMA_NOVA_REGULAR} from '../../constants/fonts';
-import useToggle from '../../hooks';
-import { NavigationProp } from '../../constants/navigationTypes';
+import useToggle from '../../hooks/useToggle';
+import { AppNavigationProps } from '../../constants/navigationTypes';
 
 const RegisterScreen: React.FC = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<AppNavigationProps>();
   const [registerConsent, toggleRegisterConsent] = useToggle(true);
 
   const goToVerifyPhone = useCallback(() => {
@@ -26,7 +26,7 @@ const RegisterScreen: React.FC = () => {
 
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label="Register" />
+      <HeaderPrimary label="Register" onPress={()=> alert(`MyUSC`)}/>
 
       <View style={styles.contentContainer}>
         <View>

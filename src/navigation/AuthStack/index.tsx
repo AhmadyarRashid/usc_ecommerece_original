@@ -3,16 +3,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import RegisterScreen from "../../screens/Register";
 import VerifyPhoneScreen from "../../screens/VerifyPhone";
 import AccountCreationSuccessScreen from "../../screens/AccountCreationSuccess";
-import HomeScreen from "../../screens/Home";
-import ProductDetailsScreen from "../../screens/ProductDetails";
-import ShoppingCartScreen from "../../screens/ShoppingCart";
+import AppBottomTab from "../AppBottomTab";
 
 const Stack = createNativeStackNavigator();
 
-const AppStack: React.FC = () => {
+const AuthStack: React.FC = () => {
   return (
     <Stack.Navigator
-      initialRouteName="ShoppingCart"
+      initialRouteName="Register"
       screenOptions={{
         headerShown: false,
       }}
@@ -23,14 +21,9 @@ const AppStack: React.FC = () => {
         name="AccountCreationSuccess"
         component={AccountCreationSuccessScreen}
       />
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen
-        name="ProductDetails"
-        component={ProductDetailsScreen}
-      />
-      <Stack.Screen name="ShoppingCart" component={ShoppingCartScreen} />
+      <Stack.Screen name="AppBottomTab" component={AppBottomTab} />
     </Stack.Navigator>
   );
 };
 
-export default AppStack;
+export default AuthStack;

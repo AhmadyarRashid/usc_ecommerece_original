@@ -29,11 +29,12 @@ interface ProductData {
 
 interface ProductsCardProps {
   data: ProductData;
+  onPress?: () => void;
 }
 
-const ProductsCard: React.FC<ProductsCardProps> = ({data}) => {
+const ProductsCard: React.FC<ProductsCardProps> = ({data,onPress}) => {
   return (
-    <View style={styles.rootContainer}>
+    <TouchableOpacity style={styles.rootContainer} onPress={onPress}>
       <View style={styles.productImageContainer}>
         <Image
           source={images.SHAMPOO as ImageSourcePropType}
@@ -57,7 +58,7 @@ const ProductsCard: React.FC<ProductsCardProps> = ({data}) => {
           <AddCircle size={sR * 2.6} color={THEME} />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

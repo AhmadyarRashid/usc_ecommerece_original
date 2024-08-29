@@ -1,23 +1,34 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import LottieView from 'lottie-react-native';
+import React, { useCallback } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import HeaderPrimary from '../../components/Header/HeaderPrimary';
-import VerticalSpace from '../../components/VerticalSpace';
-import SolidButton from '../../components/Button/SolidButton';
-import InputOTP from '../../components/TextInput/InputOTP';
-import TextButton from '../../components/Button/TextButton';
+import HeaderPrimary from "../../components/Header/HeaderPrimary";
+import VerticalSpace from "../../components/VerticalSpace";
+import SolidButton from "../../components/Button/SolidButton";
+import InputOTP from "../../components/TextInput/InputOTP";
+import TextButton from "../../components/Button/TextButton";
 
-import {BLACK, FLINT_STONE, WHITE} from '../../constants/colors';
-import {sR, wR} from '../../constants/dimensions';
-import {PROXIMA_NOVA_SEMIBOLD} from '../../constants/fonts';
+import { BLACK, FLINT_STONE, WHITE } from "../../constants/colors";
+import { sR, wR } from "../../constants/dimensions";
+import { PROXIMA_NOVA_SEMIBOLD } from "../../constants/fonts";
+import { AppNavigationProps } from "../../constants/navigationTypes";
 
 interface VerifyPhoneScreenProps {}
 
 const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
+  const navigation = useNavigation<AppNavigationProps>();
+
+  const goToAccountCreationSuccess = useCallback(() => {
+    navigation.navigate("AccountCreationSuccess");
+  }, [navigation]);
+
+  const goBack = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label={`Verify your identity`} />
+      <HeaderPrimary label={`Verify your identity`} onPress={goBack} />
 
       <VerticalSpace h={4} />
 
@@ -45,7 +56,11 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
           </View>
         </View>
 
-        <SolidButton label={`Verify`} size={`xl`} />
+        <SolidButton
+          label={`Verify`}
+          size={`xl`}
+          onPress={goToAccountCreationSuccess}
+        />
       </View>
     </View>
   );
@@ -58,7 +73,7 @@ const styles = StyleSheet.create({
   },
   childContainer: {
     paddingHorizontal: wR * 4,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     flex: 1,
   },
   enterCodeText: {
@@ -72,7 +87,7 @@ const styles = StyleSheet.create({
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     opacity: 0.6,
   },
-  resendOTPContainer:{alignSelf: 'center'}
+  resendOTPContainer: { alignSelf: "center" },
 });
 
 export default VerifyPhoneScreen;
