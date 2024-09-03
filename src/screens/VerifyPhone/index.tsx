@@ -30,7 +30,7 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
     <View style={styles.rootContainer}>
       <HeaderPrimary label={`Verify your identity`} onPress={goBack} />
 
-      <VerticalSpace h={4} />
+      <VerticalSpace h={2} />
 
       <View style={styles.childContainer}>
         <View>
@@ -45,11 +45,11 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
             you.
           </Text>
 
-          <VerticalSpace h={4} />
+          <VerticalSpace h={2} />
 
           <InputOTP />
 
-          <VerticalSpace h={4} />
+          <VerticalSpace h={2} />
 
           <View style={styles.resendOTPContainer}>
             <TextButton label={`Resend OTP`} />

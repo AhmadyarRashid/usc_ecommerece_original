@@ -1,20 +1,25 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const MyOrders = ()=>{
-  return null
-}
+import MyOrdersScreen from "../../screens/MyOrders";
+import OrderDetailsScreen from "../../screens/OrderDetails";
+
+import useTabBarVisibility from "../../hooks/useTabBarVisibility";
 
 const Stack = createNativeStackNavigator();
 
 const OrdersStack: React.FC = () => {
+
+  useTabBarVisibility()
+
   return (
     <Stack.Navigator
-      initialRouteName="ShoppingCart"
+      initialRouteName="MyOrders"
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen  name="MyOrders" component={MyOrders} />
+      <Stack.Screen name="MyOrders" component={MyOrdersScreen} />
+      <Stack.Screen name="OrderDetails" component={OrderDetailsScreen} />
     </Stack.Navigator>
   );
 };

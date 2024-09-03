@@ -3,19 +3,12 @@ import {
   getFocusedRouteNameFromRoute,
   useRoute,
 } from "@react-navigation/native";
-import { RefObject } from "react";
 
 import { tabBarRef } from "../navigation/AppBottomTab";
 import { tabHiddenRoutes } from "../constants/misc";
 
-interface TabBarRef {
-  current: {
-    setVisible: (visible: boolean) => void;
-  } | null;
-}
-
 const useTabBarVisibility = () => {
-  const route = useRoute<any>()
+  const route = useRoute<any>();  
 
   useFocusEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);

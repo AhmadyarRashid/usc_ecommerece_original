@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   StyleSheet,
@@ -9,18 +9,18 @@ import {
   TextStyle,
   ViewStyle,
   ImageStyle,
-} from 'react-native';
-import {AddCircle} from 'iconsax-react-native';
+} from "react-native";
+import { AddCircle } from "iconsax-react-native";
 
-import VerticalSpace from '../../VerticalSpace';
+import VerticalSpace from "../../VerticalSpace";
 
-import images from '../../../constants/images';
-import {hR, sR, wR} from '../../../constants/dimensions';
-import {BLACK, THEME, WHITE_SMOKE} from '../../../constants/colors';
+import images from "../../../constants/images";
+import { hR, sR, wR } from "../../../constants/dimensions";
+import { BLACK, PINBALL, THEME, WHITE, WHITE_SMOKE } from "../../../constants/colors";
 import {
   PROXIMA_NOVA_BOLD,
   PROXIMA_NOVA_SEMIBOLD,
-} from '../../../constants/fonts';
+} from "../../../constants/fonts";
 
 interface ProductData {
   label: string;
@@ -32,7 +32,7 @@ interface ProductsCardProps {
   onPress?: () => void;
 }
 
-const ProductsCard: React.FC<ProductsCardProps> = ({data,onPress}) => {
+const ProductsCard: React.FC<ProductsCardProps> = ({ data, onPress }) => {
   return (
     <TouchableOpacity style={styles.rootContainer} onPress={onPress}>
       <View style={styles.productImageContainer}>
@@ -45,7 +45,7 @@ const ProductsCard: React.FC<ProductsCardProps> = ({data,onPress}) => {
 
       <VerticalSpace h={1} />
 
-      <View style={{height: sR * 4}}>
+      <View style={{ height: sR * 4 }}>
         <Text style={styles.labelText} numberOfLines={2}>
           {data.label}
         </Text>
@@ -64,19 +64,26 @@ const ProductsCard: React.FC<ProductsCardProps> = ({data,onPress}) => {
 
 const styles = StyleSheet.create({
   rootContainer: {
-    width: wR * 44,
+    width: wR * 36,
     marginRight: wR * 4,
+    shadowColor: BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
+    elevation: 1,
   } as ViewStyle,
   productImageContainer: {
     backgroundColor: WHITE_SMOKE,
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: hR * 2,
-    width: wR * 44,
     borderRadius: sR,
   } as ViewStyle,
   productImage: {
-    height: sR * 10,
-    width: sR * 10,
+    height: sR * 8,
+    width: sR * 8,
   } as ImageStyle,
   labelText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
@@ -90,9 +97,9 @@ const styles = StyleSheet.create({
     color: BLACK,
   } as TextStyle,
   bottomContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   } as ViewStyle,
 });
 

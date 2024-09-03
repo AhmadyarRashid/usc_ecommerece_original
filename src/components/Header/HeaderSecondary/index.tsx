@@ -5,7 +5,7 @@ import { Location, ShoppingCart } from "iconsax-react-native";
 import HorizontalSpace from "../../HorizontalSpace";
 
 import { hR, sR, wR } from "../../../constants/dimensions";
-import { FLINT_STONE, THEME } from "../../../constants/colors";
+import { FLINT_STONE, THEME, WHITE } from "../../../constants/colors";
 import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
@@ -49,6 +49,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    backgroundColor: WHITE,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
+    elevation: 1,
   },
   leftContainer: { flexDirection: "row", alignItems: "center" },
   deliveryAddressText: {

@@ -9,7 +9,7 @@ const HorizontalLine: React.FC = () => {
     <View
       style={{
         borderWidth: 0.6,
-        width: wR * 92,
+        // width: wR * 92,
         borderColor: PINBALL,
       }}
     />

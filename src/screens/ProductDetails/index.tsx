@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback } from "react";
 import {
   Image,
   StyleSheet,
@@ -8,41 +8,43 @@ import {
   TextStyle,
   ImageStyle,
   ScrollView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import HeaderPrimary from '../../components/Header/HeaderPrimary';
-import VerticalSpace from '../../components/VerticalSpace';
-import HorizontalSpace from '../../components/HorizontalSpace';
-import HorizontalLine from '../../components/HorizontalLine';
-import CartControls from './component/CartControls';
+import HeaderPrimary from "../../components/Header/HeaderPrimary";
+import VerticalSpace from "../../components/VerticalSpace";
+import HorizontalSpace from "../../components/HorizontalSpace";
+import HorizontalLine from "../../components/HorizontalLine";
+import CartControls from "./component/CartControls";
 
-import {BLACK, FLINT_STONE, HULK, WHITE} from '../../constants/colors';
-import images from '../../constants/images';
-import {hR, sR, wR} from '../../constants/dimensions';
+import { BLACK, FLINT_STONE, HULK, WHITE } from "../../constants/colors";
+import images from "../../constants/images";
+import { hR, sR, wR } from "../../constants/dimensions";
 import {
   PROXIMA_NOVA_BOLD,
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
-} from '../../constants/fonts';
-import { AppNavigationProps } from '../../constants/navigationTypes';
+} from "../../constants/fonts";
+import { AppNavigationProps } from "../../constants/navigationTypes";
 
 const ProductDetailsScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
 
   const goBack = useCallback(() => {
-    navigation.goBack()
+    navigation.goBack();
   }, [navigation]);
 
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label="Product Details" onPress={goBack}/>
+      <HeaderPrimary label="Product Details" onPress={goBack} />
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.childContainer}>
+          <VerticalSpace h={2} />
+
           <Image source={images.COFFEE} style={styles.productImage} />
 
-          <VerticalSpace h={4} />
+          <VerticalSpace h={2} />
 
           <Text style={styles.productLabelText}>
             Stock Cold Brew Original Coffee Pack 200g Special Edition | Multi
@@ -99,13 +101,13 @@ const styles = StyleSheet.create({
   } as ViewStyle,
   childContainer: {
     paddingHorizontal: wR * 4,
-    paddingBottom:hR*12
+    paddingBottom: hR * 12,
   } as ViewStyle,
   productImage: {
     width: wR * 92,
     height: hR * 24,
-    alignSelf: 'center',
-    resizeMode: 'cover',
+    alignSelf: "center",
+    resizeMode: "cover",
   } as ImageStyle,
   productLabelText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
@@ -113,13 +115,13 @@ const styles = StyleSheet.create({
     color: BLACK,
   } as TextStyle,
   priceAndAvailabilityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   } as ViewStyle,
   priceContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   } as ViewStyle,
   discountedPriceText: {
     fontFamily: PROXIMA_NOVA_BOLD,
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
     fontSize: sR * 1.2,
     color: FLINT_STONE,
     opacity: 0.6,
-    textDecorationLine: 'line-through',
+    textDecorationLine: "line-through",
   } as TextStyle,
   productAvailabilityText: {
     fontFamily: PROXIMA_NOVA_REGULAR,

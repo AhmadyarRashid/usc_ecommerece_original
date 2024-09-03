@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Platform} from 'react-native';
 import {TickSquare} from 'iconsax-react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -30,7 +30,7 @@ const RegisterScreen: React.FC = () => {
 
       <View style={styles.contentContainer}>
         <View>
-          <VerticalSpace h={4} />
+          <VerticalSpace h={2} />
 
           <PhoneInput placeholder="Phone number" />
 
@@ -68,9 +68,11 @@ const RegisterScreen: React.FC = () => {
             </View>
           </View>
 
-          <VerticalSpace h={4} />
+          <VerticalSpace h={2} />
 
           <SolidButton size={`xl`} label={`Agree & Continue`} onPress={goToVerifyPhone} />
+
+          {Platform.OS === 'android' && <VerticalSpace h={2} />}
         </View>
       </View>
     </View>

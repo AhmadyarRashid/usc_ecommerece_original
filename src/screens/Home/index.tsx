@@ -1,6 +1,7 @@
 import {
   FlatList,
   ScrollView,
+  StyleSheet,
   View,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -23,7 +24,7 @@ import {
   SNARKY_MINT,
   WHITE,
 } from '../../constants/colors';
-import {wR} from '../../constants/dimensions';
+import {hR, wR} from '../../constants/dimensions';
 import { AppNavigationProps } from '../../constants/navigationTypes';
 
 const CATEGORIES_DATA = [
@@ -79,15 +80,15 @@ const HomeScreen = () => {
   }, [navigation]);
 
   return (
-    <View style={{backgroundColor: WHITE, flex: 1}}>
+    <View style={styles.rootContainer}>
       <HeaderSecondary onLeftPress={()=>alert('location screen in-progress')} onRightPress={goToShoppingCart}/>
 
-      <ScrollView contentContainerStyle={{paddingHorizontal: wR * 4}} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={styles.scrollViewContainer} showsVerticalScrollIndicator={false}>
         <VerticalSpace h={2} />
 
         <SearchBox placeholder={`Search anything you want`} />
 
-        <VerticalSpace h={4} />
+        <VerticalSpace h={2} />
 
         <SectionTitleWithAction title={`Explore Categories`} />
 
@@ -100,7 +101,7 @@ const HomeScreen = () => {
           showsHorizontalScrollIndicator={false}
         />
 
-        <VerticalSpace h={4} />
+        <VerticalSpace h={2} />
 
         <SectionTitleWithAction title={`Fresh Sale`} />
 
@@ -113,7 +114,7 @@ const HomeScreen = () => {
           showsHorizontalScrollIndicator={false}
         />
 
-        <VerticalSpace h={4} />
+        <VerticalSpace h={2} />
 
         <SectionTitleWithAction title={`Frequently Ordered`} />
 
@@ -125,9 +126,18 @@ const HomeScreen = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
         />
+
+        <VerticalSpace h={2}/>
+
+        <View style={{height:tabBarHeight}} />
       </ScrollView>
     </View>
   );
 };
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+  rootContainer:{backgroundColor: WHITE, flex: 1},
+  scrollViewContainer:{paddingHorizontal: wR * 4},
+})

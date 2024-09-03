@@ -8,7 +8,11 @@ import VerticalSpace from "../../components/VerticalSpace";
 import HomeStack from "../HomeStack";
 import OrdersStack from "../OrdersStack";
 
-import { BLACK, THEME, WHITE } from "../../constants/colors";
+import {
+  BLACK,
+  THEME,
+  WHITE,
+} from "../../constants/colors";
 import { hR, sR } from "../../constants/dimensions";
 import { PROXIMA_NOVA_SEMIBOLD } from "../../constants/fonts";
 
@@ -49,7 +53,7 @@ const AppTabs: React.FC = () => {
       },
     };
 
-    const { icon, text } = iconConfig[routeName] || { icon: null, text: '' };
+    const { icon, text } = iconConfig[routeName] || { icon: null, text: "" };
 
     const textStyles = {
       fontFamily: PROXIMA_NOVA_SEMIBOLD,
@@ -90,6 +94,17 @@ const AppTabs: React.FC = () => {
         renderCircle={tabCenterIcon}
         tabBar={tabItem}
         screenOptions={{ headerShown: false }}
+        shadowStyle={{
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+          shadowOpacity: 0.22,
+          shadowRadius: 2.22,
+
+          elevation: 3,
+        }}
       >
         <CurvedBottomBar.Screen
           name="Home"
@@ -126,5 +141,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: sR * 2.5,
     bottom: hR * 2,
+
+    shadowColor: THEME,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.72,
+    shadowRadius: 16.0,
+    elevation: 24,
   },
 });

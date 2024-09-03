@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     paddingHorizontal: wR * 4,
-    paddingVertical: hR,
+    paddingVertical: hR*2,
     backgroundColor: WHITE,
   },
   incDecContainer: {

@@ -1,16 +1,22 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, GestureResponderEvent } from 'react-native';
-import { ArrowLeft2 } from 'iconsax-react-native';
+import React from "react";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  GestureResponderEvent,
+} from "react-native";
+import { ArrowLeft2 } from "iconsax-react-native";
 
-import HorizontalSpace from '../../HorizontalSpace';
+import HorizontalSpace from "../../HorizontalSpace";
 
-import { hR, sR, wR } from '../../../constants/dimensions';
-import { BLACK } from '../../../constants/colors';
-import { PROXIMA_NOVA_SEMIBOLD } from '../../../constants/fonts';
+import { hR, sR, wR } from "../../../constants/dimensions";
+import { BLACK, WHITE } from "../../../constants/colors";
+import { PROXIMA_NOVA_SEMIBOLD } from "../../../constants/fonts";
 
 interface HeaderPrimaryProps {
   label: string;
-  onPress?: (event: GestureResponderEvent) => void
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
 const HeaderPrimary: React.FC<HeaderPrimaryProps> = ({ label, onPress }) => {
@@ -33,8 +39,17 @@ const styles = StyleSheet.create({
   rootContainer: {
     paddingVertical: hR * 2,
     paddingHorizontal: wR * 4,
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: WHITE,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
+    elevation: 1,
   },
   headerLabelText: {
     color: BLACK,
