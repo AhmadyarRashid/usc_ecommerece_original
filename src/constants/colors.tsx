@@ -21,6 +21,12 @@ const PROTEIN_HIGH = "#FF8A65";
 const BUCKTHORN_BROWN="#a27025"
 const VITALIZE = "#31a44f"
 
+const PRELUDE = "#dee9f0"
+const ORCA_WHITE = "#cfcbc9"
+const ALBESCENT_WHITE='#e1dacc'
+const EPHEMERAL_MIST="#c5cfd4"
+const VITAMIN_C = '#ff9900'
+
 export {
   WHITE,
   THEME,
@@ -39,5 +45,10 @@ export {
   HULK,
   PROTEIN_HIGH,
   BUCKTHORN_BROWN,
-  VITALIZE
+  VITALIZE,
+  PRELUDE,
+  ORCA_WHITE,
+  ALBESCENT_WHITE,
+  EPHEMERAL_MIST,
+  VITAMIN_C
 };
