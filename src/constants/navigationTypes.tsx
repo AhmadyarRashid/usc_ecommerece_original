@@ -9,7 +9,8 @@ export type StackParamList = {
   ShoppingCart:undefined,
   AppBottomTab:undefined,
   MyOrders:undefined,
-  OrderDetails:undefined
+  OrderDetails:undefined,
+  DeliveryAddress:undefined
 };
 
 export type AppNavigationProps = NativeStackNavigationProp<StackParamList>;

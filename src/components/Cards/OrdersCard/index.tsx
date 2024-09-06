@@ -89,18 +89,14 @@ const OrdersCard: React.FC<OrdersCardProps> = ({ onPress }) => {
         </View>
       </View>
 
-      <VerticalSpace h={2} />
-
-      <HorizontalLine />
-
-      <VerticalSpace h={2} />
+      <VerticalSpace h={4} />
 
       <SolidButton
         label={`Buy Again`}
         customButtonStyle={{
           paddingVertical: hR *1.2,
         }}
-        customLabelStyle={{ fontSize: sR }}
+        customLabelStyle={{ fontSize: sR * 1.2 }}
       />
     </TouchableOpacity>
   );
@@ -124,8 +120,8 @@ const styles = StyleSheet.create({
     borderRadius: sR,
   },
   orderImage: {
-    height: sR * 3,
-    width: sR * 3,
+    height: sR * 4,
+    width: sR * 4,
   },
   orderNoAndStatusContainer: {
     flexDirection: "row",
@@ -162,13 +158,13 @@ const styles = StyleSheet.create({
   },
   orderSecondaryInfoLabelText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
-    fontSize: sR,
+    fontSize: sR*1.2,
     color: FLINT_STONE,
     opacity: 0.6,
   },
   orderSecondaryInfoValueText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
-    fontSize: sR * 1.2,
+    fontSize: sR * 1.3,
     color: BLACK,
   },
   verticalLine: { height: "100%", width: 1, backgroundColor: PINBALL },

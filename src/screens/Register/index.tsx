@@ -1,32 +1,39 @@
-import React, { useCallback } from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, Platform} from 'react-native';
-import {TickSquare} from 'iconsax-react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Platform,
+  SafeAreaView,
+} from "react-native";
+import { TickSquare } from "iconsax-react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import HeaderPrimary from '../../components/Header/HeaderPrimary';
-import VerticalSpace from '../../components/VerticalSpace';
-import PhoneInput from '../../components/TextInput/PhoneInput';
-import HorizontalSpace from '../../components/HorizontalSpace';
-import TextButton from '../../components/Button/TextButton';
-import SolidButton from '../../components/Button/SolidButton';
+import HeaderPrimary from "../../components/Header/HeaderPrimary";
+import VerticalSpace from "../../components/VerticalSpace";
+import PhoneInput from "../../components/TextInput/PhoneInput";
+import HorizontalSpace from "../../components/HorizontalSpace";
+import TextButton from "../../components/Button/TextButton";
+import SolidButton from "../../components/Button/SolidButton";
 
-import {BLACK, PINBALL, THEME, WHITE} from '../../constants/colors';
-import {sR, wR} from '../../constants/dimensions';
-import {PROXIMA_NOVA_REGULAR} from '../../constants/fonts';
-import useToggle from '../../hooks/useToggle';
-import { AppNavigationProps } from '../../constants/navigationTypes';
+import { BLACK, PINBALL, THEME, WHITE } from "../../constants/colors";
+import { sR, wR } from "../../constants/dimensions";
+import { PROXIMA_NOVA_REGULAR } from "../../constants/fonts";
+import useToggle from "../../hooks/useToggle";
+import { AppNavigationProps } from "../../constants/navigationTypes";
 
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
   const [registerConsent, toggleRegisterConsent] = useToggle(true);
 
   const goToVerifyPhone = useCallback(() => {
-    navigation.navigate('VerifyPhone');
+    navigation.navigate("VerifyPhone");
   }, [navigation]);
 
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label="Register" onPress={()=> alert(`MyUSC`)}/>
+      <HeaderPrimary label="Register" onPress={() => alert(`MyUSC`)} />
 
       <View style={styles.contentContainer}>
         <View>
@@ -47,7 +54,7 @@ const RegisterScreen: React.FC = () => {
               <TickSquare
                 size={sR * 1.8}
                 color={registerConsent ? THEME : PINBALL}
-                variant={registerConsent ? 'Bold' : 'Linear'}
+                variant={registerConsent ? "Bold" : "Linear"}
               />
             </TouchableOpacity>
 
@@ -70,9 +77,13 @@ const RegisterScreen: React.FC = () => {
 
           <VerticalSpace h={2} />
 
-          <SolidButton size={`xl`} label={`Agree & Continue`} onPress={goToVerifyPhone} />
+          <SolidButton
+            size={`xl`}
+            label={`Agree & Continue`}
+            onPress={goToVerifyPhone}
+          />
 
-          {Platform.OS === 'android' && <VerticalSpace h={2} />}
+          {Platform.OS === "android" && <VerticalSpace h={2} />}
         </View>
       </View>
     </View>
@@ -87,7 +98,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: wR * 4,
     flex: 1,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   messageText: {
     color: BLACK,
@@ -95,12 +106,12 @@ const styles = StyleSheet.create({
     fontSize: sR * 1.3,
   },
   consentContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   consentButtonsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
 });
 

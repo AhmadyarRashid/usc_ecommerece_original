@@ -74,10 +74,14 @@ const HomeScreen = () => {
     navigation.navigate("ProductDetails");
   }, [navigation]);
 
+  const goToDeliveryAddress = useCallback(() => {
+    navigation.navigate("DeliveryAddress");
+  }, [navigation]);
+
   return (
     <View style={styles.rootContainer}>
       <HeaderSecondary
-        onLeftPress={() => alert("location screen in-progress")}
+        onLeftPress={goToDeliveryAddress}
         onRightPress={goToShoppingCart}
       />
 

@@ -1,1 +1,1 @@
-export const tabHiddenRoutes = ["ShoppingCart", "ProductDetails","OrderDetails"];
+export const tabHiddenRoutes = ["ShoppingCart", "ProductDetails","OrderDetails","DeliveryAddress"];

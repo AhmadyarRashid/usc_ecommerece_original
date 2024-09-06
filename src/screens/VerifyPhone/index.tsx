@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {  StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
@@ -27,42 +27,42 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
   }, [navigation]);
 
   return (
-    <View style={styles.rootContainer}>
-      <HeaderPrimary label={`Verify your identity`} onPress={goBack} />
+      <View style={styles.rootContainer}>
+        <HeaderPrimary label={`Verify your identity`} onPress={goBack} />
 
-      <VerticalSpace h={2} />
+        <VerticalSpace h={2} />
 
-      <View style={styles.childContainer}>
-        <View>
-          <Text style={styles.enterCodeText}>
-            Enter the 6-digit code we texted to{`\n`}+92 345 7898765
-          </Text>
+        <View style={styles.childContainer}>
+          <View>
+            <Text style={styles.enterCodeText}>
+              Enter the 6-digit code we texted to{`\n`}+92 345 7898765
+            </Text>
 
-          <VerticalSpace h={2} />
+            <VerticalSpace h={2} />
 
-          <Text style={styles.helpText}>
-            This helps us keep your account secure by verifying that it's really
-            you.
-          </Text>
+            <Text style={styles.helpText}>
+              This helps us keep your account secure by verifying that it's
+              really you.
+            </Text>
 
-          <VerticalSpace h={2} />
+            <VerticalSpace h={2} />
 
-          <InputOTP />
+            <InputOTP />
 
-          <VerticalSpace h={2} />
+            <VerticalSpace h={2} />
 
-          <View style={styles.resendOTPContainer}>
-            <TextButton label={`Resend OTP`} />
+            <View style={styles.resendOTPContainer}>
+              <TextButton label={`Resend OTP`} />
+            </View>
           </View>
-        </View>
 
-        <SolidButton
-          label={`Verify`}
-          size={`xl`}
-          onPress={goToAccountCreationSuccess}
-        />
+          <SolidButton
+            label={`Verify`}
+            size={`xl`}
+            onPress={goToAccountCreationSuccess}
+          />
+        </View>
       </View>
-    </View>
   );
 };
 

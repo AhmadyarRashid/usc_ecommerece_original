@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Rating } from "react-native-ratings";
 import { MessageQuestion } from "iconsax-react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -30,6 +31,7 @@ import {
   PROXIMA_NOVA_SEMIBOLD,
 } from "../../constants/fonts";
 import useToggle from "../../hooks/useToggle";
+import { AppNavigationProps } from "../../constants/navigationTypes";
 
 interface Product {
   name: string;
@@ -83,6 +85,7 @@ const PRODUCT_LIST: Product[] = [
 const colors = [PRELUDE, ORCA_WHITE, EPHEMERAL_MIST, ALBESCENT_WHITE];
 
 const OrderDetailsScreen: React.FC = () => {
+  const navigation = useNavigation<AppNavigationProps>();
 
   const[complaintModal,toggleComplaintModal] = useToggle(false)
 
@@ -94,11 +97,15 @@ const OrderDetailsScreen: React.FC = () => {
   const markdown = 200;
   const aggregateTotal = itemTotal + tax - markdown;
 
+  const goBack = useCallback(()=>{
+    navigation.goBack()
+  },[navigation])
+
   return (
     <View style={styles.rootContainer}>
       <CompaintModal isVisible={complaintModal} onClose={toggleComplaintModal} />
 
-      <HeaderPrimary label="Order Details">
+      <HeaderPrimary label="Order Details" onPress={goBack}>
         <TouchableOpacity onPress={toggleComplaintModal}>
           <MessageQuestion size={sR * 2} color={BLACK} variant="Bold" />
         </TouchableOpacity>

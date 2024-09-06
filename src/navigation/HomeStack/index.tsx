@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../../screens/Home";
 import ProductDetailsScreen from "../../screens/ProductDetails";
 import ShoppingCartScreen from "../../screens/ShoppingCart";
+import DeliveryAddressScreen from "../../screens/DeliveryAddress";
 
 import useTabBarVisibility from "../../hooks/useTabBarVisibility";
 
@@ -25,6 +26,7 @@ const HomeStack: React.FC = () => {
         component={ProductDetailsScreen}
       />
       <Stack.Screen name="ShoppingCart" component={ShoppingCartScreen} />
+      <Stack.Screen name="DeliveryAddress" component={DeliveryAddressScreen} />
     </Stack.Navigator>
   );
 };

@@ -19,6 +19,10 @@ const MyOrdersScreen: React.FC = () => {
     navigation.navigate("OrderDetails");
   }, [navigation]);
 
+  const goBack = useCallback(()=>{
+    navigation.goBack()
+  },[navigation])
+
   return (
     <View
       style={{
@@ -26,7 +30,7 @@ const MyOrdersScreen: React.FC = () => {
         backgroundColor: WHITE,
       }}
     >
-      <HeaderPrimary label={`My Orders`} />
+      <HeaderPrimary label={`My Orders`} onPress={goBack}/>
 
       <VerticalSpace h={2} />
 
