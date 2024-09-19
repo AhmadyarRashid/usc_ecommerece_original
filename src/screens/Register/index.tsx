@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { TickSquare } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -22,10 +23,15 @@ import { sR, wR } from "../../constants/dimensions";
 import { PROXIMA_NOVA_REGULAR } from "../../constants/fonts";
 import useToggle from "../../hooks/useToggle";
 import { AppNavigationProps } from "../../constants/navigationTypes";
+import { RootState } from "../../redux/store";
 
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
+  const auth = useSelector((state: RootState) => state.auth);
   const [registerConsent, toggleRegisterConsent] = useToggle(true);
+
+  console.log(auth);
+  
 
   const goToVerifyPhone = useCallback(() => {
     navigation.navigate("VerifyPhone");
