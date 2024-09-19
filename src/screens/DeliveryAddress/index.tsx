@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -9,6 +9,7 @@ import {
 import MapView, { Region } from "react-native-maps";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { Edit2, Gps, Location } from "iconsax-react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -19,7 +20,6 @@ import HorizontalSpace from "../../components/HorizontalSpace";
 import {
   BLACK,
   FLINT_STONE,
-  PINBALL,
   THEME,
   WHITE,
   WHITE_SMOKE,
@@ -30,6 +30,7 @@ import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
 } from "../../constants/fonts";
+import { AppNavigationProps } from "../../constants/navigationTypes";
 
 type Address = {
   label: string;
@@ -49,6 +50,7 @@ const ADDRESSES: Address[] = [
 
 const DeliveryAddressScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const navigation = useNavigation<AppNavigationProps>();
   const snapPoints = useMemo(() => ["32%", "80%"], []);
 
   const initialRegion: Region = {
@@ -58,9 +60,17 @@ const DeliveryAddressScreen: React.FC = () => {
     longitudeDelta: 0.0421,
   };
 
+  const goBack = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
+  const goToConfirmAddress = useCallback(() => {
+    navigation.navigate('ConfirmAddress')
+  }, [navigation]);
+
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label="Delivery Address" />
+      <HeaderPrimary label="Delivery Address" onPress={goBack} />
 
       <MapView
         provider="google"
@@ -131,7 +141,7 @@ const DeliveryAddressScreen: React.FC = () => {
 
             <VerticalSpace h={2} />
 
-            <SolidButton label="Create Address" size="xl" />
+            <SolidButton label="Create Address" size="xl" onPress={goToConfirmAddress}/>
           </View>
         </ScrollView>
       </BottomSheet>

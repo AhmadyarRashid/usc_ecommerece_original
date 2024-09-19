@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     borderColor: PINBALL,
     paddingVertical: hR * 1.6,
     paddingHorizontal: wR * 4,
-    borderRadius: 120,
+    borderRadius: sR,
     fontSize: sR*1.2,
     fontFamily: PROXIMA_NOVA_REGULAR,
   },

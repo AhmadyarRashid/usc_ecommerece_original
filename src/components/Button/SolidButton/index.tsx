@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: THEME,
     padding: hR * 2,
-    borderRadius: 220,
+    borderRadius: sR,
     alignItems: "center",
     justifyContent: "center",
   } as ViewStyle,

@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  TextInput,
-  View,
-  Platform,
-} from "react-native";
+import { StyleSheet, TextInput, View, Platform } from "react-native";
 import { SearchNormal1 } from "iconsax-react-native";
 
 import HorizontalSpace from "../HorizontalSpace";
@@ -35,7 +30,7 @@ const styles = StyleSheet.create({
     paddingVertical: Platform.OS === "android" ? 0 : hR * 1.4,
     paddingHorizontal: wR * 4,
     borderColor: PINBALL,
-    borderRadius: 220,
+    borderRadius: sR,
     backgroundColor: BRILLIANCE,
     flexDirection: "row",
     alignItems: "center",
