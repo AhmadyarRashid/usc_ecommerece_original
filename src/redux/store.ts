@@ -3,10 +3,12 @@ import { persistStore, persistReducer } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import authReducer from './slices/auth'
+import contactReducer from "./slices/contact";
 
 // Root reducer
 const createRootReducer = () => combineReducers({
-  auth:authReducer
+  auth:authReducer,
+  contact:contactReducer
 });
 
 // Persist config

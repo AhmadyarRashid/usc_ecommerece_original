@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -9,7 +9,9 @@ import {
 } from "react-native";
 import { TickSquare } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import Loader from "../../components/Loader";
+import { AxiosRequestHeaders } from "axios";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -24,14 +26,41 @@ import { PROXIMA_NOVA_REGULAR } from "../../constants/fonts";
 import useToggle from "../../hooks/useToggle";
 import { AppNavigationProps } from "../../constants/navigationTypes";
 import { RootState } from "../../redux/store";
+import useApiHook from "../../hooks/rest/useApi";
+import {
+  displayToast,
+  scheduledNavigation,
+  validatePhone,
+} from "../../constants/functions";
+import { setContactFields } from "../../redux/slices/contact";
 
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
-  const auth = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
   const [registerConsent, toggleRegisterConsent] = useToggle(true);
+  const { handleRestApi, restApiLoading } = useApiHook();
 
-  console.log(auth);
-  
+  const [mobile, setMobile] = useState<string | null>(null);
+
+  const registerUser = async () => {
+    if (mobile && !validatePhone(mobile)) {
+      return displayToast({
+        type: "error",
+        text1: "Error",
+        text2: "Invalid phone number",
+      });
+    }
+
+    const response = await handleRestApi({
+      method: "post",
+      url: "send_otp",
+      data: { mobile_number: mobile },
+      headers: { Authorization: "none" } as AxiosRequestHeaders,
+    });
+
+    dispatch(setContactFields({ contactInfo: mobile }));
+    scheduledNavigation(goToVerifyPhone);
+  };
 
   const goToVerifyPhone = useCallback(() => {
     navigation.navigate("VerifyPhone");
@@ -39,13 +68,19 @@ const RegisterScreen: React.FC = () => {
 
   return (
     <View style={styles.rootContainer}>
+      {restApiLoading && <Loader />}
+
       <HeaderPrimary label="Register" onPress={() => alert(`MyUSC`)} />
 
       <View style={styles.contentContainer}>
         <View>
           <VerticalSpace h={2} />
 
-          <PhoneInput placeholder="Phone number" />
+          <PhoneInput
+            placeholder="Phone number"
+            maxLength={11}
+            onChangeText={(e) => setMobile(e)}
+          />
 
           <VerticalSpace h={2} />
 
@@ -86,7 +121,7 @@ const RegisterScreen: React.FC = () => {
           <SolidButton
             size={`xl`}
             label={`Agree & Continue`}
-            onPress={goToVerifyPhone}
+            onPress={registerUser}
           />
 
           {Platform.OS === "android" && <VerticalSpace h={2} />}

@@ -1,6 +1,8 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {  StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { AxiosRequestHeaders } from "axios";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -12,11 +14,61 @@ import { BLACK, FLINT_STONE, WHITE } from "../../constants/colors";
 import { sR, wR } from "../../constants/dimensions";
 import { PROXIMA_NOVA_SEMIBOLD } from "../../constants/fonts";
 import { AppNavigationProps } from "../../constants/navigationTypes";
+import { displayToast, scheduledNavigation, validateOTP } from "../../constants/functions";
+import { RootState } from "../../redux/store";
+import useApiHook from "../../hooks/rest/useApi";
+import { clearContact } from "../../redux/slices/contact";
 
 interface VerifyPhoneScreenProps {}
 
 const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
   const navigation = useNavigation<AppNavigationProps>();
+  const contact = useSelector((state: RootState) => state.contact);  
+  const { handleRestApi, restApiLoading } = useApiHook();
+  const dispatch = useDispatch();
+
+  const [otp, setOTP] = useState<string | null>(null);  
+
+  const verifyOTP = async () => {
+    if (!validateOTP(otp)) {
+      displayToast({
+        type: "error",
+        text1: "Error",
+        text2: "Invalid otp",
+      });
+      return;
+    }
+
+    const data = {
+      mobile_number: contact.contactInfo,
+      otp:otp
+    };
+
+    const response = await handleRestApi({
+      method: "post",
+      url: `validate_otp`,
+      data,
+      headers: { Authorization: "none" } as AxiosRequestHeaders,
+    });
+
+    if (response?.data?.result?.status === 200) {
+      displayToast({
+        type: "success",
+        text1: "Success",
+        text2: response?.data?.result?.message,
+      });
+
+      // dispatch(clearContact());
+
+      // scheduledNavigation(goToAccountCreationSuccess);
+    } else {
+      displayToast({
+        type: "error",
+        text1: "Error",
+        text2: response?.data?.result?.error,
+      });
+    }
+  };
 
   const goToAccountCreationSuccess = useCallback(() => {
     navigation.navigate("AccountCreationSuccess");
@@ -47,7 +99,7 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
 
             <VerticalSpace h={2} />
 
-            <InputOTP />
+            <InputOTP onTextChange={val => setOTP(val)} />
 
             <VerticalSpace h={2} />
 
@@ -59,7 +111,7 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
           <SolidButton
             label={`Verify`}
             size={`xl`}
-            onPress={goToAccountCreationSuccess}
+            onPress={verifyOTP}
           />
         </View>
       </View>

@@ -7,15 +7,19 @@ import { PROXIMA_NOVA_REGULAR } from '../../../constants/fonts';
 
 interface PhoneInputProps {
   placeholder: string;
+  maxLength:number,
+  onChangeText: (text: string) => void;
 }
 
-const PhoneInput: React.FC<PhoneInputProps> = ({ placeholder }) => {
+const PhoneInput: React.FC<PhoneInputProps> = ({ placeholder,maxLength,onChangeText }) => {
   return (
     <TextInput
       style={styles.input}
       placeholder={placeholder}
       autoCapitalize={'none'}
       keyboardType={'numeric'}
+      maxLength={maxLength}
+      onChangeText={onChangeText}
     />
   );
 };

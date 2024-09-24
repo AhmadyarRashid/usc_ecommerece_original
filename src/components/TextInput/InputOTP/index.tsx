@@ -1,19 +1,22 @@
 import React from 'react';
-import {OtpInput} from 'react-native-otp-entry';
-import {StyleSheet} from 'react-native';
+import { OtpInput } from 'react-native-otp-entry';
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
-import {THEME} from '../../../constants/colors';
-import {sR} from '../../../constants/dimensions';
-import {PROXIMA_NOVA_REGULAR} from '../../../constants/fonts';
+import { THEME } from '../../../constants/colors';
+import { sR } from '../../../constants/dimensions';
+import { PROXIMA_NOVA_REGULAR } from '../../../constants/fonts';
 
-const InputOTP: React.FC = () => {
+interface InputOTPProps {
+  onTextChange: (text: string) => void;
+}
+
+const InputOTP: React.FC<InputOTPProps> = ({ onTextChange }) => {
   return (
     <OtpInput
       numberOfDigits={6}
       focusColor={THEME}
       focusStickBlinkingDuration={500}
-      onTextChange={text => console.log(text)}
-      onFilled={text => console.log(`OTP is ${text}`)}
+      onTextChange={onTextChange}
       textInputProps={{
         accessibilityLabel: 'One-Time Password',
       }}
@@ -29,11 +32,15 @@ const InputOTP: React.FC = () => {
 export default InputOTP;
 
 const styles = StyleSheet.create({
-  container: {justifyContent: 'space-around'},
-  pinCodeContainer: {borderWidth: 2},
+  container: {
+    justifyContent: 'space-around',
+  } as ViewStyle,
+  pinCodeContainer: {
+    borderWidth: 2,
+  } as ViewStyle,
   pinCodeText: {
     fontFamily: PROXIMA_NOVA_REGULAR,
     fontSize: sR * 1.6,
     color: THEME,
-  },
+  } as TextStyle,
 });
