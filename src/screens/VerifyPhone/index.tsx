@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import {  StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { AxiosRequestHeaders } from "axios";
@@ -14,20 +14,20 @@ import { BLACK, FLINT_STONE, WHITE } from "../../constants/colors";
 import { sR, wR } from "../../constants/dimensions";
 import { PROXIMA_NOVA_SEMIBOLD } from "../../constants/fonts";
 import { AppNavigationProps } from "../../constants/navigationTypes";
-import { displayToast, scheduledNavigation, validateOTP } from "../../constants/functions";
+import { displayToast, validateOTP } from "../../constants/functions";
 import { RootState } from "../../redux/store";
 import useApiHook from "../../hooks/rest/useApi";
-import { clearContact } from "../../redux/slices/contact";
+import { setAuthFields } from "../../redux/slices/auth";
 
 interface VerifyPhoneScreenProps {}
 
 const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
   const navigation = useNavigation<AppNavigationProps>();
-  const contact = useSelector((state: RootState) => state.contact);  
+  const contact = useSelector((state: RootState) => state.contact);
   const { handleRestApi, restApiLoading } = useApiHook();
   const dispatch = useDispatch();
 
-  const [otp, setOTP] = useState<string | null>(null);  
+  const [otp, setOTP] = useState<string | null>(null);
 
   const verifyOTP = async () => {
     if (!validateOTP(otp)) {
@@ -41,7 +41,7 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
 
     const data = {
       mobile_number: contact.contactInfo,
-      otp:otp
+      otp: otp,
     };
 
     const response = await handleRestApi({
@@ -52,15 +52,16 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
     });
 
     if (response?.data?.result?.status === 200) {
-      displayToast({
-        type: "success",
-        text1: "Success",
-        text2: response?.data?.result?.message,
-      });
+      const { auth_token, user_name } = response?.data?.result;
+      
+      dispatch(
+        setAuthFields({
+          accessToken: auth_token,
+          userName: user_name,
+        })
+      );
 
-      // dispatch(clearContact());
-
-      // scheduledNavigation(goToAccountCreationSuccess);
+      goToAccountCreationSuccess();
     } else {
       displayToast({
         type: "error",
@@ -79,42 +80,39 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
   }, [navigation]);
 
   return (
-      <View style={styles.rootContainer}>
-        <HeaderPrimary label={`Verify your identity`} onPress={goBack} />
+    <View style={styles.rootContainer}>
+      <HeaderPrimary label={`Verify your identity`} onPress={goBack} />
 
-        <VerticalSpace h={2} />
+      <VerticalSpace h={2} />
 
-        <View style={styles.childContainer}>
-          <View>
-            <Text style={styles.enterCodeText}>
-              Enter the 6-digit code we texted to{`\n`}+92 345 7898765
-            </Text>
+      <View style={styles.childContainer}>
+        <View>
+          <Text style={styles.enterCodeText}>
+            Enter the 6-digit code we texted to{`\n`}
+            {contact.contactInfo}
+          </Text>
 
-            <VerticalSpace h={2} />
+          <VerticalSpace h={2} />
 
-            <Text style={styles.helpText}>
-              This helps us keep your account secure by verifying that it's
-              really you.
-            </Text>
+          <Text style={styles.helpText}>
+            This helps us keep your account secure by verifying that it's really
+            you.
+          </Text>
 
-            <VerticalSpace h={2} />
+          <VerticalSpace h={2} />
 
-            <InputOTP onTextChange={val => setOTP(val)} />
+          <InputOTP onTextChange={(val) => setOTP(val)} />
 
-            <VerticalSpace h={2} />
+          <VerticalSpace h={2} />
 
-            <View style={styles.resendOTPContainer}>
-              <TextButton label={`Resend OTP`} />
-            </View>
+          <View style={styles.resendOTPContainer}>
+            <TextButton label={`Resend OTP`} />
           </View>
-
-          <SolidButton
-            label={`Verify`}
-            size={`xl`}
-            onPress={goToAccountCreationSuccess}
-          />
         </View>
+
+        <SolidButton label={`Verify`} size={`xl`} onPress={verifyOTP} />
       </View>
+    </View>
   );
 };
 

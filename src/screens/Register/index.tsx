@@ -59,7 +59,7 @@ const RegisterScreen: React.FC = () => {
     });
 
     dispatch(setContactFields({ contactInfo: mobile }));
-    scheduledNavigation(goToVerifyPhone);
+    goToVerifyPhone()
   };
 
   const goToVerifyPhone = useCallback(() => {

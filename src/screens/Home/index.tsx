@@ -21,7 +21,7 @@ import {
   SNARKY_MINT,
   WHITE,
 } from "../../constants/colors";
-import { hR, wR } from "../../constants/dimensions";
+import { wR } from "../../constants/dimensions";
 import { AppNavigationProps } from "../../constants/navigationTypes";
 import useApiHook from "../../hooks/rest/useApi";
 import { setProductFields } from "../../redux/slices/product";
@@ -49,35 +49,16 @@ const CATEGORIES_DATA = [
   },
 ];
 
-const PRODUCTS_DATA = [
-  {
-    label: "Dishwashing Liquid Pro 220ml",
-    price: "PKR 200",
-  },
-  {
-    label: "Doctor Toothpaste",
-    price: "PKR 150",
-  },
-  {
-    label: "Kolson Macaroni 500mg",
-    price: "PKR 350",
-  },
-  {
-    label: "Banaspati Oil 5kg",
-    price: "PKR 150",
-  },
-];
-
 const HomeScreen = () => {
   const navigation = useNavigation<AppNavigationProps>();
   const tabBarHeight = useBottomTabBarHeight();
   const { handleRestApi, restApiLoading } = useApiHook();
-  const products = useSelector((state: RootState) => state.product.productList);  
+  const products = useSelector((state: RootState) => state.product.productList);
   const dispatch = useDispatch();
 
   useEffect(() => {
     getAllProducts();
-    getAllCategories()
+    getAllCategories();
   }, []);
 
   const getAllProducts = async () => {
@@ -97,7 +78,7 @@ const HomeScreen = () => {
       headers: { Authorization: "none" } as AxiosRequestHeaders,
     });
 
-    dispatch(setCategoryFields({categoryList:response.data.result.data }));
+    dispatch(setCategoryFields({ categoryList: response.data.result.data }));
   };
 
   const goToShoppingCart = useCallback(() => {

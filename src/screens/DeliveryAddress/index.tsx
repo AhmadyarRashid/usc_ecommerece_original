@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -10,12 +10,14 @@ import MapView, { Region } from "react-native-maps";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { Edit2, Gps, Location } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
 import LottieAnimation from "../../components/LottieAnimation";
 import SolidButton from "../../components/Button/SolidButton";
 import HorizontalSpace from "../../components/HorizontalSpace";
+import Loader from "../../components/Loader";
 
 import {
   BLACK,
@@ -31,27 +33,20 @@ import {
   PROXIMA_NOVA_SEMIBOLD,
 } from "../../constants/fonts";
 import { AppNavigationProps } from "../../constants/navigationTypes";
-
-type Address = {
-  label: string;
-  value: string;
-};
-
-const ADDRESSES: Address[] = [
-  {
-    label: "Sector H-8",
-    value: "Street # 15, House # 15-A, H-8, Islamabad",
-  },
-  {
-    label: "Sector H-13",
-    value: "Street # 15, House # 15-A, H-13, Islamabad",
-  },
-];
+import useApiHook from "../../hooks/rest/useApi";
+import { setAddressFields } from "../../redux/slices/address";
+import { displayToast } from "../../constants/functions";
+import { createDynamicSelector } from "../../redux/selectors";
+import { RootState } from "../../redux/store";
 
 const DeliveryAddressScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const navigation = useNavigation<AppNavigationProps>();
   const snapPoints = useMemo(() => ["32%", "80%"], []);
+  const { handleRestApi, restApiLoading } = useApiHook();
+  const selectAuthAddressOrder = createDynamicSelector(['auth', 'address'] as const);
+  const { auth, address } = useSelector((state: RootState) => selectAuthAddressOrder(state));  
+  const dispatch = useDispatch();
 
   const initialRegion: Region = {
     latitude: 37.78825,
@@ -60,16 +55,50 @@ const DeliveryAddressScreen: React.FC = () => {
     longitudeDelta: 0.0421,
   };
 
+  useEffect(() => {
+    getAddresses();
+  }, []);
+
+  const getAddresses = async () => {
+    const data = {
+      auth_token: auth.accessToken,
+      login: auth.userName,
+    };
+    const response = await handleRestApi({
+      method: "post",
+      url: "user_address_view_all",
+      data,
+    });
+
+    if (response?.data?.result?.status === 200) {
+      dispatch(
+        setAddressFields({
+          addressList: response?.data?.result?.address,
+        })
+      );
+    } else {
+      displayToast({
+        type: "error",
+        text1: "Error",
+        text2: response?.data?.result?.error,
+      });
+    }
+  };
+
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
   const goToConfirmAddress = useCallback(() => {
-    navigation.navigate('ConfirmAddress')
+    navigation.navigate("ConfirmAddress");
   }, [navigation]);
 
   return (
     <View style={styles.rootContainer}>
+      {
+        restApiLoading && <Loader />
+      }
+
       <HeaderPrimary label="Delivery Address" onPress={goBack} />
 
       <MapView
@@ -100,7 +129,7 @@ const DeliveryAddressScreen: React.FC = () => {
 
             <VerticalSpace h={2} />
 
-            {ADDRESSES.length === 0 ? (
+            {address.addressList.length === 0 ? (
               <View style={styles.addressNotFoundContainer}>
                 <LottieAnimation
                   source={NO_ADDRESS_FOUND}
@@ -118,7 +147,7 @@ const DeliveryAddressScreen: React.FC = () => {
               </View>
             ) : (
               <>
-                {ADDRESSES.map((item, index) => (
+                {address.addressList.map((item, index) => (
                   <TouchableOpacity style={styles.addressButton} key={index}>
                     <Location size={sR * 2} color={THEME} variant="Bold" />
 
@@ -141,7 +170,11 @@ const DeliveryAddressScreen: React.FC = () => {
 
             <VerticalSpace h={2} />
 
-            <SolidButton label="Create Address" size="xl" onPress={goToConfirmAddress}/>
+            <SolidButton
+              label="Create Address"
+              size="xl"
+              onPress={goToConfirmAddress}
+            />
           </View>
         </ScrollView>
       </BottomSheet>
