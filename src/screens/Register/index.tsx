@@ -43,7 +43,7 @@ const RegisterScreen: React.FC = () => {
   const [mobile, setMobile] = useState<string | null>(null);
 
   const registerUser = async () => {
-    if (mobile && !validatePhone(mobile)) {
+    if (!validatePhone(mobile)) {
       return displayToast({
         type: "error",
         text1: "Error",
@@ -51,7 +51,7 @@ const RegisterScreen: React.FC = () => {
       });
     }
 
-    const response = await handleRestApi({
+    await handleRestApi({
       method: "post",
       url: "send_otp",
       data: { mobile_number: mobile },

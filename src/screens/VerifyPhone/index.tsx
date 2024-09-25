@@ -111,7 +111,7 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
           <SolidButton
             label={`Verify`}
             size={`xl`}
-            onPress={verifyOTP}
+            onPress={goToAccountCreationSuccess}
           />
         </View>
       </View>

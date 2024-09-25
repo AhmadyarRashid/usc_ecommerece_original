@@ -2,28 +2,28 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import authReducer from './slices/auth'
+import authReducer from "./slices/auth";
 import contactReducer from "./slices/contact";
+import productReducer from "./slices/product";
+import categoryReducer from "./slices/category";
 
-// Root reducer
-const createRootReducer = () => combineReducers({
-  auth:authReducer,
-  contact:contactReducer
-});
+const createRootReducer = () =>
+  combineReducers({
+    auth: authReducer,
+    contact: contactReducer,
+    product: productReducer,
+    category:categoryReducer
+  });
 
-// Persist config
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
 };
 
-// Persisted reducer
 const persistedReducer = persistReducer(persistConfig, createRootReducer());
 
-// Redux flipper debugger
 const createDebugger = require("redux-flipper").default;
 
-// Configure store
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>

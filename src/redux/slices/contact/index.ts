@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface AuthState {
+interface ContactState {
   contactInfo: string | null;
 }
 
-const initialState: AuthState = {
+const initialState: ContactState = {
   contactInfo: null,
 };
 
@@ -12,7 +12,7 @@ export const contactSlice = createSlice({
   name: "contact",
   initialState,
   reducers: {
-    setContactFields: (state, action: PayloadAction<Partial<AuthState>>) => {
+    setContactFields: (state, action: PayloadAction<Partial<ContactState>>) => {
       Object.assign(state, action.payload);
     },
     clearContact: () => initialState,

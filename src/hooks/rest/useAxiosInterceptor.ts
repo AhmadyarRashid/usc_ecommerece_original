@@ -37,12 +37,12 @@ const useAxiosInterceptor = () => {
 
         // Handle success response globally (if needed)
         const { status, message } = response?.data?.result ?? {};
-        if (status === 200) {
-          displayToast({
-            type: "success",
-            text1: "Success",
-            text2: message,
-          });
+        if (status === 200) {          
+          // displayToast({
+          //   type: "success",
+          //   text1: "Success",
+          //   text2: message,
+          // });
         }
         return response;
       },

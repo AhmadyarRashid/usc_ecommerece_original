@@ -23,8 +23,8 @@ import {
 } from "../../../constants/fonts";
 
 interface ProductData {
-  label: string;
-  price: string;
+  name: string;
+  list_price: string;
 }
 
 interface ProductsCardProps {
@@ -47,12 +47,12 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ data, onPress }) => {
 
       <View style={{ height: sR * 4 }}>
         <Text style={styles.labelText} numberOfLines={2}>
-          {data.label}
+          {data.name.replace(/\(Wrong Code\)\s*/g, "")}
         </Text>
       </View>
 
       <View style={styles.bottomContainer}>
-        <Text style={styles.priceText}>{data.price}</Text>
+        <Text style={styles.priceText}>PKR {data.list_price}</Text>
 
         <TouchableOpacity>
           <AddCircle size={sR * 2.6} color={THEME} />
