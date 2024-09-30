@@ -1,4 +1,135 @@
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+// import React, { useState } from 'react';
+// import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+// import MapView, { Marker } from 'react-native-maps';
+
+// import { THEME } from '../../constants/colors';
+// import LottieView from 'lottie-react-native';
+// import { MARKER } from '../../constants/animations';
+
+// const latitudeDelta = 0.025;
+// const longitudeDelta = 0.025;
+
+// const DeliveryAddressScreen = () => {
+//   const [region, setRegion] = useState({
+//     latitudeDelta,
+//     longitudeDelta,
+//     latitude: 25.1948475,
+//     longitude: 55.2682899
+//   });
+
+//   console.log(region);
+  
+
+//   const onRegionChange = (region) => {
+//     setRegion(region);
+//   };
+
+//   return (
+//     <View style={styles.container}>
+//       <MapView
+//         style={styles.map}
+//         initialRegion={region}
+//         onRegionChangeComplete={onRegionChange}
+//       />
+//       <View style={styles.markerFixed}>
+//       <LottieView source={MARKER} autoPlay loop style={{height:120,width:120}} />
+//       </View>
+
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1
+//   },
+//   map: {
+//     flex: 1
+//   },
+//   markerFixed: {
+//     left: '40%',
+//     position: 'absolute',
+//     top: '30%'
+//   },
+//   marker: {
+//     height: 48,
+//     width: 48
+//   },
+//   footer: {
+//     backgroundColor: 'rgba(0, 0, 0, 0.5)',
+//     bottom: 0,
+//     position: 'absolute',
+//     width: '100%'
+//   },
+//   region: {
+//     color: '#fff',
+//     lineHeight: 20,
+//     margin: 20
+//   }
+// });
+
+// export default DeliveryAddressScreen;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -6,7 +137,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView, { Region } from "react-native-maps";
+import MapView, { Marker, Region } from "react-native-maps";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { Edit2, Gps, Location } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -44,20 +175,29 @@ const DeliveryAddressScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
   const snapPoints = useMemo(() => ["32%", "80%"], []);
   const { handleRestApi, restApiLoading } = useApiHook();
-  const selectAuthAddressOrder = createDynamicSelector(['auth', 'address'] as const);
-  const { auth, address } = useSelector((state: RootState) => selectAuthAddressOrder(state));  
+  const selectAuthAddressOrder = createDynamicSelector([
+    "auth",
+    "address",
+  ] as const);
+  const { auth, address } = useSelector((state: RootState) =>
+    selectAuthAddressOrder(state)
+  );
   const dispatch = useDispatch();
 
-  const initialRegion: Region = {
+  const [region, setRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
-  };
+  });
 
   useEffect(() => {
     getAddresses();
   }, []);
+
+  const onRegionChange = (newRegion) => {
+    setRegion(newRegion);
+  };
 
   const getAddresses = async () => {
     const data = {
@@ -95,19 +235,29 @@ const DeliveryAddressScreen: React.FC = () => {
 
   return (
     <View style={styles.rootContainer}>
-      {
-        restApiLoading && <Loader />
-      }
+      {restApiLoading && <Loader />}
 
       <HeaderPrimary label="Delivery Address" onPress={goBack} />
 
-      <MapView
+      {/* <MapView
         provider="google"
-        initialRegion={initialRegion}
+        initialRegion={region}
         style={styles.mapContainer}
-      />
+        onRegionChangeComplete={onRegionChange}
+      >
+        <Marker
+          coordinate={{ latitude: 37.78825, longitude: -122.4324 }}
+          pinColor={THEME}
+          draggable
+          onDragEnd={(e) => {
+            console.log(e);
+          }}
+        />
+      </MapView> */}
 
-      <BottomSheet
+      
+
+      {/* <BottomSheet
         ref={bottomSheetRef}
         index={0}
         snapPoints={snapPoints}
@@ -177,7 +327,7 @@ const DeliveryAddressScreen: React.FC = () => {
             />
           </View>
         </ScrollView>
-      </BottomSheet>
+      </BottomSheet> */}
     </View>
   );
 };

@@ -25,13 +25,8 @@ import { sR, wR } from "../../constants/dimensions";
 import { PROXIMA_NOVA_REGULAR } from "../../constants/fonts";
 import useToggle from "../../hooks/useToggle";
 import { AppNavigationProps } from "../../constants/navigationTypes";
-import { RootState } from "../../redux/store";
 import useApiHook from "../../hooks/rest/useApi";
-import {
-  displayToast,
-  scheduledNavigation,
-  validatePhone,
-} from "../../constants/functions";
+import { displayToast, validatePhone } from "../../constants/functions";
 import { setContactFields } from "../../redux/slices/contact";
 
 const RegisterScreen: React.FC = () => {
@@ -59,7 +54,7 @@ const RegisterScreen: React.FC = () => {
     });
 
     dispatch(setContactFields({ contactInfo: mobile }));
-    goToVerifyPhone()
+    goToVerifyPhone();
   };
 
   const goToVerifyPhone = useCallback(() => {

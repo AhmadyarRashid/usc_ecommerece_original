@@ -9,6 +9,7 @@ import VerticalSpace from "../../components/VerticalSpace";
 import SolidButton from "../../components/Button/SolidButton";
 import InputOTP from "../../components/TextInput/InputOTP";
 import TextButton from "../../components/Button/TextButton";
+import Loader from "../../components/Loader";
 
 import { BLACK, FLINT_STONE, WHITE } from "../../constants/colors";
 import { sR, wR } from "../../constants/dimensions";
@@ -19,54 +20,60 @@ import { RootState } from "../../redux/store";
 import useApiHook from "../../hooks/rest/useApi";
 import { setAuthFields } from "../../redux/slices/auth";
 
-interface VerifyPhoneScreenProps {}
-
-const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
+const VerifyPhoneScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
   const contact = useSelector((state: RootState) => state.contact);
   const { handleRestApi, restApiLoading } = useApiHook();
   const dispatch = useDispatch();
 
-  const [otp, setOTP] = useState<string | null>(null);
+  const [otp, setOTP] = useState<string>("");
 
   const verifyOTP = async () => {
     if (!validateOTP(otp)) {
       displayToast({
         type: "error",
         text1: "Error",
-        text2: "Invalid otp",
+        text2: "Invalid OTP",
       });
       return;
     }
 
     const data = {
       mobile_number: contact.contactInfo,
-      otp: otp,
+      otp,
     };
 
-    const response = await handleRestApi({
-      method: "post",
-      url: `validate_otp`,
-      data,
-      headers: { Authorization: "none" } as AxiosRequestHeaders,
-    });
+    try {
+      const response = await handleRestApi({
+        method: "post",
+        url: `validate_otp`,
+        data,
+        headers: { Authorization: "none" } as AxiosRequestHeaders,
+      });
 
-    if (response?.data?.result?.status === 200) {
-      const { auth_token, user_name } = response?.data?.result;
-      
-      dispatch(
-        setAuthFields({
-          accessToken: auth_token,
-          userName: user_name,
-        })
-      );
+      if (response?.data?.result?.status === 200) {
+        const { auth_token, user_name } = response.data.result;
 
-      goToAccountCreationSuccess();
-    } else {
+        dispatch(
+          setAuthFields({
+            accessToken: auth_token,
+            userName: user_name,
+          })
+        );
+
+        goToAccountCreationSuccess();
+      } else {
+        displayToast({
+          type: "error",
+          text1: "Error",
+          text2: response.data?.result?.error || "An unknown error occurred",
+        });
+      }
+    } catch (error) {
       displayToast({
         type: "error",
         text1: "Error",
-        text2: response?.data?.result?.error,
+        text2: "Failed to verify OTP. Please try again later.",
       });
     }
   };
@@ -81,6 +88,8 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
 
   return (
     <View style={styles.rootContainer}>
+      {restApiLoading && <Loader />}
+
       <HeaderPrimary label={`Verify your identity`} onPress={goBack} />
 
       <VerticalSpace h={2} />
@@ -101,7 +110,7 @@ const VerifyPhoneScreen: React.FC<VerifyPhoneScreenProps> = () => {
 
           <VerticalSpace h={2} />
 
-          <InputOTP onTextChange={(val) => setOTP(val)} />
+          <InputOTP onTextChange={setOTP} />
 
           <VerticalSpace h={2} />
 
@@ -137,7 +146,9 @@ const styles = StyleSheet.create({
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     opacity: 0.6,
   },
-  resendOTPContainer: { alignSelf: "center" },
+  resendOTPContainer: {
+    alignSelf: "center",
+  },
 });
 
 export default VerifyPhoneScreen;

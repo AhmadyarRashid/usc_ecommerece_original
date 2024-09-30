@@ -85,7 +85,7 @@ const ConfirmAddressScreen = () => {
 
         <VerticalSpace h={2} />
 
-        <SolidButton label="Save & Continue" size="xl" onPress={goToHome}/>
+        <SolidButton label="Save & Continue" size="xl" onPress={goToHome} />
       </ScrollView>
     </View>
   );
