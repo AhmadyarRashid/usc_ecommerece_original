@@ -1,6 +1,8 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { Field, Formik, FormikProps } from "formik";
+import { useSelector } from "react-redux";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -14,9 +16,38 @@ import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
 } from "../../constants/fonts";
+import { createAddressSchema } from "../../constants/schemas";
+import { RootState } from "../../redux/store";
+
+// Define the type for the form values
+interface CreateAddressValues {
+  unitNo: string;
+  street: string;
+  city: string;
+  additionalNotes: string;
+}
 
 const ConfirmAddressScreen = () => {
   const navigation = useNavigation<AppNavigationProps>();
+  const formikRef = useRef<FormikProps<CreateAddressValues>>(null);
+  const auth = useSelector((state: RootState) => state.auth);
+
+  const createAddress = (values: CreateAddressValues) => {
+    const data = {
+      auth_token: auth.accessToken,
+      login: auth.userName,
+      latitude: "",
+      longitude: "",
+      name: values.unitNo,
+      street: values.street,
+      city: values.city,
+      phone: "",
+      mobile: auth.userName,
+      notes: values.additionalNotes,
+    };
+
+    console.log(JSON.stringify(data, null, 2));
+  };
 
   const goBack = useCallback(() => {
     navigation.goBack();
@@ -25,6 +56,27 @@ const ConfirmAddressScreen = () => {
   const goToHome = useCallback(() => {
     navigation.navigate("Home");
   }, [navigation]);
+
+  const renderInputField = (name: keyof CreateAddressValues, placeholder: string) => (
+    <Field name={name}>
+      {({ field, meta }: any) => (
+        <>
+          <InputField
+            placeholder={placeholder}
+            onChangeText={field.onChange(name)}
+            onBlur={field.onBlur(name)}
+            value={field.value}
+          />
+          {meta.touched && meta.error && (
+            <>
+              <VerticalSpace h={1} />
+              <Text style={{ color: "red" }}>{meta.error}</Text>
+            </>
+          )}
+        </>
+      )}
+    </Field>
+  );
 
   return (
     <View style={styles.rootContainer}>
@@ -45,47 +97,51 @@ const ConfirmAddressScreen = () => {
 
         <VerticalSpace h={2} />
 
-        <Text style={styles.labelText}>House/Building/Flat</Text>
+        <Formik
+          innerRef={formikRef}
+          validateOnChange={true}
+          validateOnBlur={true}
+          onSubmit={createAddress}
+          initialValues={{
+            unitNo: "",
+            street: "",
+            city: "",
+            additionalNotes: "",
+          }}
+          validationSchema={createAddressSchema}
+        >
+          {({ handleSubmit }) => (
+            <>
+              <Text style={styles.labelText}>House/Building/Flat*</Text>
+              <VerticalSpace h={2} />
+              {renderInputField("unitNo", "Enter house/building/flat #")}
+              <VerticalSpace h={2} />
 
-        <VerticalSpace h={2} />
+              <Text style={styles.labelText}>Street*</Text>
+              <VerticalSpace h={2} />
+              {renderInputField("street", "Enter street")}
+              <VerticalSpace h={2} />
 
-        <InputField placeholder="Enter house/building/flat #" />
+              <Text style={styles.labelText}>City*</Text>
+              <VerticalSpace h={2} />
+              {renderInputField("city", "Enter city")}
+              <VerticalSpace h={2} />
 
-        <VerticalSpace h={2} />
+              <Text style={styles.labelText}>
+                Additional Delivery Notes/Alternate Contact Information etc.
+              </Text>
+              <VerticalSpace h={2} />
+              <Text style={styles.normalText}>
+                Include further details about your address
+              </Text>
+              <VerticalSpace h={2} />
+              {renderInputField("additionalNotes", "Note to rider - e.g landmark")}
+              <VerticalSpace h={2} />
 
-        <Text style={styles.labelText}>Street</Text>
-
-        <VerticalSpace h={2} />
-
-        <InputField placeholder="Enter street" />
-
-        <VerticalSpace h={2} />
-
-        <Text style={styles.labelText}>City</Text>
-
-        <VerticalSpace h={2} />
-
-        <InputField placeholder="Enter city" />
-
-        <VerticalSpace h={2} />
-
-        <Text style={styles.labelText}>
-          Additional Delivery Notes/Alternate Contact Information etc.
-        </Text>
-
-        <VerticalSpace h={2} />
-
-        <Text style={styles.normalText}>
-          Include further details about your address
-        </Text>
-
-        <VerticalSpace h={2} />
-
-        <InputField placeholder="Note to rider - e.g landmark" />
-
-        <VerticalSpace h={2} />
-
-        <SolidButton label="Save & Continue" size="xl" onPress={goToHome} />
+              <SolidButton label="Save & Continue" size="xl" onPress={handleSubmit} />
+            </>
+          )}
+        </Formik>
       </ScrollView>
     </View>
   );

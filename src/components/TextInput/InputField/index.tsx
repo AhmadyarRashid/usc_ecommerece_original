@@ -7,15 +7,21 @@ import { PROXIMA_NOVA_REGULAR } from "../../../constants/fonts";
 
 interface InputFieldProps {
   placeholder: string;
+  onChangeText: (text: string) => void;
+  onBlur: () => void;
+  value: string;
 }
 
-const InputField: React.FC<InputFieldProps> = ({ placeholder }) => {
+const InputField: React.FC<InputFieldProps> = ({ placeholder, onChangeText, onBlur, value }) => {
   return (
     <TextInput
       style={styles.input}
       placeholder={placeholder}
       autoCapitalize={"none"}
       keyboardType={"numeric"}
+      onChangeText={onChangeText}
+      onBlur={onBlur}
+      value={value}
     />
   );
 };

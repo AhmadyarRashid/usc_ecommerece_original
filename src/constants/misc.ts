@@ -5,3 +5,6 @@ export const tabHiddenRoutes = [
   "DeliveryAddress",
   "ConfirmAddress",
 ];
+
+export const latitudeDelta = 0.025;
+export const longitudeDelta = 0.025;

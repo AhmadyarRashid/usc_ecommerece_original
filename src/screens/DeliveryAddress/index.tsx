@@ -1,128 +1,3 @@
-// import React, { useState } from 'react';
-// import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
-// import MapView, { Marker } from 'react-native-maps';
-
-// import { THEME } from '../../constants/colors';
-// import LottieView from 'lottie-react-native';
-// import { MARKER } from '../../constants/animations';
-
-// const latitudeDelta = 0.025;
-// const longitudeDelta = 0.025;
-
-// const DeliveryAddressScreen = () => {
-//   const [region, setRegion] = useState({
-//     latitudeDelta,
-//     longitudeDelta,
-//     latitude: 25.1948475,
-//     longitude: 55.2682899
-//   });
-
-//   console.log(region);
-  
-
-//   const onRegionChange = (region) => {
-//     setRegion(region);
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <MapView
-//         style={styles.map}
-//         initialRegion={region}
-//         onRegionChangeComplete={onRegionChange}
-//       />
-//       <View style={styles.markerFixed}>
-//       <LottieView source={MARKER} autoPlay loop style={{height:120,width:120}} />
-//       </View>
-
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1
-//   },
-//   map: {
-//     flex: 1
-//   },
-//   markerFixed: {
-//     left: '40%',
-//     position: 'absolute',
-//     top: '30%'
-//   },
-//   marker: {
-//     height: 48,
-//     width: 48
-//   },
-//   footer: {
-//     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-//     bottom: 0,
-//     position: 'absolute',
-//     width: '100%'
-//   },
-//   region: {
-//     color: '#fff',
-//     lineHeight: 20,
-//     margin: 20
-//   }
-// });
-
-// export default DeliveryAddressScreen;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, {
   useCallback,
   useEffect,
@@ -137,9 +12,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView, { Marker, Region } from "react-native-maps";
+import MapView, { Region } from "react-native-maps";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { Edit2, Gps, Location } from "iconsax-react-native";
+import { Edit2, Gps, Lifebuoy, Location } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -157,7 +32,7 @@ import {
   WHITE,
   WHITE_SMOKE,
 } from "../../constants/colors";
-import { NO_ADDRESS_FOUND } from "../../constants/animations";
+import { MARKER, NO_ADDRESS_FOUND } from "../../constants/animations";
 import { hR, sR, wR } from "../../constants/dimensions";
 import {
   PROXIMA_NOVA_REGULAR,
@@ -169,6 +44,7 @@ import { setAddressFields } from "../../redux/slices/address";
 import { displayToast } from "../../constants/functions";
 import { createDynamicSelector } from "../../redux/selectors";
 import { RootState } from "../../redux/store";
+import { latitudeDelta, longitudeDelta } from "../../constants/misc";
 
 const DeliveryAddressScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -184,22 +60,26 @@ const DeliveryAddressScreen: React.FC = () => {
   );
   const dispatch = useDispatch();
 
-  const [region, setRegion] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+  const [region, setRegion] = useState<Region>({
+    latitudeDelta,
+    longitudeDelta,
+    latitude: 25.1948475,
+    longitude: 55.2682899,
   });
 
   useEffect(() => {
     getAddresses();
   }, []);
 
-  const onRegionChange = (newRegion) => {
-    setRegion(newRegion);
+  const onRegionChange = (region: Region) => {
+    console.log(region);
+
+    setRegion(region);
   };
 
   const getAddresses = async () => {
+    if (!auth?.accessToken || !auth?.userName) return;
+
     const data = {
       auth_token: auth.accessToken,
       login: auth.userName,
@@ -213,14 +93,14 @@ const DeliveryAddressScreen: React.FC = () => {
     if (response?.data?.result?.status === 200) {
       dispatch(
         setAddressFields({
-          addressList: response?.data?.result?.address,
+          addressList: response?.data?.result?.address || [],
         })
       );
     } else {
       displayToast({
         type: "error",
         text1: "Error",
-        text2: response?.data?.result?.error,
+        text2: response?.data?.result?.error || "Failed to fetch addresses",
       });
     }
   };
@@ -239,25 +119,18 @@ const DeliveryAddressScreen: React.FC = () => {
 
       <HeaderPrimary label="Delivery Address" onPress={goBack} />
 
-      {/* <MapView
-        provider="google"
+      <MapView
+        style={{ flex: 1 }}
         initialRegion={region}
-        style={styles.mapContainer}
         onRegionChangeComplete={onRegionChange}
-      >
-        <Marker
-          coordinate={{ latitude: 37.78825, longitude: -122.4324 }}
-          pinColor={THEME}
-          draggable
-          onDragEnd={(e) => {
-            console.log(e);
-          }}
-        />
-      </MapView> */}
+        provider="google"
+      />
 
-      
+      <View style={styles.markerContainer}>
+        <LottieAnimation source={MARKER} customStyle={styles.marker} />
+      </View>
 
-      {/* <BottomSheet
+      <BottomSheet
         ref={bottomSheetRef}
         index={0}
         snapPoints={snapPoints}
@@ -279,7 +152,7 @@ const DeliveryAddressScreen: React.FC = () => {
 
             <VerticalSpace h={2} />
 
-            {address.addressList.length === 0 ? (
+            {address?.addressList?.length === 0 ? (
               <View style={styles.addressNotFoundContainer}>
                 <LottieAnimation
                   source={NO_ADDRESS_FOUND}
@@ -297,7 +170,7 @@ const DeliveryAddressScreen: React.FC = () => {
               </View>
             ) : (
               <>
-                {address.addressList.map((item, index) => (
+                {address?.addressList?.map((item, index) => (
                   <TouchableOpacity style={styles.addressButton} key={index}>
                     <Location size={sR * 2} color={THEME} variant="Bold" />
 
@@ -327,7 +200,7 @@ const DeliveryAddressScreen: React.FC = () => {
             />
           </View>
         </ScrollView>
-      </BottomSheet> */}
+      </BottomSheet>
     </View>
   );
 };
@@ -336,9 +209,6 @@ export default DeliveryAddressScreen;
 
 const styles = StyleSheet.create({
   rootContainer: { flex: 1, backgroundColor: WHITE },
-  mapContainer: {
-    flex: 1,
-  },
   bottomSheetBackground: {
     backgroundColor: WHITE,
   },
@@ -403,4 +273,10 @@ const styles = StyleSheet.create({
     color: FLINT_STONE,
     opacity: 0.6,
   },
+  markerContainer: {
+    position: "absolute",
+    alignSelf: "center",
+    top: "38%",
+  },
+  marker: { height: sR * 6, width: sR * 6 },
 });
