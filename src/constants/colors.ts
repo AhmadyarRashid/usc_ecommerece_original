@@ -26,6 +26,7 @@ const ORCA_WHITE = "#cfcbc9"
 const ALBESCENT_WHITE='#e1dacc'
 const EPHEMERAL_MIST="#c5cfd4"
 const VITAMIN_C = '#ff9900'
+const RED_DOOR = "#AE0000"
 
 export {
   WHITE,
@@ -50,5 +51,6 @@ export {
   ORCA_WHITE,
   ALBESCENT_WHITE,
   EPHEMERAL_MIST,
-  VITAMIN_C
+  VITAMIN_C,
+  RED_DOOR
 };

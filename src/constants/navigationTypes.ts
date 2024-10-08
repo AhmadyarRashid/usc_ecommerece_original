@@ -5,7 +5,7 @@ export type StackParamList = {
   VerifyPhone: undefined;
   AccountCreationSuccess: undefined;
   Home: undefined;
-  ProductDetails: undefined;
+  ProductDetails: { productID: string };
   ShoppingCart: undefined;
   AppBottomTab: undefined;
   MyOrders: undefined;

@@ -8,6 +8,7 @@ import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
 import InputField from "../../components/TextInput/InputField";
 import SolidButton from "../../components/Button/SolidButton";
+import Loader from "../../components/Loader";
 
 import { BLACK, FLINT_STONE, WHITE } from "../../constants/colors";
 import { AppNavigationProps } from "../../constants/navigationTypes";
@@ -18,10 +19,11 @@ import {
 } from "../../constants/fonts";
 import { createAddressSchema } from "../../constants/schemas";
 import { RootState } from "../../redux/store";
+import useApiHook from "../../hooks/rest/useApi";
+import { displayToast } from "../../constants/functions";
 
-// Define the type for the form values
 interface CreateAddressValues {
-  unitNo: string;
+  name: string;
   street: string;
   city: string;
   additionalNotes: string;
@@ -31,14 +33,15 @@ const ConfirmAddressScreen = () => {
   const navigation = useNavigation<AppNavigationProps>();
   const formikRef = useRef<FormikProps<CreateAddressValues>>(null);
   const auth = useSelector((state: RootState) => state.auth);
+  const { handleRestApi, restApiLoading } = useApiHook();
 
-  const createAddress = (values: CreateAddressValues) => {
+  const createAddress = async (values: CreateAddressValues) => {
     const data = {
       auth_token: auth.accessToken,
       login: auth.userName,
       latitude: "",
       longitude: "",
-      name: values.unitNo,
+      name: values.name,
       street: values.street,
       city: values.city,
       phone: "",
@@ -46,7 +49,21 @@ const ConfirmAddressScreen = () => {
       notes: values.additionalNotes,
     };
 
-    console.log(JSON.stringify(data, null, 2));
+    const response = await handleRestApi({
+      method: "post",
+      url: "user_address_create",
+      data,
+    });
+
+    if (response?.data?.result?.status === 200) {
+      goToHome();
+    } else {
+      displayToast({
+        type: "error",
+        text1: "Error",
+        text2: response?.data?.result?.error || "Failed to fetch addresses",
+      });
+    }
   };
 
   const goBack = useCallback(() => {
@@ -57,7 +74,10 @@ const ConfirmAddressScreen = () => {
     navigation.navigate("Home");
   }, [navigation]);
 
-  const renderInputField = (name: keyof CreateAddressValues, placeholder: string) => (
+  const renderInputField = (
+    name: keyof CreateAddressValues,
+    placeholder: string
+  ) => (
     <Field name={name}>
       {({ field, meta }: any) => (
         <>
@@ -80,6 +100,8 @@ const ConfirmAddressScreen = () => {
 
   return (
     <View style={styles.rootContainer}>
+      {restApiLoading && <Loader />}
+
       <HeaderPrimary label="Confirm Address" onPress={goBack} />
 
       <ScrollView
@@ -103,7 +125,7 @@ const ConfirmAddressScreen = () => {
           validateOnBlur={true}
           onSubmit={createAddress}
           initialValues={{
-            unitNo: "",
+            name: "",
             street: "",
             city: "",
             additionalNotes: "",
@@ -112,14 +134,19 @@ const ConfirmAddressScreen = () => {
         >
           {({ handleSubmit }) => (
             <>
-              <Text style={styles.labelText}>House/Building/Flat*</Text>
+              <Text style={styles.labelText}>Name*</Text>
               <VerticalSpace h={2} />
-              {renderInputField("unitNo", "Enter house/building/flat #")}
+              {renderInputField("name", "Name")}
               <VerticalSpace h={2} />
 
-              <Text style={styles.labelText}>Street*</Text>
+              <Text style={styles.labelText}>
+                House/building/flat & street #*
+              </Text>
               <VerticalSpace h={2} />
-              {renderInputField("street", "Enter street")}
+              {renderInputField(
+                "street",
+                "Enter house/building/flat & street #"
+              )}
               <VerticalSpace h={2} />
 
               <Text style={styles.labelText}>City*</Text>
@@ -135,10 +162,17 @@ const ConfirmAddressScreen = () => {
                 Include further details about your address
               </Text>
               <VerticalSpace h={2} />
-              {renderInputField("additionalNotes", "Note to rider - e.g landmark")}
+              {renderInputField(
+                "additionalNotes",
+                "Note to rider - e.g landmark"
+              )}
               <VerticalSpace h={2} />
 
-              <SolidButton label="Save & Continue" size="xl" onPress={handleSubmit} />
+              <SolidButton
+                label="Save & Continue"
+                size="xl"
+                onPress={handleSubmit}
+              />
             </>
           )}
         </Formik>

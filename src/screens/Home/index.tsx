@@ -1,6 +1,12 @@
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
+import React, { useCallback, useEffect } from "react";
+import {
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  View,
+  ListRenderItem,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useCallback, useEffect } from "react";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { AxiosRequestHeaders } from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,7 +34,24 @@ import { setProductFields } from "../../redux/slices/product";
 import { RootState } from "../../redux/store";
 import { setCategoryFields } from "../../redux/slices/category";
 
-const CATEGORIES_DATA = [
+// Type for Category Data
+interface CategoryData {
+  label: string;
+  category: string;
+  borderColor: string;
+  bgColor: string;
+}
+
+interface ProductData {
+  id: number;
+  name: string;
+  list_price: number;
+  qty_available: number;
+  categ_id: [number, string];
+  image_128: boolean | null;
+}
+
+const CATEGORIES_DATA: CategoryData[] = [
   {
     label: "Fruits\n& Vegetables",
     category: "Fruits & Veg items",
@@ -68,7 +91,9 @@ const HomeScreen = () => {
       headers: { Authorization: "none" } as AxiosRequestHeaders,
     });
 
-    dispatch(setProductFields({ productList: response.data.result.data }));
+    if (response?.data?.result?.data) {
+      dispatch(setProductFields({ productList: response.data.result.data }));
+    }
   };
 
   const getAllCategories = async () => {
@@ -78,20 +103,34 @@ const HomeScreen = () => {
       headers: { Authorization: "none" } as AxiosRequestHeaders,
     });
 
-    dispatch(setCategoryFields({ categoryList: response.data.result.data }));
+    if (response?.data?.result?.data) {
+      dispatch(setCategoryFields({ categoryList: response.data.result.data }));
+    }
   };
 
   const goToShoppingCart = useCallback(() => {
     navigation.navigate("ShoppingCart");
   }, [navigation]);
 
-  const goToProductDetails = useCallback(() => {
-    navigation.navigate("ProductDetails");
-  }, [navigation]);
+  const goToProductDetails = useCallback(
+    (productID: string) => {
+      navigation.navigate("ProductDetails", { productID });
+    },
+    [navigation]
+  );
 
   const goToDeliveryAddress = useCallback(() => {
     navigation.navigate("DeliveryAddress");
   }, [navigation]);
+
+  // Render method for Categories
+  const renderCategory: ListRenderItem<CategoryData> = ({ item }) => (
+    <CategoriesCard data={item} />
+  );
+
+  const renderProduct: ListRenderItem<ProductData> = ({ item }) => (
+    <ProductsCard data={item} onPress={() => goToProductDetails(item.id)} />
+  );
 
   return (
     <View style={styles.rootContainer}>
@@ -106,47 +145,46 @@ const HomeScreen = () => {
       >
         <VerticalSpace h={2} />
 
-        <SearchBox placeholder={`Search anything you want`} />
+        <SearchBox placeholder="Search anything you want" />
 
         <VerticalSpace h={2} />
 
-        <SectionTitleWithAction title={`Explore Categories`} />
+        <SectionTitleWithAction title="Explore Categories" />
 
         <VerticalSpace h={2} />
 
         <FlatList
           data={CATEGORIES_DATA}
-          renderItem={({ item }) => <CategoriesCard data={item} />}
+          renderItem={renderCategory}
+          keyExtractor={(item) => item.category}
           horizontal
           showsHorizontalScrollIndicator={false}
         />
 
         <VerticalSpace h={2} />
 
-        <SectionTitleWithAction title={`Fresh Sale`} />
+        <SectionTitleWithAction title="Fresh Sale" />
 
         <VerticalSpace h={2} />
 
         <FlatList
           data={products}
-          renderItem={({ item }) => (
-            <ProductsCard data={item} onPress={goToProductDetails} />
-          )}
+          renderItem={renderProduct}
+          keyExtractor={(item) => item.id}
           horizontal
           showsHorizontalScrollIndicator={false}
         />
 
         <VerticalSpace h={2} />
 
-        <SectionTitleWithAction title={`Frequently Ordered`} />
+        <SectionTitleWithAction title="Frequently Ordered" />
 
         <VerticalSpace h={2} />
 
         <FlatList
           data={products}
-          renderItem={({ item }) => (
-            <ProductsCard data={item} onPress={goToProductDetails} />
-          )}
+          renderItem={renderProduct}
+          keyExtractor={(item) => item.id}
           horizontal
           showsHorizontalScrollIndicator={false}
         />

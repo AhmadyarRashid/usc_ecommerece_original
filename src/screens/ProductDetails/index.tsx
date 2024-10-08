@@ -9,7 +9,8 @@ import {
   ImageStyle,
   ScrollView,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -25,10 +26,23 @@ import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
 } from "../../constants/fonts";
-import { AppNavigationProps } from "../../constants/navigationTypes";
+import {
+  AppNavigationProps,
+  StackParamList,
+} from "../../constants/navigationTypes";
+import { RootState } from "../../redux/store";
+
+// Defining the type for route params
+type ProductDetailsRouteProp = RouteProp<StackParamList, "ProductDetails">;
 
 const ProductDetailsScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
+  const route = useRoute<ProductDetailsRouteProp>();
+  const products = useSelector((state: RootState) => state.product.productList);
+
+  const productByID = products.find(
+    (item) => item.id === route.params.productID
+  );
 
   const goBack = useCallback(() => {
     navigation.goBack();
@@ -42,20 +56,26 @@ const ProductDetailsScreen: React.FC = () => {
         <View style={styles.childContainer}>
           <VerticalSpace h={2} />
 
-          <Image source={images.COFFEE} style={styles.productImage} />
+          <Image
+            source={
+              productByID.image_128
+                ? { uri: productByID.image_128 }
+                : images.COFFEE
+            }
+            style={styles.productImage}
+          />
 
           <VerticalSpace h={2} />
-
-          <Text style={styles.productLabelText}>
-            Stock Cold Brew Original Coffee Pack 200g Special Edition | Multi
-            Flavors
-          </Text>
-
+          
+          <Text style={styles.productLabelText}>{productByID.name}</Text>
+          
           <VerticalSpace h={2} />
 
           <View style={styles.priceAndAvailabilityContainer}>
             <View style={styles.priceContainer}>
-              <Text style={styles.discountedPriceText}>PKR 200</Text>
+              <Text style={styles.discountedPriceText}>
+                PKR {productByID.list_price}
+              </Text>
 
               <HorizontalSpace w={2} />
 
@@ -63,7 +83,9 @@ const ProductDetailsScreen: React.FC = () => {
             </View>
 
             <Text style={styles.productAvailabilityText}>
-              Available in Stock
+              {productByID.qty_available > 0
+                ? "Available in Stock"
+                : "Out of Stock"}
             </Text>
           </View>
 
@@ -78,11 +100,7 @@ const ProductDetailsScreen: React.FC = () => {
           <VerticalSpace h={2} />
 
           <Text style={styles.productInfoText}>
-            Darkly colored, bitter, and slightly acidic, coffee has a
-            stimulating effect on humans, primarily due to its caffeine content.
-            It has the highest sales in the world market for hot drinks. The
-            seeds of the Coffea plant's fruits are separated to produce
-            unroasted green coffee beans.
+            N/A
           </Text>
         </View>
       </ScrollView>

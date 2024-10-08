@@ -14,7 +14,13 @@ import {
 } from "react-native";
 import MapView, { Region } from "react-native-maps";
 import BottomSheet from "@gorhom/bottom-sheet";
-import { Edit2, Gps, Lifebuoy, Location } from "iconsax-react-native";
+import {
+  Edit2,
+  Gps,
+  Lifebuoy,
+  Location,
+  MoreCircle,
+} from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -24,6 +30,7 @@ import LottieAnimation from "../../components/LottieAnimation";
 import SolidButton from "../../components/Button/SolidButton";
 import HorizontalSpace from "../../components/HorizontalSpace";
 import Loader from "../../components/Loader";
+import AddressActionModal from "../../components/Modals/AddressActionModal";
 
 import {
   BLACK,
@@ -45,6 +52,7 @@ import { displayToast } from "../../constants/functions";
 import { createDynamicSelector } from "../../redux/selectors";
 import { RootState } from "../../redux/store";
 import { latitudeDelta, longitudeDelta } from "../../constants/misc";
+import useToggle from "../../hooks/useToggle";
 
 const DeliveryAddressScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -59,7 +67,8 @@ const DeliveryAddressScreen: React.FC = () => {
     selectAuthAddressOrder(state)
   );
   const dispatch = useDispatch();
-
+  const [ actionModal, toggleActionModal ] = useToggle(false);
+  
   const [region, setRegion] = useState<Region>({
     latitudeDelta,
     longitudeDelta,
@@ -84,6 +93,7 @@ const DeliveryAddressScreen: React.FC = () => {
       auth_token: auth.accessToken,
       login: auth.userName,
     };
+
     const response = await handleRestApi({
       method: "post",
       url: "user_address_view_all",
@@ -116,6 +126,13 @@ const DeliveryAddressScreen: React.FC = () => {
   return (
     <View style={styles.rootContainer}>
       {restApiLoading && <Loader />}
+
+      <AddressActionModal
+        isVisible={actionModal}
+        onClose={toggleActionModal}
+        handleUpdate={() => alert("update")}
+        handleDelete={() => alert("delete")}
+      />
 
       <HeaderPrimary label="Delivery Address" onPress={goBack} />
 
@@ -171,22 +188,31 @@ const DeliveryAddressScreen: React.FC = () => {
             ) : (
               <>
                 {address?.addressList?.map((item, index) => (
-                  <TouchableOpacity style={styles.addressButton} key={index}>
-                    <Location size={sR * 2} color={THEME} variant="Bold" />
+                  <View style={styles.addressButton} key={index}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Location size={sR * 2} color={THEME} variant="Bold" />
 
-                    <HorizontalSpace w={2} />
+                      <HorizontalSpace w={4} />
 
-                    <View>
-                      <Text style={styles.addressLabelText}>{item.label}</Text>
-                      <Text style={styles.addressValueText}>{item.value}</Text>
+                      <View>
+                        <Text style={styles.addressLabelText}>{item.name}</Text>
+                        <Text style={styles.addressValueText}>
+                          {item.street}, {item.city}
+                        </Text>
+                      </View>
                     </View>
 
                     <HorizontalSpace w={2} />
 
-                    <TouchableOpacity>
-                      <Edit2 size={sR * 1.2} color={THEME} variant="Bold" />
+                    <TouchableOpacity onPress={toggleActionModal}>
+                      <MoreCircle size={sR * 1.6} color={THEME} />
                     </TouchableOpacity>
-                  </TouchableOpacity>
+                  </View>
                 ))}
               </>
             )}
