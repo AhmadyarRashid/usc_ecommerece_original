@@ -1,16 +1,7 @@
-import React, { useCallback } from "react";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-  TextStyle,
-  ImageStyle,
-  ScrollView,
-} from "react-native";
+import React, { useCallback, useState } from "react";
+import { Image, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -31,31 +22,82 @@ import {
   StackParamList,
 } from "../../constants/navigationTypes";
 import { RootState } from "../../redux/store";
+import { setCartFields } from "../../redux/slices/cart";
+import { displayToast } from "../../constants/functions";
+import { createDynamicSelector } from "../../redux/selectors";
 
-// Defining the type for route params
 type ProductDetailsRouteProp = RouteProp<StackParamList, "ProductDetails">;
 
 const ProductDetailsScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
   const route = useRoute<ProductDetailsRouteProp>();
-  const products = useSelector((state: RootState) => state.product.productList);
+  const selectAuthAddressOrder = createDynamicSelector([
+    "product",
+    "cart",
+  ] as const);
+  const { product, cart } = useSelector((state: RootState) => selectAuthAddressOrder(state));
+  const dispatch = useDispatch();
 
-  const productByID = products.find(
-    (item) => item.id === route.params.productID
-  );
+  const [count, setCount] = useState(1);
+
+  const productByID = product?.productList.find(item => item.id === route.params.productID);
+
+  const addToCart = () => {
+    if (!productByID) {
+      displayToast({
+        type: "error",
+        text1: "Error",
+        text2: `Product not found!`,
+      });
+      return;
+    }
+  
+    const existingItem = cart.cartList.find(item => item.id === productByID.id);
+    const newCount = existingItem ? existingItem.count + count : count;
+  
+    if (newCount > productByID.qty_available) {
+      displayToast({
+        type: "error",
+        text1: "Error",
+        text2: `Cannot add more than available quantity!`,
+      });
+      return;
+    }
+  
+    const updatedCartList = existingItem
+      ? cart.cartList.map(item =>
+          item.id === productByID.id ? { ...item, count: newCount } : item
+        )
+      : [...cart.cartList, { ...productByID, count }];
+  
+    dispatch(setCartFields({ cartList: updatedCartList }));
+  
+    displayToast({
+      type: "success",
+      text1: "Success",
+      text2: existingItem ? `Item count updated in your cart!` : `Item successfully added to your cart!`,
+    });
+  };
+  
 
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
+  if (!productByID) {
+    return (
+      <View style={styles.rootContainer}>
+        <Text>Product not found</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.rootContainer}>
       <HeaderPrimary label="Product Details" onPress={goBack} />
-
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.childContainer}>
           <VerticalSpace h={2} />
-
           <Image
             source={
               productByID.image_128
@@ -64,109 +106,98 @@ const ProductDetailsScreen: React.FC = () => {
             }
             style={styles.productImage}
           />
-
           <VerticalSpace h={2} />
-          
           <Text style={styles.productLabelText}>{productByID.name}</Text>
-          
           <VerticalSpace h={2} />
-
           <View style={styles.priceAndAvailabilityContainer}>
             <View style={styles.priceContainer}>
               <Text style={styles.discountedPriceText}>
                 PKR {productByID.list_price}
               </Text>
-
               <HorizontalSpace w={2} />
-
               <Text style={styles.originalPriceText}>PKR 300</Text>
             </View>
-
             <Text style={styles.productAvailabilityText}>
               {productByID.qty_available > 0
                 ? "Available in Stock"
                 : "Out of Stock"}
             </Text>
           </View>
-
           <VerticalSpace h={2} />
-
           <HorizontalLine />
-
           <VerticalSpace h={2} />
-
           <Text style={styles.productInfoHeadingText}>Product Information</Text>
-
           <VerticalSpace h={2} />
-
-          <Text style={styles.productInfoText}>
-            N/A
-          </Text>
+          <Text style={styles.productInfoText}>N/A</Text>
         </View>
       </ScrollView>
-
-      <CartControls />
+      <CartControls
+        count={count}
+        handleIncrement={() => setCount(prev => prev + 1)}
+        handleDecrement={() => setCount(prev => Math.max(prev - 1, 1))}
+        handleAddToCart={addToCart}
+      />
     </View>
   );
 };
-
-export default ProductDetailsScreen;
 
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
     backgroundColor: WHITE,
-  } as ViewStyle,
+  },
   childContainer: {
     paddingHorizontal: wR * 4,
     paddingBottom: hR * 12,
-  } as ViewStyle,
+  },
   productImage: {
     width: wR * 92,
     height: hR * 24,
     alignSelf: "center",
     resizeMode: "cover",
-  } as ImageStyle,
+  },
   productLabelText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     fontSize: sR * 1.4,
     color: BLACK,
-  } as TextStyle,
+  },
   priceAndAvailabilityContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  } as ViewStyle,
+  },
   priceContainer: {
     flexDirection: "row",
     alignItems: "center",
-  } as ViewStyle,
+  },
   discountedPriceText: {
     fontFamily: PROXIMA_NOVA_BOLD,
     fontSize: sR * 1.6,
     color: BLACK,
-  } as TextStyle,
+  },
   originalPriceText: {
     fontFamily: PROXIMA_NOVA_REGULAR,
     fontSize: sR * 1.2,
     color: FLINT_STONE,
     opacity: 0.6,
     textDecorationLine: "line-through",
-  } as TextStyle,
+  },
   productAvailabilityText: {
     fontFamily: PROXIMA_NOVA_REGULAR,
     fontSize: sR * 1.2,
     color: HULK,
-  } as TextStyle,
+  },
   productInfoHeadingText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     fontSize: sR * 1.4,
     color: BLACK,
-  } as TextStyle,
+  },
   productInfoText: {
     fontFamily: PROXIMA_NOVA_REGULAR,
     fontSize: sR * 1.2,
     color: FLINT_STONE,
     opacity: 0.6,
-  } as TextStyle,
+  },
 });
+
+export default ProductDetailsScreen;

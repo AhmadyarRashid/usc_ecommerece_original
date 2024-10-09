@@ -7,6 +7,8 @@ import contactReducer, { ContactState } from "./slices/contact";
 import productReducer, { ProductState } from "./slices/product";
 import categoryReducer, { CategoryState } from "./slices/category";
 import addressReducer, { AddressState } from "./slices/address";
+import orderReducer, { OrderState } from "./slices/order";
+import cartReducer, { CartState } from "./slices/cart";
 
 export type RootState = {
   auth: AuthState;
@@ -14,6 +16,8 @@ export type RootState = {
   product: ProductState;
   category: CategoryState;
   address: AddressState;
+  order:OrderState;
+  cart:CartState
 };
 
 const createRootReducer = () =>
@@ -23,12 +27,14 @@ const createRootReducer = () =>
     product: productReducer,
     category: categoryReducer,
     address: addressReducer,
+    order: orderReducer,
+    cart:cartReducer
   });
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["auth", "contact", "product", "category", "address"],
+  whitelist: ["auth", "contact", "product", "category", "address","order","cart"],
 };
 
 const persistedReducer = persistReducer(persistConfig, createRootReducer());
