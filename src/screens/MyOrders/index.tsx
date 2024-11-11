@@ -1,13 +1,15 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, FlatList, Text } from "react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 import { AxiosRequestHeaders } from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { isEmpty } from "lodash";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import OrdersCard from "../../components/Cards/OrdersCard";
 import Loader from "../../components/Loader";
+import NoContentDisplay from "../../components/NoContentDisplay";
 
 import { WHITE } from "../../constants/colors";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -31,6 +33,8 @@ const MyOrdersScreen: React.FC = () => {
   );
   const dispatch = useDispatch();
 
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+
   useEffect(() => {
     getAllOrders();
   }, []);
@@ -51,6 +55,8 @@ const MyOrdersScreen: React.FC = () => {
     if (response.data.result.status === 200) {
       dispatch(setOrderFields({ orderList: response.data.result.order_list }));
     }
+
+    setIsDataLoaded(true);
   };
 
   const goToOrderDetails = useCallback(() => {
@@ -74,12 +80,35 @@ const MyOrdersScreen: React.FC = () => {
       <VerticalSpace h={2} />
 
       <View style={{ paddingHorizontal: wR * 4, flex: 1 }}>
-        <FlatList
-          data={order?.orderList}
-          renderItem={({ item }) => <OrdersCard onPress={goToOrderDetails} />}
-          showsVerticalScrollIndicator={false}
-          ListFooterComponent={<View style={{ height: tabBarHeight }} />}
-        />
+        {!isDataLoaded || isEmpty(order?.orderList) ? (
+          <>
+            {!isDataLoaded ? null : (
+              <View
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flex: 1,
+                  paddingBottom: tabBarHeight,
+                }}
+              >
+                <NoContentDisplay
+                  label="No Orders Available"
+                  info="No orders available at the moment. Create your first order now!"
+                  displayActionButton={true}
+                  actionButtonText={"Order Now"}
+                  onActionButtonPress={goBack}
+                />
+              </View>
+            )}
+          </>
+        ) : (
+          <FlatList
+            data={order?.orderList}
+            renderItem={({ item }) => <OrdersCard onPress={goToOrderDetails} />}
+            showsVerticalScrollIndicator={false}
+            ListFooterComponent={<View style={{ height: tabBarHeight }} />}
+          />
+        )}
       </View>
     </View>
   );
