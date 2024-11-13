@@ -30,3 +30,7 @@ export const scheduledNavigation = (callback: () => void) => {
     callback();
   }, 2000);
 };
+
+export const countCartItem = (cart:[]): number => {
+  return cart.length;
+};

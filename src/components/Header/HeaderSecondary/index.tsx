@@ -5,11 +5,13 @@ import { Location, ShoppingCart } from "iconsax-react-native";
 import HorizontalSpace from "../../HorizontalSpace";
 
 import { hR, sR, wR } from "../../../constants/dimensions";
-import { FLINT_STONE, THEME, WHITE } from "../../../constants/colors";
+import { FLINT_STONE, RED_DOOR, THEME, WHITE } from "../../../constants/colors";
 import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
 } from "../../../constants/fonts";
+import useDynamicSliceSelector from "../../../hooks/useDynamicSliceSelector";
+import { countCartItem } from "../../../constants/functions";
 
 interface HeaderSecondaryProps {
   onLeftPress?: () => void;
@@ -20,6 +22,8 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({
   onLeftPress,
   onRightPress,
 }) => {
+  const { cart } = useDynamicSliceSelector(['cart']);
+  
   return (
     <View style={styles.rootContainer}>
       <TouchableOpacity style={styles.leftContainer} onPress={onLeftPress}>
@@ -34,6 +38,9 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({
       </TouchableOpacity>
 
       <TouchableOpacity onPress={onRightPress}>
+        <View style={styles.cartItemCountContainer}>
+          <Text style={styles.cartItemCountText}>{countCartItem(cart?.cartList)}</Text>
+        </View>
         <ShoppingCart size={sR * 2.6} color={THEME} variant={"Bulk"} />
       </TouchableOpacity>
     </View>
@@ -69,5 +76,21 @@ const styles = StyleSheet.create({
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     color: FLINT_STONE,
     fontSize: sR * 1.2,
+  },
+  cartItemCountContainer: {
+    height: sR * 1.2,
+    width: sR * 1.2,
+    borderRadius: sR,
+    position: "absolute",
+    zIndex: 1,
+    right: 0,
+    backgroundColor: RED_DOOR,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  cartItemCountText: {
+    fontFamily: PROXIMA_NOVA_SEMIBOLD,
+    color: WHITE,
+    fontSize: sR,
   },
 });

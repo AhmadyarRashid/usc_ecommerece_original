@@ -49,20 +49,21 @@ const ProductDetailsScreen: React.FC = () => {
         text1: "Error",
         text2: `Product not found!`,
       });
+      
       return;
     }
   
     const existingItem = cart.cartList.find(item => item.id === productByID.id);
     const newCount = existingItem ? existingItem.count + count : count;
   
-    if (newCount > productByID.qty_available) {
-      displayToast({
-        type: "error",
-        text1: "Error",
-        text2: `Cannot add more than available quantity!`,
-      });
-      return;
-    }
+    // if (newCount > productByID.qty_available) {
+    //   displayToast({
+    //     type: "error",
+    //     text1: "Error",
+    //     text2: `Cannot add more than available quantity!`,
+    //   });
+    //   return;
+    // }
   
     const updatedCartList = existingItem
       ? cart.cartList.map(item =>

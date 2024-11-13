@@ -5,7 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "metro": "npx react-native start --reset-cache",
+    "start": "npx react-native start --reset-cache",
     "test": "jest",
     "lint": "eslint .",
     "adb": "adb reverse tcp:8081 tcp:8081",

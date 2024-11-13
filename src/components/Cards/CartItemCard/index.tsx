@@ -31,15 +31,18 @@ import images from "../../../constants/images";
 
 interface CartItemCardProps {
   data: {
-    name: string;
-    discountedPrice: string;
-    originalPrice: string;
-    quantity: string;
+    // id: number;
+    // name: string;
+    // list_price: number;
+    // qty_available: number;
+    // categ_id: [number, string]; // Tuple containing a number and a string
+    // image_128: boolean | string; // Can be false or a URL string
+    // count: number;
   };
-  onPress: () => void;
+  onRemoveItemPress: () => void;
 }
 
-const CartItemCard: React.FC<CartItemCardProps> = ({ data, onPress }) => {
+const CartItemCard: React.FC<CartItemCardProps> = ({ data, onRemoveItemPress }) => {
   return (
     <View style={styles.rootContainer}>
       <View style={styles.leftContainer}>
@@ -60,21 +63,21 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ data, onPress }) => {
 
           <View style={styles.productCostContainer}>
             <Text style={styles.discountedPriceText}>
-              {data.discountedPrice}
+              {data.list_price}
             </Text>
 
             <HorizontalSpace w={2} />
 
-            <Text style={styles.originalPriceText}>{data.originalPrice}</Text>
+            <Text style={styles.originalPriceText}>{data.list_price}</Text>
           </View>
 
           <VerticalSpace h={0.6} />
 
-          <Text style={styles.qtyText}>{data.quantity}</Text>
+          <Text style={styles.qtyText}>{data.count}x Items</Text>
         </View>
       </View>
 
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onRemoveItemPress}>
         <Trash size={sR * 1.4} color={THEME} variant="Bold" />
       </TouchableOpacity>
     </View>
