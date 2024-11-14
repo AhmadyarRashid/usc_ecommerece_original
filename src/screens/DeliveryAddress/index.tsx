@@ -106,12 +106,6 @@ const DeliveryAddressScreen: React.FC = () => {
           addressList: response?.data?.result?.address || [],
         })
       );
-    } else {
-      displayToast({
-        type: "error",
-        text1: "Error",
-        text2: response?.data?.result?.error || "Failed to fetch addresses",
-      });
     }
   };
 

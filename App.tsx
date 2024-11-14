@@ -21,7 +21,7 @@ const App = () => {
               persistor={persistor}
             >
               <AppNavigation />
-              <NetworkLogger />
+              {/* <NetworkLogger /> */}
               <Toast />
             </PersistGate>
           </Provider>
