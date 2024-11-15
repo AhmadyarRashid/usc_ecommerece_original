@@ -31,6 +31,7 @@ export const scheduledNavigation = (callback: () => void) => {
   }, 2000);
 };
 
-export const countCartItem = (cart:[]): number => {
-  return cart.length;
+export const countCartItem = (cartList: string[] | undefined): number => {
+  if (!cartList) return 0
+  return cartList.length;
 };

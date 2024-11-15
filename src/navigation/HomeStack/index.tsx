@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useMemo } from "react";
 
 import HomeScreen from "../../screens/Home";
 import ProductDetailsScreen from "../../screens/ProductDetails";
@@ -7,15 +8,15 @@ import DeliveryAddressScreen from "../../screens/DeliveryAddress";
 import ConfirmAddressScreen from "../../screens/ConfirmAddress";
 
 import useTabBarVisibility from "../../hooks/useTabBarVisibility";
+import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
 
 const Stack = createNativeStackNavigator();
 
 const HomeStack: React.FC = () => {
   useTabBarVisibility();
-
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName={'Home'}
       screenOptions={{
         headerShown: false,
       }}

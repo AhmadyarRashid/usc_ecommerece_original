@@ -12,6 +12,7 @@ import {
 } from "../../../constants/fonts";
 import useDynamicSliceSelector from "../../../hooks/useDynamicSliceSelector";
 import { countCartItem } from "../../../constants/functions";
+import { isEmpty } from "lodash";
 
 interface HeaderSecondaryProps {
   onLeftPress?: () => void;
@@ -22,8 +23,8 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({
   onLeftPress,
   onRightPress,
 }) => {
-  const { cart } = useDynamicSliceSelector(['cart']);
-  
+  const { cart, address } = useDynamicSliceSelector(["cart", "address"]);
+
   return (
     <View style={styles.rootContainer}>
       <TouchableOpacity style={styles.leftContainer} onPress={onLeftPress}>
@@ -31,15 +32,23 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({
 
         <HorizontalSpace w={2} />
 
-        <View>
-          <Text style={styles.deliveryAddressText}>Delivery Address</Text>
-          <Text style={styles.actualAddressText}>92 High Street, London ▼</Text>
-        </View>
+        {!isEmpty(address?.addressList) ? (
+          <View>
+            <Text style={styles.deliveryAddressText}>
+              {address?.addressList[0].name}
+            </Text>
+            <Text style={styles.actualAddressText}>
+              {address?.addressList[0].street}, {address?.addressList[0].city} ▼
+            </Text>
+          </View>
+        ) : null}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={onRightPress}>
         <View style={styles.cartItemCountContainer}>
-          <Text style={styles.cartItemCountText}>{countCartItem(cart?.cartList)}</Text>
+          <Text style={styles.cartItemCountText}>
+            {countCartItem(cart?.cartList || [])}
+          </Text>
         </View>
         <ShoppingCart size={sR * 2.6} color={THEME} variant={"Bulk"} />
       </TouchableOpacity>

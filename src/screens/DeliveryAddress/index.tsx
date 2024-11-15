@@ -22,7 +22,8 @@ import {
   MoreCircle,
 } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import useStateRef from "react-usestateref";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -49,32 +50,26 @@ import { AppNavigationProps } from "../../constants/navigationTypes";
 import useApiHook from "../../hooks/rest/useApi";
 import { setAddressFields } from "../../redux/slices/address";
 import { displayToast } from "../../constants/functions";
-import { createDynamicSelector } from "../../redux/selectors";
-import { RootState } from "../../redux/store";
 import { latitudeDelta, longitudeDelta } from "../../constants/misc";
 import useToggle from "../../hooks/useToggle";
+import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
 
 const DeliveryAddressScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const navigation = useNavigation<AppNavigationProps>();
   const snapPoints = useMemo(() => ["32%", "80%"], []);
   const { handleRestApi, restApiLoading } = useApiHook();
-  const selectAuthAddressOrder = createDynamicSelector([
-    "auth",
-    "address",
-  ] as const);
-  const { auth, address } = useSelector((state: RootState) =>
-    selectAuthAddressOrder(state)
-  );
+  const { auth, address } = useDynamicSliceSelector(["auth", "address"]);
   const dispatch = useDispatch();
-  const [ actionModal, toggleActionModal ] = useToggle(false);
-  
+  const [actionModal, toggleActionModal] = useToggle(false);
+
   const [region, setRegion] = useState<Region>({
     latitudeDelta,
     longitudeDelta,
     latitude: 25.1948475,
     longitude: 55.2682899,
   });
+  const [id, setId, idRef] = useStateRef(null);
 
   useEffect(() => {
     getAddresses();
@@ -109,6 +104,36 @@ const DeliveryAddressScreen: React.FC = () => {
     }
   };
 
+  const deleteAddress = async () => {
+    const data = {
+      auth_token: auth.accessToken,
+      login: auth.userName,
+      id: idRef.current,
+    };
+
+    const response = await handleRestApi({
+      method: "post",
+      url: "user_address_delete",
+      data,
+    });
+
+    if (response?.data?.result?.status === 200) {
+      dispatch(
+        setAddressFields({
+          addressList: address?.addressList.filter(item => item.id !== idRef.current),
+        })
+      );
+
+      displayToast({
+        type: "success",
+        text1: "Success",
+        text2: `Selected address has been successfully deleted!`,
+      });
+
+      toggleActionModal()
+    }
+  };
+
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
@@ -123,9 +148,12 @@ const DeliveryAddressScreen: React.FC = () => {
 
       <AddressActionModal
         isVisible={actionModal}
-        onClose={toggleActionModal}
+        onClose={() => {
+          setId(null);
+          toggleActionModal();
+        }}
         handleUpdate={() => alert("update")}
-        handleDelete={() => alert("delete")}
+        handleDelete={deleteAddress}
       />
 
       <HeaderPrimary label="Delivery Address" onPress={goBack} />
@@ -203,7 +231,12 @@ const DeliveryAddressScreen: React.FC = () => {
 
                     <HorizontalSpace w={2} />
 
-                    <TouchableOpacity onPress={toggleActionModal}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setId(item?.id);
+                        toggleActionModal();
+                      }}
+                    >
                       <MoreCircle size={sR * 1.6} color={THEME} />
                     </TouchableOpacity>
                   </View>

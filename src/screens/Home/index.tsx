@@ -6,10 +6,11 @@ import {
   View,
   ListRenderItem,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { AxiosRequestHeaders } from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { isEmpty } from "lodash";
 
 import HeaderSecondary from "../../components/Header/HeaderSecondary";
 import SearchBox from "../../components/SearchBox";
@@ -17,6 +18,7 @@ import SectionTitleWithAction from "./components/SectionTitleWithAction";
 import CategoriesCard from "../../components/Cards/CategoriesCard";
 import ProductsCard from "../../components/Cards/ProductsCard";
 import VerticalSpace from "../../components/VerticalSpace";
+import Loader from "../../components/Loader";
 
 import {
   AMBROSIA_IVORY,
@@ -33,6 +35,7 @@ import useApiHook from "../../hooks/rest/useApi";
 import { setProductFields } from "../../redux/slices/product";
 import { RootState } from "../../redux/store";
 import { setCategoryFields } from "../../redux/slices/category";
+import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
 
 // Type for Category Data
 interface CategoryData {
@@ -78,6 +81,14 @@ const HomeScreen = () => {
   const { handleRestApi, restApiLoading } = useApiHook();
   const products = useSelector((state: RootState) => state.product.productList);
   const dispatch = useDispatch();
+  const {address  } = useDynamicSliceSelector(["address"]);
+  const isFocused = useIsFocused()
+ 
+  useEffect(()=>{
+    if(isFocused && isEmpty(address?.addressList)){
+      goToDeliveryAddress()
+    }
+  },[isFocused])
 
   useEffect(() => {
     getAllProducts();
@@ -134,6 +145,10 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.rootContainer}>
+      {
+        restApiLoading && <Loader />
+      }
+
       <HeaderSecondary
         onLeftPress={goToDeliveryAddress}
         onRightPress={goToShoppingCart}
