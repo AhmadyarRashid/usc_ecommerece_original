@@ -7,7 +7,7 @@ import SolidButton from '../../components/Button/SolidButton';
 import LottieAnimation from '../../components/LottieAnimation';
 
 import {CHECK} from '../../constants/animations';
-import {sR} from '../../constants/dimensions';
+import {sR, wR} from '../../constants/dimensions';
 import {BLACK, FLINT_STONE, WHITE} from '../../constants/colors';
 import { PROXIMA_NOVA_REGULAR, PROXIMA_NOVA_SEMIBOLD } from '../../constants/fonts';
 import { AppNavigationProps } from '../../constants/navigationTypes';
@@ -16,7 +16,7 @@ const AccountCreationSuccessScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
 
   const goToAppBottomTab = useCallback(() => {
-    navigation.navigate('AppBottomTab');
+    navigation.navigate('Address');
   }, [navigation]);
 
   return (
@@ -29,15 +29,15 @@ const AccountCreationSuccessScreen: React.FC = () => {
 
       <VerticalSpace h={2} />
 
-      <Text style={styles.congratulationsText}>Congratulations!</Text>
+      <Text style={styles.congratulationsText}>You Have Been Authenticated!</Text>
 
       <VerticalSpace h={2} />
 
-      <Text style={styles.partOfUsText}>From now on, you are part of us!</Text>
+      <Text style={styles.partOfUsText}>Add your address to discover products and items that are available near you. This helps us provide a more personalized shopping experience!</Text>
 
       <VerticalSpace h={2} />
 
-      <SolidButton label={`Explore Home Page`} size={`xl`} onPress={goToAppBottomTab}/>
+      <SolidButton label={`Set Up Your Address`} size={`xl`} onPress={goToAppBottomTab}/>
     </View>
   );
 };
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal:wR*4
   },
   checkLottieAnimation:{height: sR * 12, width: sR * 12},
   congratulationsText:{
@@ -58,7 +59,8 @@ const styles = StyleSheet.create({
   partOfUsText:{
     fontFamily:PROXIMA_NOVA_REGULAR,
     color:FLINT_STONE,
-    fontSize:sR*1.2
+    fontSize:sR*1.2,
+    textAlign:"center"
   }
 });
 

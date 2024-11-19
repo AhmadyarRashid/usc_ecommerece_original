@@ -24,8 +24,8 @@ const HomeStack: React.FC = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
       <Stack.Screen name="ShoppingCart" component={ShoppingCartScreen} />
-      <Stack.Screen name="DeliveryAddress" component={DeliveryAddressScreen} />
-      <Stack.Screen name="ConfirmAddress" component={ConfirmAddressScreen} />
+      {/* <Stack.Screen name="DeliveryAddress" component={DeliveryAddressScreen} />
+      <Stack.Screen name="ConfirmAddress" component={ConfirmAddressScreen} /> */}
     </Stack.Navigator>
   );
 };

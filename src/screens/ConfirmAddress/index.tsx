@@ -2,7 +2,7 @@ import { useCallback, useRef } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Field, Formik, FormikProps } from "formik";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -21,6 +21,7 @@ import { createAddressSchema } from "../../constants/schemas";
 import { RootState } from "../../redux/store";
 import useApiHook from "../../hooks/rest/useApi";
 import { displayToast } from "../../constants/functions";
+import { setAddressFields } from "../../redux/slices/address";
 
 interface CreateAddressValues {
   name: string;
@@ -34,6 +35,50 @@ const ConfirmAddressScreen = () => {
   const formikRef = useRef<FormikProps<CreateAddressValues>>(null);
   const auth = useSelector((state: RootState) => state.auth);
   const { handleRestApi, restApiLoading } = useApiHook();
+  const dispatch = useDispatch();
+
+  // const createAddress = async (values: CreateAddressValues) => {
+  //   const data = {
+  //     auth_token: auth.accessToken,
+  //     login: auth.userName,
+  //     latitude: "",
+  //     longitude: "",
+  //     name: values.name,
+  //     street: values.street,
+  //     city: values.city,
+  //     phone: "",
+  //     mobile: auth.userName,
+  //     notes: values.additionalNotes,
+  //   };
+
+  //   const response = await handleRestApi({
+  //     method: "post",
+  //     url: "user_address_create",
+  //     data,
+  //   });
+
+  //   if (response?.data?.result?.status === 200) {
+  //     getAddresses();
+  //   }
+  // };
+
+  // const getAddresses = async () => {
+  //   const response = await handleRestApi({
+  //     method: "post",
+  //     url: "user_address_view_all",
+  //     data: { auth_token: auth?.accessToken, login: auth?.userName },
+  //   });
+
+  //   const result = response?.data?.result;
+
+  //   if (result?.status === 200) {
+  //     const addressList = result?.address || [];
+
+  //     dispatch(setAddressFields({ addressList }));
+
+  //     goToAppBottomTab();
+  //   }
+  // };
 
   const createAddress = async (values: CreateAddressValues) => {
     const data = {
@@ -55,23 +100,39 @@ const ConfirmAddressScreen = () => {
       data,
     });
 
-    if (response?.data?.result?.status === 200) {
-      goToHome();
-    } else {
-      displayToast({
-        type: "error",
-        text1: "Error",
-        text2: response?.data?.result?.error || "Failed to fetch addresses",
-      });
+    if (isResponseSuccess(response)) {
+      await fetchAndDispatchAddresses();
     }
   };
+  
+  const fetchAndDispatchAddresses = async () => {
+    const response = await handleRestApi({
+      method: "post",
+      url: "user_address_view_all",
+      data: { auth_token: auth.accessToken, login: auth.userName },
+    });
+
+    if (isResponseSuccess(response)) {
+      const addressList = response?.data?.result?.address || [];
+      dispatch(setAddressFields({ addressList }));
+      goToAppBottomTab();
+    }
+  };
+  
+  const isResponseSuccess = (response: any): boolean => {
+    return response?.data?.result?.status === 200;
+  };
+  
 
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
-  const goToHome = useCallback(() => {
-    navigation.navigate("Home");
+  const goToAppBottomTab = useCallback(() => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'AppBottomTab' }]
+ })
   }, [navigation]);
 
   const renderInputField = (

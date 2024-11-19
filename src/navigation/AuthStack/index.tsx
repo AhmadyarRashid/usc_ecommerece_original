@@ -5,12 +5,14 @@ import RegisterScreen from "../../screens/Register";
 import VerifyPhoneScreen from "../../screens/VerifyPhone";
 import AccountCreationSuccessScreen from "../../screens/AccountCreationSuccess";
 import AppBottomTab from "../AppBottomTab";
+import AddressStack from "../AddressStack";
+
 import { RootState } from "../../redux/store";
 
 const Stack = createNativeStackNavigator();
 
 const AuthStack: React.FC = () => {
-  const auth = useSelector((state: RootState) => state.auth);  
+  const auth = useSelector((state: RootState) => state.auth);
 
   return (
     <Stack.Navigator
@@ -26,6 +28,7 @@ const AuthStack: React.FC = () => {
         component={AccountCreationSuccessScreen}
       />
       <Stack.Screen name="AppBottomTab" component={AppBottomTab} />
+      <Stack.Screen name="Address" component={AddressStack} />
     </Stack.Navigator>
   );
 };

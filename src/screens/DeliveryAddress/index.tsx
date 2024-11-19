@@ -1,6 +1,5 @@
 import React, {
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -15,9 +14,6 @@ import {
 import MapView, { Region } from "react-native-maps";
 import BottomSheet from "@gorhom/bottom-sheet";
 import {
-  Edit2,
-  Gps,
-  Lifebuoy,
   Location,
   MoreCircle,
 } from "iconsax-react-native";
@@ -66,42 +62,15 @@ const DeliveryAddressScreen: React.FC = () => {
   const [region, setRegion] = useState<Region>({
     latitudeDelta,
     longitudeDelta,
-    latitude: 25.1948475,
-    longitude: 55.2682899,
+    latitude: 33.6995,
+    longitude: 73.0363,
   });
   const [id, setId, idRef] = useStateRef(null);
-
-  useEffect(() => {
-    getAddresses();
-  }, []);
 
   const onRegionChange = (region: Region) => {
     console.log(region);
 
     setRegion(region);
-  };
-
-  const getAddresses = async () => {
-    if (!auth?.accessToken || !auth?.userName) return;
-
-    const data = {
-      auth_token: auth.accessToken,
-      login: auth.userName,
-    };
-
-    const response = await handleRestApi({
-      method: "post",
-      url: "user_address_view_all",
-      data,
-    });
-
-    if (response?.data?.result?.status === 200) {
-      dispatch(
-        setAddressFields({
-          addressList: response?.data?.result?.address || [],
-        })
-      );
-    }
   };
 
   const deleteAddress = async () => {
@@ -120,7 +89,9 @@ const DeliveryAddressScreen: React.FC = () => {
     if (response?.data?.result?.status === 200) {
       dispatch(
         setAddressFields({
-          addressList: address?.addressList.filter(item => item.id !== idRef.current),
+          addressList: address?.addressList.filter(
+            (item) => item.id !== idRef.current
+          ),
         })
       );
 
@@ -130,7 +101,7 @@ const DeliveryAddressScreen: React.FC = () => {
         text2: `Selected address has been successfully deleted!`,
       });
 
-      toggleActionModal()
+      toggleActionModal();
     }
   };
 
@@ -177,7 +148,7 @@ const DeliveryAddressScreen: React.FC = () => {
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.bottomSheetRootContainer}>
-            <TouchableOpacity style={styles.currentLocationButton}>
+            {/* <TouchableOpacity style={styles.currentLocationButton}>
               <View style={styles.gpsContainer}>
                 <Gps size={sR * 1.6} color={WHITE} variant="Bold" />
               </View>
@@ -189,7 +160,7 @@ const DeliveryAddressScreen: React.FC = () => {
               </Text>
             </TouchableOpacity>
 
-            <VerticalSpace h={2} />
+            <VerticalSpace h={2} /> */}
 
             {address?.addressList?.length === 0 ? (
               <View style={styles.addressNotFoundContainer}>

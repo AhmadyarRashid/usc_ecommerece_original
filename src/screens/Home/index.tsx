@@ -85,9 +85,9 @@ const HomeScreen = () => {
   const isFocused = useIsFocused()
  
   useEffect(()=>{
-    if(isFocused && isEmpty(address?.addressList)){
-      goToDeliveryAddress()
-    }
+    // if(isFocused && isEmpty(address?.addressList)){
+    //   goToDeliveryAddress()
+    // }
   },[isFocused])
 
   useEffect(() => {
@@ -131,7 +131,7 @@ const HomeScreen = () => {
   );
 
   const goToDeliveryAddress = useCallback(() => {
-    navigation.navigate("DeliveryAddress");
+    navigation.navigate("Address");
   }, [navigation]);
 
   // Render method for Categories

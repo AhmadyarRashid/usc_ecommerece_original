@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { AxiosRequestHeaders } from "axios";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -19,6 +20,8 @@ import { displayToast, validateOTP } from "../../constants/functions";
 import { RootState } from "../../redux/store";
 import useApiHook from "../../hooks/rest/useApi";
 import { setAuthFields } from "../../redux/slices/auth";
+import { setAddressFields } from "../../redux/slices/address";
+import { isEmpty } from "lodash";
 
 const VerifyPhoneScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
@@ -35,6 +38,7 @@ const VerifyPhoneScreen: React.FC = () => {
         text1: "Error",
         text2: "Invalid OTP",
       });
+
       return;
     }
 
@@ -43,43 +47,51 @@ const VerifyPhoneScreen: React.FC = () => {
       otp,
     };
 
-    try {
-      const response = await handleRestApi({
-        method: "post",
-        url: `validate_otp`,
-        data,
-        headers: { Authorization: "none" } as AxiosRequestHeaders,
-      });
+    const response = await handleRestApi({
+      method: "post",
+      url: `validate_otp`,
+      data,
+      headers: { Authorization: "none" } as AxiosRequestHeaders,
+    });
 
-      if (response?.data?.result?.status === 200) {
-        const { auth_token, user_name } = response.data.result;
+    if (response?.data?.result?.status === 200) {
+      const { auth_token, user_name } = response.data.result;
 
-        dispatch(
-          setAuthFields({
-            accessToken: auth_token,
-            userName: user_name,
-          })
-        );
+      dispatch(
+        setAuthFields({
+          accessToken: auth_token,
+          userName: user_name,
+        })
+      );
 
-        goToAccountCreationSuccess();
-      } else {
-        displayToast({
-          type: "error",
-          text1: "Error",
-          text2: response.data?.result?.error || "An unknown error occurred",
-        });
-      }
-    } catch (error) {
-      displayToast({
-        type: "error",
-        text1: "Error",
-        text2: "Failed to verify OTP. Please try again later.",
-      });
+      getAddresses(auth_token, user_name);
+    }
+  };
+
+  const getAddresses = async (auth_token: string, user_name: string) => {
+    const response = await handleRestApi({
+      method: "post",
+      url: "user_address_view_all",
+      data: { auth_token, login: user_name },
+    });
+
+    const result = response?.data?.result;
+
+    if (result?.status === 200) {
+      const addressList = result?.address || [];
+
+      dispatch(setAddressFields({ addressList }));
+
+      isEmpty(addressList) ? goToAccountCreationSuccess() : goToAppBottomTab();
     }
   };
 
   const goToAccountCreationSuccess = useCallback(() => {
     navigation.navigate("AccountCreationSuccess");
+  }, [navigation]);
+
+  const goToAppBottomTab = useCallback(() => {
+    navigation.navigate("AppBottomTab");
   }, [navigation]);
 
   const goBack = useCallback(() => {
