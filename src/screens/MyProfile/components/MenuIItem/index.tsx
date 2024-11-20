@@ -10,11 +10,12 @@ import { PROXIMA_NOVA_REGULAR } from "../../../../constants/fonts";
 interface MenuItemProps {
   label: string;
   icon: React.ReactNode;
+  onPress?: () => void;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ label, icon }) => {
+const MenuItem: React.FC<MenuItemProps> = ({ label, icon,onPress }) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       {icon}
 
       <HorizontalSpace w={4} />

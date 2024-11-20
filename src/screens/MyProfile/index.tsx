@@ -34,12 +34,18 @@ import {
   PROXIMA_NOVA_SEMIBOLD,
   PROXIMA_NOVA_SEMIBOLD_ITALIC,
 } from "../../constants/fonts";
+import { Linking } from "react-native";
 
 const ICON_SIZE = sR * 1.8;
 const ICON_COLOR = FLINT_STONE;
+const WEBURL = `https://usc.org.pk/`
 
 const MyProfileScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
+
+  const openURL = (URL : string)=>{
+    Linking.openURL(URL)
+  }
 
   const goBack = useCallback(() => {
     navigation.goBack();
@@ -47,7 +53,7 @@ const MyProfileScreen: React.FC = () => {
 
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label="Menu" onPress={goBack} />
+      <HeaderPrimary label="Explore" onPress={goBack} />
 
       <View style={styles.scrollContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -58,8 +64,7 @@ const MyProfileScreen: React.FC = () => {
           <VerticalSpace h={2} />
 
           <Text style={styles.sectionHeaderText}>PROFILE</Text>
-
-          <View style={styles.sectionContainer}>
+          <View style={{ ...styles.sectionContainer, paddingVertical: hR * 2 }}>
             <View style={styles.profileDetailsContainer}>
               <Image source={images.PROFILE} style={styles.profileImage} />
 
@@ -111,13 +116,15 @@ const MyProfileScreen: React.FC = () => {
             <MenuItem
               label="Privacy Policy"
               icon={<ShieldTick size={ICON_SIZE} color={ICON_COLOR} />}
+              onPress={()=>openURL(WEBURL)}
             />
 
             <HorizontalLine />
 
             <MenuItem
-              label="Terms & Condition"
+              label="Terms & Conditions"
               icon={<Document size={ICON_SIZE} color={ICON_COLOR} />}
+              onPress={()=>openURL(WEBURL)}
             />
 
             <HorizontalLine />
@@ -125,6 +132,7 @@ const MyProfileScreen: React.FC = () => {
             <MenuItem
               label="Visit Our Website"
               icon={<Global size={ICON_SIZE} color={ICON_COLOR} />}
+              onPress={()=>openURL(WEBURL)}
             />
 
             <HorizontalLine />
@@ -181,7 +189,6 @@ const styles = StyleSheet.create({
   sectionContainer: {
     paddingHorizontal: wR * 4,
     backgroundColor: WHITE_SMOKE,
-    paddingVertical: hR * 2,
   },
   profileDetailsContainer: {
     flexDirection: "row",

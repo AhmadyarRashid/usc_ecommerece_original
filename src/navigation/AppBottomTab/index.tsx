@@ -1,7 +1,7 @@
 import React, { createRef, useCallback } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { CurvedBottomBar } from "react-native-curved-bottom-bar";
-import { Add, DirectboxReceive, Home2, Profile, Setting } from "iconsax-react-native";
+import { Add, DirectboxReceive, Home2, Profile, SearchNormal1, Setting } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import VerticalSpace from "../../components/VerticalSpace";
@@ -84,7 +84,7 @@ const AppTabs: React.FC = () => {
         style={styles.circleButton}
         onPress={goToMyProfile}
       >
-        <Profile size={sR * 2} color={WHITE} />
+        <SearchNormal1 size={sR * 2} color={WHITE} />
       </TouchableOpacity>
     );
   };
