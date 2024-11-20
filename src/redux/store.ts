@@ -16,25 +16,41 @@ export type RootState = {
   product: ProductState;
   category: CategoryState;
   address: AddressState;
-  order:OrderState;
-  cart:CartState
+  order: OrderState;
+  cart: CartState;
 };
 
-const createRootReducer = () =>
-  combineReducers({
+const createRootReducer = () => {
+  const combinedReducer = combineReducers({
     auth: authReducer,
     contact: contactReducer,
     product: productReducer,
     category: categoryReducer,
     address: addressReducer,
     order: orderReducer,
-    cart:cartReducer
+    cart: cartReducer,
   });
+
+  return (state: RootState | undefined, action: any) => {
+    if (action.type === "RESET_APP") {
+      state = undefined;
+    }
+    return combinedReducer(state, action);
+  };
+};
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["auth", "contact", "product", "category", "address","order","cart"],
+  whitelist: [
+    "auth",
+    "contact",
+    "product",
+    "category",
+    "address",
+    "order",
+    "cart",
+  ],
 };
 
 const persistedReducer = persistReducer(persistConfig, createRootReducer());

@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View,Linking } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useCallback } from "react";
 import {
@@ -34,7 +34,7 @@ import {
   PROXIMA_NOVA_SEMIBOLD,
   PROXIMA_NOVA_SEMIBOLD_ITALIC,
 } from "../../constants/fonts";
-import { Linking } from "react-native";
+import { store } from "../../redux/store";
 
 const ICON_SIZE = sR * 1.8;
 const ICON_COLOR = FLINT_STONE;
@@ -45,6 +45,15 @@ const MyProfileScreen: React.FC = () => {
 
   const openURL = (URL : string)=>{
     Linking.openURL(URL)
+  }
+
+  const logout = ()=>{
+    store.dispatch({ type: "RESET_APP" });
+
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Register' }]
+ })
   }
 
   const goBack = useCallback(() => {
@@ -81,6 +90,7 @@ const MyProfileScreen: React.FC = () => {
                 <TextButton
                   label="Sign Out"
                   customLabelStyle={{ color: RED_DOOR }}
+                  onPress={logout}
                 />
               </View>
             </View>
