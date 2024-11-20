@@ -12,7 +12,8 @@ export type StackParamList = {
   OrderDetails: undefined;
   DeliveryAddress: undefined;
   ConfirmAddress: undefined;
-  Address:undefined
+  Address:undefined;
+  Profile:undefined
 };
 
 export type AppNavigationProps = NativeStackNavigationProp<StackParamList>;

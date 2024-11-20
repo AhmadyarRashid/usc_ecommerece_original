@@ -6,6 +6,7 @@ import VerifyPhoneScreen from "../../screens/VerifyPhone";
 import AccountCreationSuccessScreen from "../../screens/AccountCreationSuccess";
 import AppBottomTab from "../AppBottomTab";
 import AddressStack from "../AddressStack";
+import ProfileStack from "../ProfileStack";
 
 import { RootState } from "../../redux/store";
 
@@ -29,6 +30,7 @@ const AuthStack: React.FC = () => {
       />
       <Stack.Screen name="AppBottomTab" component={AppBottomTab} />
       <Stack.Screen name="Address" component={AddressStack} />
+      <Stack.Screen name="Profile" component={ProfileStack} />
     </Stack.Navigator>
   );
 };

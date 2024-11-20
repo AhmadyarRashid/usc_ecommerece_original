@@ -1,7 +1,8 @@
-import React, { createRef } from "react";
+import React, { createRef, useCallback } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { CurvedBottomBar } from "react-native-curved-bottom-bar";
-import { Add, DirectboxReceive, Home2 } from "iconsax-react-native";
+import { Add, DirectboxReceive, Home2, Profile, Setting } from "iconsax-react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import VerticalSpace from "../../components/VerticalSpace";
 
@@ -15,6 +16,7 @@ import {
 } from "../../constants/colors";
 import { hR, sR } from "../../constants/dimensions";
 import { PROXIMA_NOVA_SEMIBOLD } from "../../constants/fonts";
+import { AppNavigationProps } from "../../constants/navigationTypes";
 
 const ICON_SIZE = sR * 1.8;
 export const tabBarRef = createRef();
@@ -26,6 +28,9 @@ interface TabItemProps {
 }
 
 const AppTabs: React.FC = () => {
+
+  const navigation = useNavigation<AppNavigationProps>()
+
   const tabItem = ({ routeName, selectedTab, navigate }: TabItemProps) => {
     const iconConfig: {
       [key: string]: {
@@ -77,12 +82,16 @@ const AppTabs: React.FC = () => {
     return (
       <TouchableOpacity
         style={styles.circleButton}
-        onPress={() => alert(`place order screen in-progress`)}
+        onPress={goToMyProfile}
       >
-        <Add size={sR * 2} color={WHITE} />
+        <Profile size={sR * 2} color={WHITE} />
       </TouchableOpacity>
     );
   };
+
+  const goToMyProfile = useCallback(() => {
+    navigation.navigate("Profile");
+  }, [navigation]);
 
   return (
     <View style={styles.rootContainer}>
@@ -102,7 +111,6 @@ const AppTabs: React.FC = () => {
           },
           shadowOpacity: 0.22,
           shadowRadius: 2.22,
-
           elevation: 3,
         }}
       >

@@ -36,7 +36,6 @@ const ShoppingCartScreen: React.FC = () => {
     });
   };
   
-
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
   rootContainer: {
     backgroundColor: WHITE,
     flex: 1,
-  } as ViewStyle,
+  } ,
   flatListContentContainer: {
     paddingHorizontal: wR * 4,
   },
