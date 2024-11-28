@@ -32,6 +32,43 @@ export const scheduledNavigation = (callback: () => void) => {
 };
 
 export const countCartItem = (cartList: string[] | undefined): number => {
-  if (!cartList) return 0
+  if (!cartList) return 0;
   return cartList.length;
+};
+
+export const calculateOrderCost = (
+  cartList: string[] | undefined
+): {
+  subtotal: number;
+  standardDelivery: number;
+  platformFees: number;
+  vat: number;
+  grandTotal: number;
+} => {
+  if (!cartList || cartList.length === 0) {
+    return {
+      subtotal: 0,
+      standardDelivery: 0,
+      platformFees: 0,
+      vat: 0,
+      grandTotal: 0,
+    };
+  }
+
+  const subtotal = cartList.reduce((total, item) => {
+    return total + item.list_price * item.count;
+  }, 0);
+
+  const standardDelivery = 150;
+  const platformFees = 12;
+  const vat = 250;
+  const grandTotal = subtotal + standardDelivery + platformFees + vat;
+
+  return {
+    subtotal,
+    standardDelivery,
+    platformFees,
+    vat,
+    grandTotal,
+  };
 };

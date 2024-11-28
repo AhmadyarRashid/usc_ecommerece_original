@@ -36,6 +36,7 @@ import { setProductFields } from "../../redux/slices/product";
 import { RootState } from "../../redux/store";
 import { setCategoryFields } from "../../redux/slices/category";
 import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
+import { setAddressFields } from "../../redux/slices/address";
 
 // Type for Category Data
 interface CategoryData {
@@ -81,14 +82,14 @@ const HomeScreen = () => {
   const { handleRestApi, restApiLoading } = useApiHook();
   const products = useSelector((state: RootState) => state.product.productList);
   const dispatch = useDispatch();
-  const {address  } = useDynamicSliceSelector(["address"]);
-  const isFocused = useIsFocused()
- 
-  useEffect(()=>{
+  const { address } = useDynamicSliceSelector(["address"]);
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
     // if(isFocused && isEmpty(address?.addressList)){
     //   goToDeliveryAddress()
     // }
-  },[isFocused])
+  }, [isFocused]);
 
   useEffect(() => {
     getAllProducts();
@@ -119,6 +120,10 @@ const HomeScreen = () => {
     }
   };
 
+  const clearSelectedAddress = () => {
+    dispatch(setAddressFields({ selectedAddress: null }));
+  };
+
   const goToShoppingCart = useCallback(() => {
     navigation.navigate("ShoppingCart");
   }, [navigation]);
@@ -145,13 +150,14 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.rootContainer}>
-      {
-        restApiLoading && <Loader />
-      }
+      {restApiLoading && <Loader />}
 
       <HeaderSecondary
         onLeftPress={goToDeliveryAddress}
-        onRightPress={goToShoppingCart}
+        onRightPress={() => {
+          clearSelectedAddress();
+          goToShoppingCart();
+        }}
       />
 
       <ScrollView
