@@ -72,3 +72,23 @@ export const calculateOrderCost = (
     grandTotal,
   };
 };
+
+export const addToCart = (cartList: any, idToAdd: number) => {
+  return cartList.map((item: any) =>
+    item.id === idToAdd ? { ...item, count: item.count + 1 } : item
+  );
+};
+
+export const removeFromCart = (cartList: any, idToRemove: number) => {
+  return cartList
+    .map((item: any) => {
+      if (item.id === idToRemove) {
+        if (item.count <= 1) {
+          return null;
+        }
+        return { ...item, count: item.count - 1 };
+      }
+      return item;
+    })
+    .filter((item: any) => item !== null);
+};

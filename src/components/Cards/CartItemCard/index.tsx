@@ -1,6 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Trash } from "iconsax-react-native";
+import { AddCircle, MinusCirlce } from "iconsax-react-native";
+import { useDispatch } from "react-redux";
 
 import HorizontalSpace from "../../HorizontalSpace";
 import VerticalSpace from "../../VerticalSpace";
@@ -19,20 +20,32 @@ import {
 } from "../../../constants/colors";
 import { hR, sR, wR } from "../../../constants/dimensions";
 import images from "../../../constants/images";
-
+import useDynamicSliceSelector from "../../../hooks/useDynamicSliceSelector";
+import { setCartFields } from "../../../redux/slices/cart";
+import { addToCart, removeFromCart } from "../../../constants/functions";
 interface CartItemCardProps {
   data: {
+    id: number;
     name: string;
-    list_price: number;
+    list_price: string | number;
     count: number;
   };
-  onRemoveItemPress: () => void;
 }
 
-const CartItemCard: React.FC<CartItemCardProps> = ({
-  data: { name, list_price, count },
-  onRemoveItemPress,
-}) => {
+const CartItemCard: React.FC<CartItemCardProps> = ({ data }) => {
+  const { cart } = useDynamicSliceSelector(["cart"]);
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    dispatch(setCartFields({ cartList: addToCart(cart?.cartList, data?.id) }));
+  };
+
+  const handleRemoveFromCart = () => {
+    dispatch(
+      setCartFields({ cartList: removeFromCart(cart?.cartList, data?.id) })
+    );
+  };
+
   return (
     <View style={styles.rootContainer}>
       <View style={styles.leftContainer}>
@@ -43,25 +56,45 @@ const CartItemCard: React.FC<CartItemCardProps> = ({
             resizeMode="contain"
           />
         </View>
+
         <HorizontalSpace w={2} />
-        <View style={{ flexShrink: 1 }}>
+
+        <View style={styles.productDetails}>
           <Text style={styles.productNameText} numberOfLines={2}>
-            {name}
+            {data.name}
           </Text>
+
           <VerticalSpace h={0.6} />
+
           <View style={styles.productCostContainer}>
-            <Text style={styles.discountedPriceText}>{list_price}</Text>
+            <Text style={styles.discountedPriceText}>{data.list_price}</Text>
             <HorizontalSpace w={2} />
-            <Text style={styles.originalPriceText}>{list_price}</Text>
+            <Text style={styles.originalPriceText}>{data.list_price}</Text>
           </View>
+
           <VerticalSpace h={0.6} />
-          <Text style={styles.qtyText}>{count}x Items</Text>
+
+          <Text style={styles.qtyText}>{data.count}x Items</Text>
         </View>
       </View>
 
-      <TouchableOpacity onPress={onRemoveItemPress}>
-        <Trash size={sR * 1.4} color={THEME} variant="Bold" />
-      </TouchableOpacity>
+      <HorizontalSpace w={2} />
+
+      <View style={{ alignItems: "center" }}>
+        <TouchableOpacity onPress={handleAddToCart}>
+          <AddCircle size={sR * 2} color={THEME} variant="Bold" />
+        </TouchableOpacity>
+
+        <VerticalSpace h={1} />
+
+        <Text style={styles.countText}>{data.count}</Text>
+
+        <VerticalSpace h={1} />
+
+        <TouchableOpacity onPress={handleRemoveFromCart}>
+          <MinusCirlce size={sR * 2} color={THEME} variant="Bold" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -70,15 +103,15 @@ export default CartItemCard;
 
 const styles = StyleSheet.create({
   rootContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderWidth: 1,
     borderColor: PINBALL,
     borderRadius: sR,
     paddingHorizontal: wR * 4,
     paddingVertical: hR * 2,
     width: wR * 92,
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexDirection: "row",
     marginBottom: hR * 2,
   },
   leftContainer: {
@@ -94,6 +127,9 @@ const styles = StyleSheet.create({
   productImage: {
     height: sR * 4,
     width: sR * 4,
+  },
+  productDetails: {
+    flexShrink: 1,
   },
   productNameText: {
     fontFamily: PROXIMA_NOVA_REGULAR,
@@ -121,5 +157,9 @@ const styles = StyleSheet.create({
     fontSize: sR * 1.2,
     color: FLINT_STONE,
     opacity: 0.6,
+  },
+  countText: {
+    fontFamily: PROXIMA_NOVA_SEMIBOLD,
+    fontSize: sR * 1.2,
   },
 });
