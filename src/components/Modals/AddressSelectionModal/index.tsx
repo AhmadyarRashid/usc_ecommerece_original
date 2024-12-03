@@ -38,9 +38,9 @@ const AddressSelectionModal: React.FC<AddressSelectionModalProps> = ({
 
   const addressList = address?.addressList || [];
   const [updatedAddresses, setUpdatedAddresses] = useState(
-    addressList.map((item, index) => ({
+    addressList.map((item) => ({
       ...item,
-      isSelected: false,
+      isSelected: item.id === address?.selectedAddress?.id,
     }))
   );
 

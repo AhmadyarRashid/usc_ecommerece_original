@@ -9,11 +9,12 @@ export type StackParamList = {
   ShoppingCart: undefined;
   AppBottomTab: undefined;
   MyOrders: undefined;
-  OrderDetails: undefined;
+  OrderDetails: { orderID: number };
   DeliveryAddress: undefined;
   ConfirmAddress: undefined;
   Address:undefined;
-  Profile:undefined
+  Profile:undefined;
+  Orders:undefined
 };
 
 export type AppNavigationProps = NativeStackNavigationProp<StackParamList>;

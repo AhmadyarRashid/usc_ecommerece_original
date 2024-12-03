@@ -1,8 +1,8 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import moment from "moment";
 
 import HorizontalSpace from "../../HorizontalSpace";
 import VerticalSpace from "../../VerticalSpace";
-import HorizontalLine from "../../HorizontalLine";
 import SolidButton from "../../Button/SolidButton";
 
 import {
@@ -21,12 +21,13 @@ import {
 } from "../../../constants/fonts";
 
 interface OrdersCardProps {
-  onPress?: () => void;
+  data:any
+  onOrderPress?: () => void;
 }
 
-const OrdersCard: React.FC<OrdersCardProps> = ({ onPress }) => {
+const OrdersCard: React.FC<OrdersCardProps> = ({ data,onOrderPress }) => {
   return (
-    <TouchableOpacity style={styles.rootContainer} onPress={onPress}>
+    <TouchableOpacity style={styles.rootContainer} onPress={onOrderPress}>
       <View style={styles.orderPrimaryInfoContainer}>
         <View style={styles.orderImageContainer}>
           <Image
@@ -44,7 +45,7 @@ const OrdersCard: React.FC<OrdersCardProps> = ({ onPress }) => {
           }}
         >
           <View style={styles.orderNoAndStatusContainer}>
-            <Text style={styles.orderNoText}>Order #s7ro-34-di98</Text>
+            <Text style={styles.orderNoText}>Order #{data?.orderNumber}</Text>
 
             <View style={styles.orderStatusContainer}>
               <Text style={styles.orderStatusText}>Delivered</Text>
@@ -53,7 +54,7 @@ const OrdersCard: React.FC<OrdersCardProps> = ({ onPress }) => {
 
           <VerticalSpace h={1} />
 
-          <Text style={styles.orderDateTimeText}>January 24, 2024 | 20:40</Text>
+          <Text style={styles.orderDateTimeText}>{moment(data?.date).format('LLL')}</Text>
         </View>
       </View>
 
@@ -85,7 +86,7 @@ const OrdersCard: React.FC<OrdersCardProps> = ({ onPress }) => {
 
           <VerticalSpace h={1} />
 
-          <Text style={styles.orderSecondaryInfoValueText}>1,00,000</Text>
+          <Text style={styles.orderSecondaryInfoValueText}>{data?.totalAmount}</Text>
         </View>
       </View>
 

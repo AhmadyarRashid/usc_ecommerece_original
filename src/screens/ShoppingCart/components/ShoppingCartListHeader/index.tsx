@@ -1,9 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 import { Location } from "iconsax-react-native";
+import { isNull } from "lodash";
 
 import VerticalSpace from "../../../../components/VerticalSpace";
 import HorizontalSpace from "../../../../components/HorizontalSpace";
+import TextButton from "../../../../components/Button/TextButton";
 
 import {
   AMBROSIA_IVORY,
@@ -18,9 +20,14 @@ import {
   PROXIMA_NOVA_SEMIBOLD,
 } from "../../../../constants/fonts";
 import useDynamicSliceSelector from "../../../../hooks/useDynamicSliceSelector";
-import { isNull } from "lodash";
 
-const ShoppingCartListHeader: React.FC = () => {
+interface ShoppingCartListHeaderProps {
+  onEditPress: () => void;
+}
+
+const ShoppingCartListHeader: React.FC<ShoppingCartListHeaderProps> = ({
+  onEditPress,
+}) => {
   const { address } = useDynamicSliceSelector(["address"]);
 
   const { name = "", street = "", city = "" } = address?.selectedAddress || {};
@@ -44,18 +51,28 @@ const ShoppingCartListHeader: React.FC = () => {
 
           <VerticalSpace h={2} />
 
-          <View style={styles.deliveryAddressContainer}>
-            <Location size={sR * 2.6} color={THEME} variant="Bulk" />
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={styles.deliveryAddressContainer}>
+              <Location size={sR * 2.6} color={THEME} variant="Bulk" />
 
-            <HorizontalSpace w={2} />
+              <HorizontalSpace w={2} />
 
-            <View>
-              <Text style={styles.deliveryAddressLabelText}>{name}</Text>
+              <View>
+                <Text style={styles.deliveryAddressLabelText}>{name}</Text>
 
-              <Text style={styles.deliveryAddressValueText}>
-                {street}, {city}
-              </Text>
+                <Text style={styles.deliveryAddressValueText}>
+                  {street}, {city}
+                </Text>
+              </View>
             </View>
+
+            <TextButton label={`Adjust`} onPress={onEditPress} />
           </View>
 
           <VerticalSpace h={2} />

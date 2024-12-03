@@ -155,7 +155,7 @@ const HomeScreen = () => {
       <HeaderSecondary
         onLeftPress={goToDeliveryAddress}
         onRightPress={() => {
-          clearSelectedAddress();
+          // clearSelectedAddress();
           goToShoppingCart();
         }}
       />

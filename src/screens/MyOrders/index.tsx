@@ -59,8 +59,8 @@ const MyOrdersScreen: React.FC = () => {
     setIsDataLoaded(true);
   };
 
-  const goToOrderDetails = useCallback(() => {
-    navigation.navigate("OrderDetails");
+  const goToOrderDetails = useCallback((id) => {
+    navigation.navigate("OrderDetails",{orderID:id});
   }, [navigation]);
 
   const goBack = useCallback(() => {
@@ -104,7 +104,7 @@ const MyOrdersScreen: React.FC = () => {
         ) : (
           <FlatList
             data={order?.orderList}
-            renderItem={({ item }) => <OrdersCard onPress={goToOrderDetails} />}
+            renderItem={({ item }) => <OrdersCard data={item} onOrderPress={()=>goToOrderDetails(item?.orderID)} />}
             showsVerticalScrollIndicator={false}
             ListFooterComponent={<View style={{ height: tabBarHeight }} />}
           />

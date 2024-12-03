@@ -10,6 +10,7 @@ import ShoppingCartListHeader from "./components/ShoppingCartListHeader";
 import ShoppingCartListFooter from "./components/ShoppingCartListFooter";
 import NoContentDisplay from "../../components/NoContentDisplay";
 import AddressSelectionModal from "../../components/Modals/AddressSelectionModal";
+import Loader from "../../components/Loader";
 
 import { WHITE } from "../../constants/colors";
 import { wR } from "../../constants/dimensions";
@@ -18,12 +19,18 @@ import { setCartFields } from "../../redux/slices/cart";
 import { displayToast } from "../../constants/functions";
 import useToggle from "../../hooks/useToggle";
 import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
+import useApiHook from "../../hooks/rest/useApi";
 
 const ShoppingCartScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
-  const { cart } = useDynamicSliceSelector(["cart"]);
+  const { cart, address, auth } = useDynamicSliceSelector([
+    "cart",
+    "address",
+    "auth",
+  ]);
   const dispatch = useDispatch();
   const [locationModal, toggleLocationModal] = useToggle(false);
+  const { handleRestApi, restApiLoading } = useApiHook();
 
   const handleRemoveCartItem = (id: number) => {
     dispatch(
@@ -39,12 +46,53 @@ const ShoppingCartScreen: React.FC = () => {
     });
   };
 
+  const handlePlaceOrder = async () => {
+    const data = {
+      auth_token: auth?.accessToken,
+      login: auth?.userName,
+      product_list: cart?.cartList.map((item) => ({
+        ptid: item?.id,
+        quantity: item?.count,
+      })),
+      delivery_address_id: address?.selectedAddress?.id,
+    };
+
+    const response = await handleRestApi({
+      method: "post",
+      url: "order_create",
+      data,
+    });
+
+    if (response?.data?.result?.status === 200) {
+      dispatch(setCartFields({ cartList: [] }));
+
+      displayToast({
+        type: "success",
+        text1: "Success",
+        text2: `Order confirmed! Thank you for shopping with us`,
+      });
+
+      goToOrders();
+    }
+  };
+
+  const goToOrders = useCallback(() => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Orders" }],
+    });
+  }, [navigation]);
+
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
   return (
     <View style={styles.rootContainer}>
+      {
+        restApiLoading && <Loader />
+      }
+
       <AddressSelectionModal
         isVisible={locationModal}
         onClose={toggleLocationModal}
@@ -71,11 +119,13 @@ const ShoppingCartScreen: React.FC = () => {
           )}
           keyExtractor={(item) => item.name}
           showsVerticalScrollIndicator={false}
-          ListHeaderComponent={<ShoppingCartListHeader />}
+          ListHeaderComponent={
+            <ShoppingCartListHeader onEditPress={toggleLocationModal} />
+          }
           ListFooterComponent={
             <ShoppingCartListFooter
               onProceedCheckoutPress={toggleLocationModal}
-              onPlaceOrderPress={()=>alert('ola')}
+              onPlaceOrderPress={handlePlaceOrder}
             />
           }
           contentContainerStyle={styles.flatListContentContainer}
