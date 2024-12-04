@@ -6,3 +6,8 @@ export const createAddressSchema = Yup.object().shape({
   city: Yup.string().trim().required(`City is required`),
   additionalNotes: Yup.string().trim().required(`Note is required`),
 });
+
+export const complaintOrderSchema = Yup.object().shape({
+  title: Yup.string().trim().required(`Title is required`),
+  message: Yup.string().trim().required(`Message is required`),
+});

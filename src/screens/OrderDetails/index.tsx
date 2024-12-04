@@ -109,9 +109,9 @@ const OrderDetailsScreen: React.FC = () => {
         text2: `Your order has been canceled successfully!`,
       });
 
-      setTimeout(()=>{
-        goBack()
-      },1000)
+      setTimeout(() => {
+        goBack();
+      }, 1000);
     }
   };
 
@@ -126,6 +126,7 @@ const OrderDetailsScreen: React.FC = () => {
       <CompaintModal
         isVisible={complaintModal}
         onClose={toggleComplaintModal}
+        orderID={ORDER_ID}
       />
 
       <HeaderPrimary label="Order Details" onPress={goBack}>
