@@ -1,4 +1,11 @@
-import { Image, ScrollView, StyleSheet, Text, View,Linking } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Linking,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useCallback } from "react";
 import {
@@ -6,6 +13,7 @@ import {
   Document,
   DocumentCode2,
   Global,
+  MenuBoard,
   MessageAdd,
   ProfileAdd,
   ShieldTick,
@@ -16,7 +24,7 @@ import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
 import HorizontalSpace from "../../components/HorizontalSpace";
 import SectionDescriptionText from "./components/SectionDescriptionText";
-import MenuItem from "./components/MenuIItem";
+import MenuItem from "./components/MenuItem";
 import HorizontalLine from "../../components/HorizontalLine";
 
 import {
@@ -38,23 +46,27 @@ import { store } from "../../redux/store";
 
 const ICON_SIZE = sR * 1.8;
 const ICON_COLOR = FLINT_STONE;
-const WEBURL = `https://usc.org.pk/`
+const WEBURL = `https://usc.org.pk/`;
 
-const MyProfileScreen: React.FC = () => {
+const ExploreScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
 
-  const openURL = (URL : string)=>{
-    Linking.openURL(URL)
-  }
+  const openURL = (URL: string) => {
+    Linking.openURL(URL);
+  };
 
-  const logout = ()=>{
+  const logout = () => {
     store.dispatch({ type: "RESET_APP" });
 
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Register' }]
- })
-  }
+      routes: [{ name: "Register" }],
+    });
+  };
+
+  const goToMyComplaints = useCallback(() => {
+    navigation.navigate('MyComplaints');
+  }, [navigation]);
 
   const goBack = useCallback(() => {
     navigation.goBack();
@@ -114,6 +126,14 @@ const MyProfileScreen: React.FC = () => {
               label="Contact Us"
               icon={<CallAdd size={ICON_SIZE} color={ICON_COLOR} />}
             />
+
+            <HorizontalLine />
+
+            <MenuItem
+              label="My Complaints"
+              icon={<MenuBoard size={ICON_SIZE} color={ICON_COLOR} />}
+              onMenuItemPress={goToMyComplaints}
+            />
           </View>
 
           <SectionDescriptionText
@@ -126,7 +146,7 @@ const MyProfileScreen: React.FC = () => {
             <MenuItem
               label="Privacy Policy"
               icon={<ShieldTick size={ICON_SIZE} color={ICON_COLOR} />}
-              onPress={()=>openURL(WEBURL)}
+              onPress={() => openURL(WEBURL)}
             />
 
             <HorizontalLine />
@@ -134,7 +154,7 @@ const MyProfileScreen: React.FC = () => {
             <MenuItem
               label="Terms & Conditions"
               icon={<Document size={ICON_SIZE} color={ICON_COLOR} />}
-              onPress={()=>openURL(WEBURL)}
+              onPress={() => openURL(WEBURL)}
             />
 
             <HorizontalLine />
@@ -142,7 +162,7 @@ const MyProfileScreen: React.FC = () => {
             <MenuItem
               label="Visit Our Website"
               icon={<Global size={ICON_SIZE} color={ICON_COLOR} />}
-              onPress={()=>openURL(WEBURL)}
+              onPress={() => openURL(WEBURL)}
             />
 
             <HorizontalLine />
@@ -176,7 +196,7 @@ const MyProfileScreen: React.FC = () => {
   );
 };
 
-export default MyProfileScreen;
+export default ExploreScreen;
 
 const styles = StyleSheet.create({
   rootContainer: {

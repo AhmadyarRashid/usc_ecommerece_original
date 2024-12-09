@@ -9,6 +9,7 @@ import categoryReducer, { CategoryState } from "./slices/category";
 import addressReducer, { AddressState } from "./slices/address";
 import orderReducer, { OrderState } from "./slices/order";
 import cartReducer, { CartState } from "./slices/cart";
+import complaintReducer, { ComplaintState } from "./slices/complaint";
 
 export type RootState = {
   auth: AuthState;
@@ -18,6 +19,7 @@ export type RootState = {
   address: AddressState;
   order: OrderState;
   cart: CartState;
+  complaint: ComplaintState;
 };
 
 const createRootReducer = () => {
@@ -29,6 +31,7 @@ const createRootReducer = () => {
     address: addressReducer,
     order: orderReducer,
     cart: cartReducer,
+    complaint: complaintReducer,
   });
 
   return (state: RootState | undefined, action: any) => {
@@ -50,6 +53,7 @@ const persistConfig = {
     "address",
     "order",
     "cart",
+    "complaint",
   ],
 };
 

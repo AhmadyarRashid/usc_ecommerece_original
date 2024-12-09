@@ -75,6 +75,7 @@ const MyOrdersScreen: React.FC = () => {
       }}
     >
       {restApiLoading && <Loader />}
+      
       <HeaderPrimary label={`My Orders`} onPress={goBack} />
 
       <VerticalSpace h={2} />

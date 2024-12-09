@@ -82,15 +82,15 @@ const AppTabs: React.FC = () => {
     return (
       <TouchableOpacity
         style={styles.circleButton}
-        onPress={goToMyProfile}
+        onPress={goToExplore}
       >
         <SearchNormal1 size={sR * 2} color={WHITE} />
       </TouchableOpacity>
     );
   };
 
-  const goToMyProfile = useCallback(() => {
-    navigation.navigate("Profile");
+  const goToExplore = useCallback(() => {
+    navigation.navigate("Explore");
   }, [navigation]);
 
   return (
