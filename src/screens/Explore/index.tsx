@@ -64,8 +64,20 @@ const ExploreScreen: React.FC = () => {
     });
   };
 
+  const handleContactUs = ()=>{
+    Linking.openURL(`tel:+9234564345`)
+  }
+
+  const handleFeedback = ()=>{
+    Linking.openURL('mailto:support@example.com')
+  }
+
   const goToMyComplaints = useCallback(() => {
     navigation.navigate('MyComplaints');
+  }, [navigation]);
+
+  const goToAppInfo = useCallback(() => {
+    navigation.navigate('AppInfo');
   }, [navigation]);
 
   const goBack = useCallback(() => {
@@ -118,6 +130,7 @@ const ExploreScreen: React.FC = () => {
             <MenuItem
               label="Feedback"
               icon={<MessageAdd size={ICON_SIZE} color={ICON_COLOR} />}
+              onMenuItemPress={handleFeedback}
             />
 
             <HorizontalLine />
@@ -125,6 +138,7 @@ const ExploreScreen: React.FC = () => {
             <MenuItem
               label="Contact Us"
               icon={<CallAdd size={ICON_SIZE} color={ICON_COLOR} />}
+              onMenuItemPress={handleContactUs}
             />
 
             <HorizontalLine />
@@ -170,6 +184,7 @@ const ExploreScreen: React.FC = () => {
             <MenuItem
               label="App Info"
               icon={<DocumentCode2 size={ICON_SIZE} color={ICON_COLOR} />}
+              onMenuItemPress={goToAppInfo}
             />
 
             <HorizontalLine />

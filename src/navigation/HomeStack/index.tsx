@@ -6,6 +6,7 @@ import ProductDetailsScreen from "../../screens/ProductDetails";
 import ShoppingCartScreen from "../../screens/ShoppingCart";
 import DeliveryAddressScreen from "../../screens/DeliveryAddress";
 import ConfirmAddressScreen from "../../screens/ConfirmAddress";
+import SearchProductsScreen from "../../screens/SearchProducts";
 
 import useTabBarVisibility from "../../hooks/useTabBarVisibility";
 import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
@@ -16,7 +17,7 @@ const HomeStack: React.FC = () => {
   useTabBarVisibility();
   return (
     <Stack.Navigator
-      initialRouteName={'Home'}
+      initialRouteName={"Home"}
       screenOptions={{
         headerShown: false,
       }}
@@ -24,6 +25,7 @@ const HomeStack: React.FC = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
       <Stack.Screen name="ShoppingCart" component={ShoppingCartScreen} />
+      <Stack.Screen name="SearchProducts" component={SearchProductsScreen} />
       {/* <Stack.Screen name="DeliveryAddress" component={DeliveryAddressScreen} />
       <Stack.Screen name="ConfirmAddress" component={ConfirmAddressScreen} /> */}
     </Stack.Navigator>

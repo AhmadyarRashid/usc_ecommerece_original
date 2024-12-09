@@ -19,6 +19,7 @@ import CategoriesCard from "../../components/Cards/CategoriesCard";
 import ProductsCard from "../../components/Cards/ProductsCard";
 import VerticalSpace from "../../components/VerticalSpace";
 import Loader from "../../components/Loader";
+import SearchButton from "./components/SearchButton";
 
 import {
   AMBROSIA_IVORY,
@@ -135,6 +136,10 @@ const HomeScreen = () => {
     [navigation]
   );
 
+  const goToSearchProducts = useCallback(() => {
+    navigation.navigate("SearchProducts");
+  }, [navigation]);
+
   const goToDeliveryAddress = useCallback(() => {
     navigation.navigate("Address");
   }, [navigation]);
@@ -166,7 +171,9 @@ const HomeScreen = () => {
       >
         <VerticalSpace h={2} />
 
-        <SearchBox placeholder="Search anything you want" />
+        {/* <SearchBox placeholder="Search anything you want" /> */}
+
+        <SearchButton onSearchButtonPress={goToSearchProducts}/>
 
         <VerticalSpace h={2} />
 

@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   searchInput: {
     fontFamily: PROXIMA_NOVA_REGULAR,
     fontSize: sR * 1.2,
-    width: wR * 66,
+    width: wR * 72,
   },
 });
 
