@@ -5,7 +5,7 @@ export type StackParamList = {
   VerifyPhone: undefined;
   AccountCreationSuccess: undefined;
   Home: undefined;
-  ProductDetails: { productID: string };
+  ProductDetails: { productID: number, arrayToSearch:string };
   ShoppingCart: undefined;
   AppBottomTab: undefined;
   MyOrders: undefined;
@@ -17,7 +17,8 @@ export type StackParamList = {
   Orders: undefined;
   MyComplaints: undefined;
   AppInfo: undefined;
-  SearchProducts:undefined
+  SearchProducts:undefined;
+  ViewAllProducts:undefined
 };
 
 export type AppNavigationProps = NativeStackNavigationProp<StackParamList>;

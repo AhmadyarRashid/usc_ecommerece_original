@@ -136,6 +136,10 @@ const HomeScreen = () => {
     [navigation]
   );
 
+  const goToViewAllProducts = useCallback(() => {
+    navigation.navigate("ViewAllProducts");
+  }, [navigation]);
+
   const goToSearchProducts = useCallback(() => {
     navigation.navigate("SearchProducts");
   }, [navigation]);
@@ -191,7 +195,7 @@ const HomeScreen = () => {
 
         <VerticalSpace h={2} />
 
-        <SectionTitleWithAction title="Fresh Sale" />
+        <SectionTitleWithAction title="Fresh Sale" onViewAllPress={goToViewAllProducts} />
 
         <VerticalSpace h={2} />
 
@@ -205,7 +209,7 @@ const HomeScreen = () => {
 
         <VerticalSpace h={2} />
 
-        <SectionTitleWithAction title="Frequently Ordered" />
+        <SectionTitleWithAction title="Frequently Ordered" onViewAllPress={goToViewAllProducts}/>
 
         <VerticalSpace h={2} />
 

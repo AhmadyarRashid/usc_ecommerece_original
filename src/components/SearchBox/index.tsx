@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { StyleSheet, TextInput, View, Platform } from "react-native";
 import { SearchNormal1 } from "iconsax-react-native";
+import { debounce } from "lodash";
 
 import HorizontalSpace from "../HorizontalSpace";
 
@@ -10,16 +11,35 @@ import { PROXIMA_NOVA_REGULAR } from "../../constants/fonts";
 
 interface SearchBoxProps {
   placeholder: string;
+  onChangeText: (text: string) => void;
 }
 
-const SearchBox: React.FC<SearchBoxProps> = ({ placeholder }) => {
+const SearchBox: React.FC<SearchBoxProps> = ({ placeholder, onChangeText }) => {
+  const debouncedOnChange = useCallback(
+    debounce((text: string) => {
+      onChangeText(text);
+    }, 1000),
+    [onChangeText]
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedOnChange.cancel();
+    };
+  }, [debouncedOnChange]);
+
   return (
     <View style={styles.rootContainer}>
       <SearchNormal1 size={sR * 1.6} color={THEME} />
 
       <HorizontalSpace w={4} />
 
-      <TextInput placeholder={placeholder} style={styles.searchInput} />
+      <TextInput
+        placeholder={placeholder}
+        style={styles.searchInput}
+        onChangeText={debouncedOnChange}
+        autoCapitalize={false}
+      />
     </View>
   );
 };

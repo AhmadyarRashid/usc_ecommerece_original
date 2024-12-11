@@ -7,14 +7,15 @@ import { BLACK, FLINT_STONE } from '../../../../constants/colors';
 
 interface SectionTitleWithActionProps {
   title: string;
-  onPress?: () => void
+  onViewAllPress?: () => void
 }
 
-const SectionTitleWithAction: React.FC<SectionTitleWithActionProps> = ({ title, onPress }) => {
+const SectionTitleWithAction: React.FC<SectionTitleWithActionProps> = ({ title, onViewAllPress }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <TouchableOpacity onPress={onPress}>
+       
+      <TouchableOpacity onPress={onViewAllPress}>
         <Text style={styles.actionButtonText}>View All</Text>
       </TouchableOpacity>
     </View>

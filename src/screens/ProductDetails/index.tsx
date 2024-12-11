@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import { Image, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
+import { isUndefined } from "lodash";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -35,12 +36,20 @@ const ProductDetailsScreen: React.FC = () => {
     "product",
     "cart",
   ] as const);
-  const { product, cart } = useSelector((state: RootState) => selectAuthAddressOrder(state));
+  const { product, cart } = useSelector((state: RootState) =>
+    selectAuthAddressOrder(state)
+  );
   const dispatch = useDispatch();
 
   const [count, setCount] = useState(1);
 
-  const productByID = product?.productList.find(item => item.id === route.params.productID);
+  const productList = route?.params?.arrayToSearch
+    ? product?.searchedProductList
+    : product?.productList;
+
+  const productByID = productList?.find(
+    (item) => item.id === route?.params?.productID
+  );
 
   const addToCart = () => {
     if (!productByID) {
@@ -49,13 +58,15 @@ const ProductDetailsScreen: React.FC = () => {
         text1: "Error",
         text2: `Product not found!`,
       });
-      
+
       return;
     }
-  
-    const existingItem = cart.cartList.find(item => item.id === productByID.id);
+
+    const existingItem = cart.cartList.find(
+      (item) => item.id === productByID.id
+    );
     const newCount = existingItem ? existingItem.count + count : count;
-  
+
     // if (newCount > productByID.qty_available) {
     //   displayToast({
     //     type: "error",
@@ -64,22 +75,23 @@ const ProductDetailsScreen: React.FC = () => {
     //   });
     //   return;
     // }
-  
+
     const updatedCartList = existingItem
-      ? cart.cartList.map(item =>
+      ? cart.cartList.map((item) =>
           item.id === productByID.id ? { ...item, count: newCount } : item
         )
       : [...cart.cartList, { ...productByID, count }];
-  
+
     dispatch(setCartFields({ cartList: updatedCartList }));
-  
+
     displayToast({
       type: "success",
       text1: "Success",
-      text2: existingItem ? `Item count updated in your cart!` : `Item successfully added to your cart!`,
+      text2: existingItem
+        ? `Item count updated in your cart!`
+        : `Item successfully added to your cart!`,
     });
   };
-  
 
   const goBack = useCallback(() => {
     navigation.goBack();
@@ -134,8 +146,8 @@ const ProductDetailsScreen: React.FC = () => {
       </ScrollView>
       <CartControls
         count={count}
-        handleIncrement={() => setCount(prev => prev + 1)}
-        handleDecrement={() => setCount(prev => Math.max(prev - 1, 1))}
+        handleIncrement={() => setCount((prev) => prev + 1)}
+        handleDecrement={() => setCount((prev) => Math.max(prev - 1, 1))}
         handleAddToCart={addToCart}
       />
     </View>
