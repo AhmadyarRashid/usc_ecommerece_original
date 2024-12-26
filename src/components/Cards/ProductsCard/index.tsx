@@ -30,9 +30,10 @@ interface ProductData {
 interface ProductsCardProps {
   data: ProductData;
   onPress?: () => void;
+  onAddToCartPress?:()=>void
 }
 
-const ProductsCard: React.FC<ProductsCardProps> = ({ data, onPress }) => {
+const ProductsCard: React.FC<ProductsCardProps> = ({ data, onPress, onAddToCartPress}) => {
   return (
     <TouchableOpacity style={styles.rootContainer} onPress={onPress}>
       <View style={styles.productImageContainer}>
@@ -54,7 +55,7 @@ const ProductsCard: React.FC<ProductsCardProps> = ({ data, onPress }) => {
       <View style={styles.bottomContainer}>
         <Text style={styles.priceText}>PKR {data.list_price}</Text>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onAddToCartPress}>
           <AddCircle size={sR * 2.6} color={THEME} />
         </TouchableOpacity>
       </View>

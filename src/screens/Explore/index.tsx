@@ -10,8 +10,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useCallback } from "react";
 import {
   CallAdd,
+  DirectboxReceive,
   Document,
   DocumentCode2,
+  FolderAdd,
   Global,
   MenuBoard,
   MessageAdd,
@@ -64,20 +66,24 @@ const ExploreScreen: React.FC = () => {
     });
   };
 
-  const handleContactUs = ()=>{
-    Linking.openURL(`tel:+9234564345`)
-  }
+  const handleContactUs = () => {
+    Linking.openURL(`tel:+9234564345`);
+  };
 
-  const handleFeedback = ()=>{
-    Linking.openURL('mailto:support@example.com')
-  }
+  const handleFeedback = () => {
+    Linking.openURL("mailto:support@example.com");
+  };
 
   const goToMyComplaints = useCallback(() => {
-    navigation.navigate('MyComplaints');
+    navigation.navigate("MyComplaints");
+  }, [navigation]);
+
+  const goToRegisterComplaint = useCallback(() => {
+    navigation.navigate("RegisterComplaint");
   }, [navigation]);
 
   const goToAppInfo = useCallback(() => {
-    navigation.navigate('AppInfo');
+    navigation.navigate("AppInfo");
   }, [navigation]);
 
   const goBack = useCallback(() => {
@@ -144,10 +150,26 @@ const ExploreScreen: React.FC = () => {
             <HorizontalLine />
 
             <MenuItem
+              label="Register Complaint"
+              icon={<FolderAdd size={ICON_SIZE} color={ICON_COLOR} />}
+              onMenuItemPress={goToRegisterComplaint}
+            />
+
+            <HorizontalLine />
+
+            <MenuItem
               label="My Complaints"
               icon={<MenuBoard size={ICON_SIZE} color={ICON_COLOR} />}
               onMenuItemPress={goToMyComplaints}
             />
+
+            {/* <HorizontalLine />
+
+            <MenuItem
+              label="My Orders"
+              icon={<DirectboxReceive size={ICON_SIZE} color={ICON_COLOR} />}
+              onMenuItemPress={() => navigation.navigate("Orders")}
+            /> */}
           </View>
 
           <SectionDescriptionText

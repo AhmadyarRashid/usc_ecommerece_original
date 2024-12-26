@@ -65,6 +65,7 @@ const ProductDetailsScreen: React.FC = () => {
     const existingItem = cart.cartList.find(
       (item) => item.id === productByID.id
     );
+    
     const newCount = existingItem ? existingItem.count + count : count;
 
     // if (newCount > productByID.qty_available) {

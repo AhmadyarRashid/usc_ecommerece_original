@@ -8,6 +8,9 @@ export const createAddressSchema = Yup.object().shape({
 });
 
 export const complaintOrderSchema = Yup.object().shape({
-  title: Yup.string().trim().required(`Title is required`),
-  message: Yup.string().trim().required(`Message is required`),
+  title: Yup.string().trim().required(`Title is required`).min(40, `Title must be at least 40 characters`),
+  message: Yup.string()
+    .trim()
+    .required(`Message is required`)
+    .min(120, `Message must be at least 100 characters`),
 });

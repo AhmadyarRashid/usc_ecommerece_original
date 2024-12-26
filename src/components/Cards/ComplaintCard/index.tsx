@@ -47,7 +47,7 @@ const ExpandableText = ({
   );
 };
 
-const ComplaintCard: React.FC = () => {
+const ComplaintCard: React.FC = ({ data }) => {
   const [complaintMessageExpanded, toggleComplaintMessageExpanded] =
     useToggle(false);
   const [complaintReplyExpanded, toggleComplaintReplyExpanded] =
@@ -57,10 +57,12 @@ const ComplaintCard: React.FC = () => {
     <View style={styles.rootContainer}>
       {/* Top Section */}
       <View style={styles.topContainer}>
-        <Text style={styles.complaintIdText}>Complaint #sa-32</Text>
-        
+        <Text style={styles.complaintIdText}>
+          Complaint #{data?.complaintId}
+        </Text>
+
         <View style={styles.complaintStatusContainer}>
-          <Text style={styles.complaintStatusText}>In-Progress</Text>
+          <Text style={styles.complaintStatusText}>{data?.state}</Text>
         </View>
       </View>
 
@@ -68,7 +70,7 @@ const ComplaintCard: React.FC = () => {
 
       {/* Complaint Message */}
       <ExpandableText
-        text="WARN (ADVICE) View #3047 of type RCTView has a shadow set but cannot calculate shadow efficiently. Consider setting a solid background color to fix this, or apply the shadow to a more specific component."
+        text={data?.complaint_text}
         numberOfLinesCollapsed={2}
         numberOfLinesExpanded={0}
         isExpanded={complaintMessageExpanded}
@@ -76,28 +78,33 @@ const ComplaintCard: React.FC = () => {
         style={styles.complaintMessageText}
       />
 
-      <VerticalSpace h={2} />
-
-      <HorizontalLine />
-      
-      <VerticalSpace h={2} />
-
       {/* Complaint Reply */}
-      <ExpandableText
-        text={
-          <>
-            <Text style={styles.replyPrefix}>RE: </Text>
-            WARN (ADVICE) View #3047 of type RCTView has a shadow set but cannot
-            calculate shadow efficiently. Consider setting a solid background
-            color to fix this, or apply the shadow to a more specific component.
-          </>
-        }
-        numberOfLinesCollapsed={1}
-        numberOfLinesExpanded={0}
-        isExpanded={complaintReplyExpanded}
-        toggleExpanded={toggleComplaintReplyExpanded}
-        style={styles.complaintReplyText}
-      />
+      {data?.resolve_text && (
+        <>
+          <VerticalSpace h={2} />
+
+          <HorizontalLine />
+
+          <VerticalSpace h={2} />
+          
+          <ExpandableText
+            text={
+              <>
+                <Text style={styles.replyPrefix}>RE: </Text>
+                WARN (ADVICE) View #3047 of type RCTView has a shadow set but
+                cannot calculate shadow efficiently. Consider setting a solid
+                background color to fix this, or apply the shadow to a more
+                specific component.
+              </>
+            }
+            numberOfLinesCollapsed={1}
+            numberOfLinesExpanded={0}
+            isExpanded={complaintReplyExpanded}
+            toggleExpanded={toggleComplaintReplyExpanded}
+            style={styles.complaintReplyText}
+          />
+        </>
+      )}
     </View>
   );
 };

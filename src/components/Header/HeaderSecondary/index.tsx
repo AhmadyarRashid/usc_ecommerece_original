@@ -25,6 +25,8 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({
 }) => {
   const { cart, address } = useDynamicSliceSelector(["cart", "address"]);
 
+  const cartCount = countCartItem(cart?.cartList || []);
+
   return (
     <View style={styles.rootContainer}>
       <TouchableOpacity style={styles.leftContainer} onPress={onLeftPress}>
@@ -45,11 +47,11 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({
       </TouchableOpacity>
 
       <TouchableOpacity onPress={onRightPress}>
-        <View style={styles.cartItemCountContainer}>
-          <Text style={styles.cartItemCountText}>
-            {countCartItem(cart?.cartList || [])}
-          </Text>
-        </View>
+        {cartCount > 0 && (
+          <View style={styles.cartItemCountContainer}>
+            <Text style={styles.cartItemCountText}>{cartCount}</Text>
+          </View>
+        )}
         <ShoppingCart size={sR * 2.6} color={THEME} variant={"Bulk"} />
       </TouchableOpacity>
     </View>

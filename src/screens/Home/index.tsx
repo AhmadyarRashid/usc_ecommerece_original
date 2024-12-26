@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   FlatList,
   ScrollView,
@@ -38,6 +38,8 @@ import { RootState } from "../../redux/store";
 import { setCategoryFields } from "../../redux/slices/category";
 import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
 import { setAddressFields } from "../../redux/slices/address";
+import { setCartFields } from "../../redux/slices/cart";
+import { displayToast } from "../../constants/functions";
 
 // Type for Category Data
 interface CategoryData {
@@ -83,8 +85,14 @@ const HomeScreen = () => {
   const { handleRestApi, restApiLoading } = useApiHook();
   const products = useSelector((state: RootState) => state.product.productList);
   const dispatch = useDispatch();
-  const { address } = useDynamicSliceSelector(["address"]);
+  const { address, cart, product } = useDynamicSliceSelector([
+    "address",
+    "cart",
+    "product",
+  ]);
   const isFocused = useIsFocused();
+
+  const [count, setCount] = useState(1);
 
   useEffect(() => {
     // if(isFocused && isEmpty(address?.addressList)){
@@ -125,6 +133,39 @@ const HomeScreen = () => {
     dispatch(setAddressFields({ selectedAddress: null }));
   };
 
+  const addToCart = (productToAdd) => {
+    const existingItem = cart.cartList.find(
+      (item) => item.id === productToAdd.id
+    );
+
+    const newCount = existingItem ? existingItem.count + count : count;
+
+    // if (newCount > productToAdd.qty_available) {
+    //   displayToast({
+    //     type: "error",
+    //     text1: "Error",
+    //     text2: `Cannot add more than available quantity!`,
+    //   });
+    //   return;
+    // }
+
+    const updatedCartList = existingItem
+      ? cart.cartList.map((item) =>
+          item.id === productToAdd.id ? { ...item, count: newCount } : item
+        )
+      : [...cart.cartList, { ...productToAdd, count }];
+
+    dispatch(setCartFields({ cartList: updatedCartList }));
+
+    displayToast({
+      type: "success",
+      text1: "Success",
+      text2: existingItem
+        ? `Item count updated in your cart!`
+        : `Item successfully added to your cart!`,
+    });
+  };
+
   const goToShoppingCart = useCallback(() => {
     navigation.navigate("ShoppingCart");
   }, [navigation]);
@@ -154,7 +195,11 @@ const HomeScreen = () => {
   );
 
   const renderProduct: ListRenderItem<ProductData> = ({ item }) => (
-    <ProductsCard data={item} onPress={() => goToProductDetails(item.id)} />
+    <ProductsCard
+      data={item}
+      onPress={() => goToProductDetails(item.id)}
+      onAddToCartPress={() => addToCart(item)}
+    />
   );
 
   return (
@@ -177,7 +222,7 @@ const HomeScreen = () => {
 
         {/* <SearchBox placeholder="Search anything you want" /> */}
 
-        <SearchButton onSearchButtonPress={goToSearchProducts}/>
+        <SearchButton onSearchButtonPress={goToSearchProducts} />
 
         <VerticalSpace h={2} />
 
@@ -195,7 +240,10 @@ const HomeScreen = () => {
 
         <VerticalSpace h={2} />
 
-        <SectionTitleWithAction title="Fresh Sale" onViewAllPress={goToViewAllProducts} />
+        <SectionTitleWithAction
+          title="Fresh Sale"
+          onViewAllPress={goToViewAllProducts}
+        />
 
         <VerticalSpace h={2} />
 
@@ -209,7 +257,10 @@ const HomeScreen = () => {
 
         <VerticalSpace h={2} />
 
-        <SectionTitleWithAction title="Frequently Ordered" onViewAllPress={goToViewAllProducts}/>
+        <SectionTitleWithAction
+          title="Frequently Ordered"
+          onViewAllPress={goToViewAllProducts}
+        />
 
         <VerticalSpace h={2} />
 

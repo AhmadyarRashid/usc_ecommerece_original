@@ -18,7 +18,8 @@ export type StackParamList = {
   MyComplaints: undefined;
   AppInfo: undefined;
   SearchProducts:undefined;
-  ViewAllProducts:undefined
+  ViewAllProducts:undefined;
+  RegisterComplaint:undefined
 };
 
 export type AppNavigationProps = NativeStackNavigationProp<StackParamList>;
