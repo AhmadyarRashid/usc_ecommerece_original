@@ -1,5 +1,4 @@
 import Toast from "react-native-toast-message";
-
 interface ToastParams {
   type: string;
   text1: string;

@@ -109,8 +109,7 @@ const VerifyPhoneScreen: React.FC = () => {
       <View style={styles.childContainer}>
         <View>
           <Text style={styles.enterCodeText}>
-            Enter the 6-digit code we texted to{`\n`}
-            {contact.contactInfo}
+            Enter the 6-digit code we texted to {contact.contactInfo}
           </Text>
 
           <VerticalSpace h={2} />

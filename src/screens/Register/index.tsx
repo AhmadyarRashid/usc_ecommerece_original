@@ -98,7 +98,7 @@ const RegisterScreen: React.FC = () => {
 
             <View>
               <Text style={styles.messageText}>
-                By selecting Agree & Continue, I agree with
+                By selecting Agree &{"\n"}Continue, I agree with
               </Text>
 
               <View style={styles.consentButtonsContainer}>
