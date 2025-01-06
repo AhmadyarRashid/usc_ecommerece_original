@@ -6,7 +6,7 @@ import { debounce } from "lodash";
 import HorizontalSpace from "../HorizontalSpace";
 
 import { hR, sR, wR } from "../../constants/dimensions";
-import { BRILLIANCE, PINBALL, THEME } from "../../constants/colors";
+import { BRILLIANCE, LUCKY_GREY, PINBALL, THEME } from "../../constants/colors";
 import { PROXIMA_NOVA_REGULAR } from "../../constants/fonts";
 
 interface SearchBoxProps {
@@ -39,6 +39,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ placeholder, onChangeText }) => {
         style={styles.searchInput}
         onChangeText={debouncedOnChange}
         autoCapitalize={false}
+        placeholderTextColor={LUCKY_GREY}
       />
     </View>
   );
@@ -59,6 +60,7 @@ const styles = StyleSheet.create({
     fontFamily: PROXIMA_NOVA_REGULAR,
     fontSize: sR * 1.2,
     width: wR * 72,
+    color:LUCKY_GREY
   },
 });
 

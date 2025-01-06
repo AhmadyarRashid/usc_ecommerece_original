@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
   productImageContainer: {
     backgroundColor: WHITE_SMOKE,
     alignItems: "center",
+    justifyContent:"center",
     padding: sR,
     borderRadius: sR,
   },
@@ -161,5 +162,6 @@ const styles = StyleSheet.create({
   countText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     fontSize: sR * 1.2,
+    color:BLACK
   },
 });

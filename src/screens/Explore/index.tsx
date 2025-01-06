@@ -268,6 +268,7 @@ const styles = StyleSheet.create({
   userNameText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     fontSize: sR * 1.2,
+    color:BLACK
   },
   contactInfoText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,

@@ -2,17 +2,22 @@ import React from "react";
 import { TextInput, StyleSheet } from "react-native";
 
 import { hR, sR, wR } from "../../../constants/dimensions";
-import { PINBALL } from "../../../constants/colors";
+import { LUCKY_GREY, PINBALL } from "../../../constants/colors";
 import { PROXIMA_NOVA_REGULAR } from "../../../constants/fonts";
 
 interface TextAreaProps {
   placeholder: string;
   onChangeText: () => void;
-  onBlur:()=>void;
-  value:string
+  onBlur: () => void;
+  value: string;
 }
 
-const TextArea: React.FC<TextAreaProps> = ({ placeholder, onChangeText,onBlur,value }) => {
+const TextArea: React.FC<TextAreaProps> = ({
+  placeholder,
+  onChangeText,
+  onBlur,
+  value,
+}) => {
   return (
     <TextInput
       style={styles.input}
@@ -24,6 +29,7 @@ const TextArea: React.FC<TextAreaProps> = ({ placeholder, onChangeText,onBlur,va
       numberOfLines={6}
       onBlur={onBlur}
       value={value}
+      placeholderTextColor={LUCKY_GREY}
     />
   );
 };
@@ -42,5 +48,6 @@ const styles = StyleSheet.create({
     fontFamily: PROXIMA_NOVA_REGULAR,
     height: 180,
     textAlignVertical: "top",
+    color: LUCKY_GREY,
   },
 });

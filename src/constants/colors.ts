@@ -28,6 +28,8 @@ const EPHEMERAL_MIST="#c5cfd4"
 const VITAMIN_C = '#ff9900'
 const RED_DOOR = "#AE0000"
 
+const LUCKY_GREY = "#7777"
+
 export {
   WHITE,
   THEME,
@@ -52,5 +54,6 @@ export {
   ALBESCENT_WHITE,
   EPHEMERAL_MIST,
   VITAMIN_C,
-  RED_DOOR
+  RED_DOOR,
+  LUCKY_GREY
 };

@@ -5,21 +5,21 @@ export type StackParamList = {
   VerifyPhone: undefined;
   AccountCreationSuccess: undefined;
   Home: undefined;
-  ProductDetails: { productID: number, arrayToSearch:string };
+  ProductDetails: { productID: number; arrayToSearch: string };
   ShoppingCart: undefined;
   AppBottomTab: undefined;
   MyOrders: undefined;
   OrderDetails: { orderID: number };
   DeliveryAddress: undefined;
-  ConfirmAddress: undefined;
+  ConfirmAddress: { userCoordinates: any };
   Address: undefined;
   Explore: undefined;
   Orders: undefined;
   MyComplaints: undefined;
   AppInfo: undefined;
-  SearchProducts:undefined;
-  ViewAllProducts:undefined;
-  RegisterComplaint:undefined
+  SearchProducts: undefined;
+  ViewAllProducts: undefined;
+  RegisterComplaint: undefined;
 };
 
 export type AppNavigationProps = NativeStackNavigationProp<StackParamList>;

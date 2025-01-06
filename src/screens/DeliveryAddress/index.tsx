@@ -119,14 +119,24 @@ const DeliveryAddressScreen: React.FC = () => {
 
       toggleActionModal();
     }
-  }, [address?.addressList, auth.accessToken, auth.userName, dispatch, handleRestApi, idRef, toggleActionModal]);
+  }, [
+    address?.addressList,
+    auth.accessToken,
+    auth.userName,
+    dispatch,
+    handleRestApi,
+    idRef,
+    toggleActionModal,
+  ]);
 
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
   const goToConfirmAddress = useCallback(() => {
-    navigation.navigate("ConfirmAddress");
+    navigation.navigate("ConfirmAddress", {
+      userCoordinates: region,
+    });
   }, [navigation]);
 
   return (
@@ -312,39 +322,10 @@ const styles = StyleSheet.create({
   markerContainer: {
     position: "absolute",
     alignSelf: "center",
-    top: "38%",
+    top: "48%",
   },
   marker: { height: sR * 6, width: sR * 6 },
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import React, {
 //   useCallback,
@@ -424,7 +405,7 @@ const styles = StyleSheet.create({
 //   const [id, setId, idRef] = useStateRef(null);
 
 //   console.log('region ',JSON.stringify(region,null,2));
-  
+
 //   useEffect(() => {
 //     if (!isNull(location)) {
 //       setRegion({ ...region, ...location });

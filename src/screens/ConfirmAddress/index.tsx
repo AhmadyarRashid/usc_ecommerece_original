@@ -1,6 +1,6 @@
 import { useCallback, useRef } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Field, Formik, FormikProps } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -32,10 +32,13 @@ interface CreateAddressValues {
 
 const ConfirmAddressScreen = () => {
   const navigation = useNavigation<AppNavigationProps>();
+  const route = useRoute();
   const formikRef = useRef<FormikProps<CreateAddressValues>>(null);
   const auth = useSelector((state: RootState) => state.auth);
   const { handleRestApi, restApiLoading } = useApiHook();
   const dispatch = useDispatch();
+
+  // console.log(route.params?.userCoordinates);
 
   // const createAddress = async (values: CreateAddressValues) => {
   //   const data = {
@@ -92,6 +95,8 @@ const ConfirmAddressScreen = () => {
       phone: "",
       mobile: auth.userName,
       notes: values.additionalNotes,
+      latitude: route.params?.userCoordinates?.latitude.toString(),
+      longitude: route.params?.userCoordinates?.longitude.toString(),
     };
 
     const response = await handleRestApi({
@@ -104,7 +109,7 @@ const ConfirmAddressScreen = () => {
       await fetchAndDispatchAddresses();
     }
   };
-  
+
   const fetchAndDispatchAddresses = async () => {
     const response = await handleRestApi({
       method: "post",
@@ -118,11 +123,10 @@ const ConfirmAddressScreen = () => {
       goToAppBottomTab();
     }
   };
-  
+
   const isResponseSuccess = (response: any): boolean => {
     return response?.data?.result?.status === 200;
   };
-  
 
   const goBack = useCallback(() => {
     navigation.goBack();
@@ -131,8 +135,8 @@ const ConfirmAddressScreen = () => {
   const goToAppBottomTab = useCallback(() => {
     navigation.reset({
       index: 0,
-      routes: [{ name: 'AppBottomTab' }]
- })
+      routes: [{ name: "AppBottomTab" }],
+    });
   }, [navigation]);
 
   const renderInputField = (
@@ -196,37 +200,49 @@ const ConfirmAddressScreen = () => {
           {({ handleSubmit }) => (
             <>
               <Text style={styles.labelText}>Name*</Text>
+
               <VerticalSpace h={2} />
+
               {renderInputField("name", "Name")}
+
               <VerticalSpace h={2} />
 
               <Text style={styles.labelText}>
                 House/building/flat & street #*
               </Text>
+
               <VerticalSpace h={2} />
               {renderInputField(
                 "street",
                 "Enter house/building/flat & street #"
               )}
+
               <VerticalSpace h={2} />
 
               <Text style={styles.labelText}>City*</Text>
+
               <VerticalSpace h={2} />
+
               {renderInputField("city", "Enter city")}
+
               <VerticalSpace h={2} />
 
               <Text style={styles.labelText}>
                 Additional Delivery Notes/Alternate Contact Information etc.
               </Text>
+
               <VerticalSpace h={2} />
+
               <Text style={styles.normalText}>
                 Include further details about your address
               </Text>
+
               <VerticalSpace h={2} />
               {renderInputField(
                 "additionalNotes",
                 "Note to rider - e.g landmark"
               )}
+
               <VerticalSpace h={2} />
 
               <SolidButton

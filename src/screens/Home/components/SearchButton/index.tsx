@@ -4,7 +4,7 @@ import { SearchNormal1 } from "iconsax-react-native";
 import HorizontalSpace from "../../../../components/HorizontalSpace";
 
 import { hR, sR, wR } from "../../../../constants/dimensions";
-import { BRILLIANCE, PINBALL, THEME } from "../../../../constants/colors";
+import { BRILLIANCE, LUCKY_GREY, PINBALL, THEME } from "../../../../constants/colors";
 import { PROXIMA_NOVA_REGULAR } from "../../../../constants/fonts";
 
 interface SearchButtonProps {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   rootContainer: {
     width: wR * 92,
     borderWidth: 1.6,
-    paddingVertical: Platform.OS === "android" ? 0 : hR * 1.4,
+    paddingVertical: hR * 1.4,
     paddingHorizontal: wR * 4,
     borderColor: PINBALL,
     borderRadius: sR,
@@ -40,5 +40,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: PROXIMA_NOVA_REGULAR,
     fontSize: sR * 1.2,
+    color:LUCKY_GREY
   },
 });

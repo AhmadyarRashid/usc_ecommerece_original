@@ -1,10 +1,10 @@
-import React from 'react';
-import { OtpInput } from 'react-native-otp-entry';
-import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import React from "react";
+import { OtpInput } from "react-native-otp-entry";
+import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 
-import { THEME } from '../../../constants/colors';
-import { sR } from '../../../constants/dimensions';
-import { PROXIMA_NOVA_REGULAR } from '../../../constants/fonts';
+import { THEME } from "../../../constants/colors";
+import { sR } from "../../../constants/dimensions";
+import { PROXIMA_NOVA_REGULAR } from "../../../constants/fonts";
 
 interface InputOTPProps {
   onTextChange: (text: string) => void;
@@ -18,7 +18,7 @@ const InputOTP: React.FC<InputOTPProps> = ({ onTextChange }) => {
       focusStickBlinkingDuration={500}
       onTextChange={onTextChange}
       textInputProps={{
-        accessibilityLabel: 'One-Time Password',
+        accessibilityLabel: "One-Time Password",
       }}
       theme={{
         containerStyle: styles.container,
@@ -33,7 +33,7 @@ export default InputOTP;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
   } as ViewStyle,
   pinCodeContainer: {
     borderWidth: 2,

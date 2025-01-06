@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
+import { Platform, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 import { isNull } from "lodash";
 
 import VerticalSpace from "../../../../components/VerticalSpace";
@@ -108,6 +108,8 @@ const ShoppingCartListFooter: React.FC<ShoppingCartListFooterProps> = ({
       <VerticalSpace h={2} />
 
       <SolidButton label={buttonLabel} size="xl" onPress={buttonAction} />
+
+      {Platform.OS === "android" && <VerticalSpace h={2} />}
     </View>
   );
 };
