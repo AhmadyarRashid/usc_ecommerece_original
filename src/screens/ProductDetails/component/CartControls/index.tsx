@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   productCountText: {
     fontSize: sR * 1.3,
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
+    color:THEME
   },
 });
 

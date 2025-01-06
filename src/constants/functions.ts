@@ -1,4 +1,5 @@
-import Toast from "react-native-toast-message";
+import Toast,{BaseToast} from "react-native-toast-message";
+
 interface ToastParams {
   type: string;
   text1: string;

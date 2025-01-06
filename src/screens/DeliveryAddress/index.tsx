@@ -88,6 +88,16 @@ const DeliveryAddressScreen: React.FC = () => {
   }, []);
 
   const deleteAddress = useCallback(async () => {
+    if (address?.addressList.length < 2) {
+      alert(
+        `Please ensure your address book contains more than one addresses before deleting!`
+      );
+
+      toggleActionModal();
+
+      return;
+    }
+
     if (!idRef.current) return;
 
     const data = {
@@ -130,7 +140,11 @@ const DeliveryAddressScreen: React.FC = () => {
   ]);
 
   const goBack = useCallback(() => {
-    navigation.goBack();
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      return;
+    }
   }, [navigation]);
 
   const goToConfirmAddress = useCallback(() => {

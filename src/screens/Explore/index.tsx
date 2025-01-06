@@ -45,6 +45,7 @@ import {
   PROXIMA_NOVA_SEMIBOLD_ITALIC,
 } from "../../constants/fonts";
 import { store } from "../../redux/store";
+import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
 
 const ICON_SIZE = sR * 1.8;
 const ICON_COLOR = FLINT_STONE;
@@ -52,6 +53,13 @@ const WEBURL = `https://usc.org.pk/`;
 
 const ExploreScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
+  const { auth } = useDynamicSliceSelector([
+    "auth",
+  ]);
+
+
+  console.log('auth ',JSON.stringify(auth,null,2));
+  
 
   const openURL = (URL: string) => {
     Linking.openURL(URL);
@@ -111,8 +119,8 @@ const ExploreScreen: React.FC = () => {
 
               <View>
                 <View>
-                  <Text style={styles.userNameText}>Saran Ahmed</Text>
-                  <Text style={styles.contactInfoText}>+923119578954</Text>
+                  {/* <Text style={styles.userNameText}>Saran Ahmed</Text> */}
+                  <Text style={styles.contactInfoText}>{auth?.userName}</Text>
                 </View>
 
                 <VerticalSpace h={1} />

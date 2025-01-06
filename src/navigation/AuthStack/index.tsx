@@ -1,23 +1,32 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useSelector } from "react-redux";
+import { isEmpty } from "lodash";
+import React from "react";
 
 import RegisterScreen from "../../screens/Register";
 import VerifyPhoneScreen from "../../screens/VerifyPhone";
 import AccountCreationSuccessScreen from "../../screens/AccountCreationSuccess";
 import AppBottomTab from "../AppBottomTab";
 import AddressStack from "../AddressStack";
-import ExlporeStack from "../ExploreStack";
+import ExploreStack from "../ExploreStack";
 
-import { RootState } from "../../redux/store";
+import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
 
 const Stack = createNativeStackNavigator();
 
 const AuthStack: React.FC = () => {
-  const auth = useSelector((state: RootState) => state.auth);
+  const { auth, address } = useDynamicSliceSelector(["auth", "address"]);
+
+  const routeToAddress = isEmpty(address?.addressList);
+
+  const initialRouteName = auth?.accessToken
+    ? routeToAddress
+      ? "Address"
+      : "AppBottomTab"
+    : "Register";
 
   return (
     <Stack.Navigator
-      initialRouteName={auth.accessToken ? "AppBottomTab" : "Register"}
+      initialRouteName={initialRouteName}
       screenOptions={{
         headerShown: false,
       }}
@@ -30,7 +39,7 @@ const AuthStack: React.FC = () => {
       />
       <Stack.Screen name="AppBottomTab" component={AppBottomTab} />
       <Stack.Screen name="Address" component={AddressStack} />
-      <Stack.Screen name="Explore" component={ExlporeStack} />
+      <Stack.Screen name="Explore" component={ExploreStack} />
     </Stack.Navigator>
   );
 };
