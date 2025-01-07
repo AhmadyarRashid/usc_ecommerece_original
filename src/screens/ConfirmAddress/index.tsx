@@ -14,7 +14,10 @@ import Loader from "../../components/Loader";
 import { BLACK, FLINT_STONE, WHITE } from "../../constants/colors";
 import { AppNavigationProps } from "../../constants/navigationTypes";
 import { sR, wR } from "../../constants/dimensions";
-import { PROXIMA_NOVA_REGULAR, PROXIMA_NOVA_SEMIBOLD } from "../../constants/fonts";
+import {
+  PROXIMA_NOVA_REGULAR,
+  PROXIMA_NOVA_SEMIBOLD,
+} from "../../constants/fonts";
 import { createAddressSchema } from "../../constants/schemas";
 import { RootState } from "../../redux/store";
 import useApiHook from "../../hooks/rest/useApi";
@@ -67,7 +70,7 @@ const ConfirmAddressScreen: React.FC = () => {
     };
 
     const endpoint = isUpdate ? "user_address_upd" : "user_address_create";
-    
+
     const response = await handleRestApi({
       method: "post",
       url: endpoint,
@@ -76,8 +79,6 @@ const ConfirmAddressScreen: React.FC = () => {
 
     if (isResponseSuccess(response)) {
       await fetchAndDispatchAddresses();
-    } else {
-      displayToast("Failed to save address. Please try again.");
     }
   };
 
@@ -92,8 +93,6 @@ const ConfirmAddressScreen: React.FC = () => {
       const addressList = response?.data?.result?.address || [];
       dispatch(setAddressFields({ addressList }));
       goToAppBottomTab();
-    } else {
-      displayToast("Failed to fetch addresses.");
     }
   };
 
@@ -112,10 +111,7 @@ const ConfirmAddressScreen: React.FC = () => {
     });
   }, [navigation]);
 
-  const renderInputField = (
-    name: keyof AddressValues,
-    placeholder: string
-  ) => (
+  const renderInputField = (name: keyof AddressValues, placeholder: string) => (
     <Field name={name}>
       {({ field, meta }: any) => (
         <>

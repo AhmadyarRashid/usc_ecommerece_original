@@ -2,7 +2,7 @@ import React from "react";
 import { TextInput, StyleSheet } from "react-native";
 
 import { hR, sR, wR } from "../../../constants/dimensions";
-import { LUCKY_GREY, PINBALL } from "../../../constants/colors";
+import {  BLACK, PINBALL } from "../../../constants/colors";
 import { PROXIMA_NOVA_REGULAR } from "../../../constants/fonts";
 
 interface InputFieldProps {
@@ -23,7 +23,7 @@ const InputField: React.FC<InputFieldProps> = ({ placeholder, onChangeText, onBl
       onChangeText={onChangeText}
       onBlur={onBlur}
       value={value}
-      placeholderTextColor={LUCKY_GREY}
+      placeholderTextColor={BLACK}
     />
   );
 };
@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
     borderRadius: sR,
     fontSize: sR * 1.2,
     fontFamily: PROXIMA_NOVA_REGULAR,
-    color:LUCKY_GREY
+    color:BLACK
   },
 });

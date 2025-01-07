@@ -2,7 +2,7 @@ import { ImageSourcePropType, StyleSheet, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native";
 
 import { hR, sR, wR } from "../../../constants/dimensions";
-import { FLINT_STONE, THEME, WHITE_SMOKE } from "../../../constants/colors";
+import { BLACK, FLINT_STONE, THEME, WHITE_SMOKE } from "../../../constants/colors";
 import images from "../../../constants/images";
 import { Image } from "react-native";
 import HorizontalSpace from "../../HorizontalSpace";
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
   productNameText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     fontSize: sR * 1.4,
+    color:BLACK
   },
   productStockStatusText: {
     fontFamily: PROXIMA_NOVA_REGULAR,
