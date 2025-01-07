@@ -11,7 +11,7 @@ export type StackParamList = {
   MyOrders: undefined;
   OrderDetails: { orderID: number };
   DeliveryAddress: undefined;
-  ConfirmAddress: { userCoordinates: any };
+  ConfirmAddress: { addressData: any };
   Address: undefined;
   Explore: undefined;
   Orders: undefined;
