@@ -1,19 +1,21 @@
 import React, { createRef, useCallback } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { CurvedBottomBar } from "react-native-curved-bottom-bar";
-import { DirectboxReceive, Home2, SearchNormal1 } from "iconsax-react-native";
+import {
+  DirectboxReceive,
+  Home2,
+  SearchNormal1,
+  Setting2,
+} from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import VerticalSpace from "../../components/VerticalSpace";
 
 import HomeStack from "../HomeStack";
 import OrdersStack from "../OrdersStack";
+import ExlporeStack from "../ExploreStack";
 
-import {
-  BLACK,
-  THEME,
-  WHITE,
-} from "../../constants/colors";
+import { BLACK, THEME, WHITE } from "../../constants/colors";
 import { hR, sR } from "../../constants/dimensions";
 import { PROXIMA_NOVA_SEMIBOLD } from "../../constants/fonts";
 import { AppNavigationProps } from "../../constants/navigationTypes";
@@ -28,8 +30,7 @@ interface TabItemProps {
 }
 
 const AppTabs: React.FC = () => {
-
-  const navigation = useNavigation<AppNavigationProps>()
+  const navigation = useNavigation<AppNavigationProps>();
 
   const tabItem = ({ routeName, selectedTab, navigate }: TabItemProps) => {
     const iconConfig: {
@@ -47,11 +48,11 @@ const AppTabs: React.FC = () => {
         ),
         text: routeName,
       },
-      Orders: {
+      Explore: {
         icon: (
-          <DirectboxReceive
+          <Setting2
             size={ICON_SIZE}
-            color={selectedTab === "Orders" ? THEME : BLACK}
+            color={selectedTab === "Explore" ? THEME : BLACK}
           />
         ),
         text: routeName,
@@ -72,7 +73,9 @@ const AppTabs: React.FC = () => {
         style={styles.tabBarItem}
       >
         {icon}
+
         <VerticalSpace h={0.6} />
+
         <Text style={textStyles}>{text}</Text>
       </TouchableOpacity>
     );
@@ -82,15 +85,15 @@ const AppTabs: React.FC = () => {
     return (
       <TouchableOpacity
         style={styles.circleButton}
-        onPress={goToExplore}
+        onPress={goToSearchProducts}
       >
         <SearchNormal1 size={sR * 2} color={WHITE} />
       </TouchableOpacity>
     );
   };
 
-  const goToExplore = useCallback(() => {
-    navigation.navigate("Explore");
+  const goToSearchProducts = useCallback(() => {
+    navigation.navigate("SearchProducts");
   }, [navigation]);
 
   return (
@@ -121,9 +124,9 @@ const AppTabs: React.FC = () => {
         />
 
         <CurvedBottomBar.Screen
-          name="Orders"
+          name="Explore"
           position="RIGHT"
-          component={OrdersStack}
+          component={ExlporeStack}
         />
       </CurvedBottomBar.Navigator>
     </View>

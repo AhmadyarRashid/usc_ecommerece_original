@@ -6,7 +6,7 @@ import SolidButton from "../Button/SolidButton";
 import VerticalSpace from "../VerticalSpace";
 
 import { PROXIMA_NOVA_BOLD, PROXIMA_NOVA_REGULAR } from "../../constants/fonts";
-import { sR } from "../../constants/dimensions";
+import { sR, wR } from "../../constants/dimensions";
 import { BLACK } from "../../constants/colors";
 import { EMPTY_BOX } from "../../constants/animations";
 
@@ -51,6 +51,7 @@ const NoContentDisplay: React.FC<NoContentDisplayProps> = ({
 const styles = StyleSheet.create({
   rootContainer: {
     alignItems: "center",
+    paddingHorizontal:wR*4
   },
   lottieStyle: {
     height: sR * 12,

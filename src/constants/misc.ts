@@ -5,7 +5,11 @@ export const tabHiddenRoutes = [
   "DeliveryAddress",
   "ConfirmAddress",
   "SearchProducts",
-  "ViewAllProducts"
+  "ViewAllProducts",
+  "RegisterComplaint",
+  "MyComplaints",
+  "AppInfo",
+  "Orders"
 ];
 
 export const latitudeDelta = 0.025;

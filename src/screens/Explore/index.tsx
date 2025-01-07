@@ -21,6 +21,7 @@ import {
   ShieldTick,
   Task,
 } from "iconsax-react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -53,13 +54,8 @@ const WEBURL = `https://usc.org.pk/`;
 
 const ExploreScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
-  const { auth } = useDynamicSliceSelector([
-    "auth",
-  ]);
-
-
-  console.log('auth ',JSON.stringify(auth,null,2));
-  
+  const { auth } = useDynamicSliceSelector(["auth"]);
+  const tabBarHeight = useBottomTabBarHeight();
 
   const openURL = (URL: string) => {
     Linking.openURL(URL);
@@ -84,6 +80,10 @@ const ExploreScreen: React.FC = () => {
 
   const goToMyComplaints = useCallback(() => {
     navigation.navigate("MyComplaints");
+  }, [navigation]);
+
+  const goToOrders = useCallback(() => {
+    navigation.navigate("Orders");
   }, [navigation]);
 
   const goToRegisterComplaint = useCallback(() => {
@@ -171,13 +171,13 @@ const ExploreScreen: React.FC = () => {
               onMenuItemPress={goToMyComplaints}
             />
 
-            {/* <HorizontalLine />
+            <HorizontalLine />
 
             <MenuItem
               label="My Orders"
               icon={<DirectboxReceive size={ICON_SIZE} color={ICON_COLOR} />}
-              onMenuItemPress={() => navigation.navigate("Orders")}
-            /> */}
+              onMenuItemPress={goToOrders}
+            />
           </View>
 
           <SectionDescriptionText
@@ -237,6 +237,8 @@ const ExploreScreen: React.FC = () => {
           />
         </ScrollView>
       </View>
+
+      <View style={{ height: tabBarHeight }} />
     </View>
   );
 };
@@ -276,7 +278,7 @@ const styles = StyleSheet.create({
   userNameText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     fontSize: sR * 1.2,
-    color:BLACK
+    color: BLACK,
   },
   contactInfoText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
