@@ -47,19 +47,18 @@ import {
 } from "../../constants/fonts";
 import { store } from "../../redux/store";
 import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
+import { openURL } from "../../constants/functions";
 
 const ICON_SIZE = sR * 1.8;
 const ICON_COLOR = FLINT_STONE;
 const WEBURL = `https://usc.org.pk/`;
+const TELL = `tel:+9234564345`;
+const MAIL_TO = `mailto:support@example.com`;
 
 const ExploreScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
   const { auth } = useDynamicSliceSelector(["auth"]);
   const tabBarHeight = useBottomTabBarHeight();
-
-  const openURL = (URL: string) => {
-    Linking.openURL(URL);
-  };
 
   const logout = () => {
     store.dispatch({ type: "RESET_APP" });
@@ -70,13 +69,11 @@ const ExploreScreen: React.FC = () => {
     });
   };
 
-  const handleContactUs = () => {
-    Linking.openURL(`tel:+9234564345`);
-  };
-
-  const handleFeedback = () => {
-    Linking.openURL("mailto:support@example.com");
-  };
+  const handleURL = () =>{
+    console.log('asds');
+    
+    // openURL(WEBURL)
+  }
 
   const goToMyComplaints = useCallback(() => {
     navigation.navigate("MyComplaints");
@@ -144,7 +141,7 @@ const ExploreScreen: React.FC = () => {
             <MenuItem
               label="Feedback"
               icon={<MessageAdd size={ICON_SIZE} color={ICON_COLOR} />}
-              onMenuItemPress={handleFeedback}
+              onMenuItemPress={() => openURL(MAIL_TO)}
             />
 
             <HorizontalLine />
@@ -152,7 +149,7 @@ const ExploreScreen: React.FC = () => {
             <MenuItem
               label="Contact Us"
               icon={<CallAdd size={ICON_SIZE} color={ICON_COLOR} />}
-              onMenuItemPress={handleContactUs}
+              onMenuItemPress={() => openURL(TELL)}
             />
 
             <HorizontalLine />
@@ -190,7 +187,7 @@ const ExploreScreen: React.FC = () => {
             <MenuItem
               label="Privacy Policy"
               icon={<ShieldTick size={ICON_SIZE} color={ICON_COLOR} />}
-              onPress={() => openURL(WEBURL)}
+              onPress={handleURL}
             />
 
             <HorizontalLine />
@@ -198,7 +195,7 @@ const ExploreScreen: React.FC = () => {
             <MenuItem
               label="Terms & Conditions"
               icon={<Document size={ICON_SIZE} color={ICON_COLOR} />}
-              onPress={() => openURL(WEBURL)}
+              onPress={handleURL}
             />
 
             <HorizontalLine />
@@ -206,7 +203,7 @@ const ExploreScreen: React.FC = () => {
             <MenuItem
               label="Visit Our Website"
               icon={<Global size={ICON_SIZE} color={ICON_COLOR} />}
-              onPress={() => openURL(WEBURL)}
+              onPress={handleURL}
             />
 
             <HorizontalLine />
@@ -217,7 +214,7 @@ const ExploreScreen: React.FC = () => {
               onMenuItemPress={goToAppInfo}
             />
 
-            <HorizontalLine />
+            {/* <HorizontalLine />
 
             <MenuItem
               label="Invite A Friend"
@@ -229,7 +226,7 @@ const ExploreScreen: React.FC = () => {
             <MenuItem
               label="How To Use?"
               icon={<Task size={ICON_SIZE} color={ICON_COLOR} />}
-            />
+            /> */}
           </View>
 
           <SectionDescriptionText

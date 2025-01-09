@@ -28,6 +28,9 @@ import { AppNavigationProps } from "../../constants/navigationTypes";
 import useApiHook from "../../hooks/rest/useApi";
 import { displayToast, validatePhone } from "../../constants/functions";
 import { setContactFields } from "../../redux/slices/contact";
+import { openURL } from "../../constants/functions";
+
+const WEBURL = `https://usc.org.pk/`;
 
 const RegisterScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
@@ -38,6 +41,14 @@ const RegisterScreen: React.FC = () => {
   const [mobile, setMobile] = useState<string | null>(null);
 
   const registerUser = async () => {
+    if (!registerConsent) {
+      return displayToast({
+        type: "error",
+        text1: "Error",
+        text2: "Consent is required!",
+      });
+    }
+
     if (!validatePhone(mobile)) {
       return displayToast({
         type: "error",
@@ -102,11 +113,17 @@ const RegisterScreen: React.FC = () => {
               </Text>
 
               <View style={styles.consentButtonsContainer}>
-                <TextButton label="Terms & Conditions" />
+                <TextButton
+                  label="Terms & Conditions"
+                  onPress={() => openURL(WEBURL)}
+                />
 
                 <Text style={styles.messageText}> & </Text>
 
-                <TextButton label="Privacy Policy" />
+                <TextButton
+                  label="Privacy Policy"
+                  onPress={() => openURL(WEBURL)}
+                />
               </View>
             </View>
           </View>

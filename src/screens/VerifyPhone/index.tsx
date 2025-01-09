@@ -1,9 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { AxiosRequestHeaders } from "axios";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -12,7 +11,13 @@ import InputOTP from "../../components/TextInput/InputOTP";
 import TextButton from "../../components/Button/TextButton";
 import Loader from "../../components/Loader";
 
-import { BLACK, FLINT_STONE, WHITE } from "../../constants/colors";
+import {
+  BLACK,
+  FLINT_STONE,
+  LUCKY_GREY,
+  THEME,
+  WHITE,
+} from "../../constants/colors";
 import { sR, wR } from "../../constants/dimensions";
 import { PROXIMA_NOVA_SEMIBOLD } from "../../constants/fonts";
 import { AppNavigationProps } from "../../constants/navigationTypes";
@@ -25,11 +30,30 @@ import { isEmpty } from "lodash";
 
 const VerifyPhoneScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
-  const contact = useSelector((state: RootState) => state.contact);
+  const contact = useSelector((state: RootState) => state.contact.contactInfo);
   const { handleRestApi, restApiLoading } = useApiHook();
   const dispatch = useDispatch();
 
   const [otp, setOTP] = useState<string>("");
+  const [resendDisabled, setResendDisabled] = useState<boolean>(true);
+  const [timer, setTimer] = useState<number>(60);
+
+  useEffect(() => {
+    if (!resendDisabled) return;
+
+    const countdown = setInterval(() => {
+      setTimer((prev) => {
+        if (prev <= 1) {
+          clearInterval(countdown);
+          setResendDisabled(false);
+          return 60
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(countdown);
+  }, [resendDisabled]);
 
   const verifyOTP = async () => {
     if (!validateOTP(otp)) {
@@ -38,19 +62,13 @@ const VerifyPhoneScreen: React.FC = () => {
         text1: "Error",
         text2: "Invalid OTP",
       });
-
       return;
     }
 
-    const data = {
-      mobile_number: contact.contactInfo,
-      otp,
-    };
-
     const response = await handleRestApi({
       method: "post",
-      url: `validate_otp`,
-      data,
+      url: "validate_otp",
+      data: { mobile_number: contact, otp },
       headers: { Authorization: "none" } as AxiosRequestHeaders,
     });
 
@@ -64,37 +82,51 @@ const VerifyPhoneScreen: React.FC = () => {
         })
       );
 
-      getAddresses(auth_token, user_name);
+      fetchAddresses(auth_token, user_name);
     }
   };
 
-  const getAddresses = async (auth_token: string, user_name: string) => {
+  const fetchAddresses = async (authToken: string, userName: string) => {
     const response = await handleRestApi({
       method: "post",
       url: "user_address_view_all",
-      data: { auth_token, login: user_name },
+      data: { auth_token: authToken, login: userName },
     });
 
-    const result = response?.data?.result;
-
-    if (result?.status === 200) {
-      const addressList = result?.address || [];
-
-      dispatch(setAddressFields({ addressList }));
-
-      isEmpty(addressList) ? goToAccountCreationSuccess() : goToAppBottomTab();
+    const { address = [], status } = response?.data?.result || {};
+    if (status === 200) {
+      dispatch(setAddressFields({ addressList: address }));
+      isEmpty(address) ? navigateToSuccess() : navigateToHome();
     }
   };
 
-  const goToAccountCreationSuccess = useCallback(() => {
+  const handleResendOTP = async () => {
+    await handleRestApi({
+      method: "post",
+      url: "send_otp",
+      data: { mobile_number: contact },
+      headers: { Authorization: "none" } as AxiosRequestHeaders,
+    });
+
+    displayToast({
+      type: "success",
+      text1: "OTP sent",
+      text2: "A new OTP has been sent to your mobile number.",
+    });
+
+    setResendDisabled(true);
+    setTimer(60);
+  };
+
+  const navigateToSuccess = useCallback(() => {
     navigation.navigate("AccountCreationSuccess");
   }, [navigation]);
 
-  const goToAppBottomTab = useCallback(() => {
+  const navigateToHome = useCallback(() => {
     navigation.navigate("AppBottomTab");
   }, [navigation]);
 
-  const goBack = useCallback(() => {
+  const navigateBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
 
@@ -102,14 +134,14 @@ const VerifyPhoneScreen: React.FC = () => {
     <View style={styles.rootContainer}>
       {restApiLoading && <Loader />}
 
-      <HeaderPrimary label={`Verify your identity`} onPress={goBack} />
+      <HeaderPrimary label="Verify your identity" onPress={navigateBack} />
 
       <VerticalSpace h={2} />
 
       <View style={styles.childContainer}>
         <View>
           <Text style={styles.enterCodeText}>
-            Enter the 6-digit code we texted to {contact.contactInfo}
+            Enter the 6-digit code we texted to {contact}
           </Text>
 
           <VerticalSpace h={2} />
@@ -126,11 +158,16 @@ const VerifyPhoneScreen: React.FC = () => {
           <VerticalSpace h={2} />
 
           <View style={styles.resendOTPContainer}>
-            <TextButton label={`Resend OTP`} />
+            <TextButton
+              label={`Resend OTP ${resendDisabled ? `(${timer}s)` : ""}`}
+              onPress={handleResendOTP}
+              disabled={resendDisabled}
+              customLabelStyle={{ color: resendDisabled ? LUCKY_GREY : THEME }}
+            />
           </View>
         </View>
 
-        <SolidButton label={`Verify`} size={`xl`} onPress={verifyOTP} />
+        <SolidButton label="Verify" size="xl" onPress={verifyOTP} />
       </View>
     </View>
   );

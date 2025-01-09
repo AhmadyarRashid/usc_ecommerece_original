@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { View, FlatList, Text } from "react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { AxiosRequestHeaders } from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty } from "lodash";
@@ -32,12 +32,15 @@ const MyOrdersScreen: React.FC = () => {
     selectAuthAddressOrder(state)
   );
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   useEffect(() => {
-    getAllOrders();
-  }, []);
+    if (isFocused) {
+      getAllOrders();
+    }
+  }, [isFocused]);
 
   const getAllOrders = async () => {
     const data = {
@@ -59,9 +62,12 @@ const MyOrdersScreen: React.FC = () => {
     setIsDataLoaded(true);
   };
 
-  const goToOrderDetails = useCallback((id) => {
-    navigation.navigate("OrderDetails",{orderID:id});
-  }, [navigation]);
+  const goToOrderDetails = useCallback(
+    (id) => {
+      navigation.navigate("OrderDetails", { orderID: id });
+    },
+    [navigation]
+  );
 
   const goBack = useCallback(() => {
     navigation.goBack();
@@ -75,7 +81,7 @@ const MyOrdersScreen: React.FC = () => {
       }}
     >
       {restApiLoading && <Loader />}
-      
+
       <HeaderPrimary label={`My Orders`} onPress={goBack} />
 
       <VerticalSpace h={2} />
@@ -105,7 +111,12 @@ const MyOrdersScreen: React.FC = () => {
         ) : (
           <FlatList
             data={order?.orderList}
-            renderItem={({ item }) => <OrdersCard data={item} onOrderPress={()=>goToOrderDetails(item?.orderID)} />}
+            renderItem={({ item }) => (
+              <OrdersCard
+                data={item}
+                onOrderPress={() => goToOrderDetails(item?.orderID)}
+              />
+            )}
             showsVerticalScrollIndicator={false}
             ListFooterComponent={<View style={{ height: tabBarHeight }} />}
           />

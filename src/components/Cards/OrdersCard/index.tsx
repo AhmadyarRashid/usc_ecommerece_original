@@ -90,7 +90,7 @@ const OrdersCard: React.FC<OrdersCardProps> = ({ data,onOrderPress }) => {
         </View>
       </View>
 
-      <VerticalSpace h={4} />
+      {/* <VerticalSpace h={4} />
 
       <SolidButton
         label={`Buy Again`}
@@ -98,7 +98,7 @@ const OrdersCard: React.FC<OrdersCardProps> = ({ data,onOrderPress }) => {
           paddingVertical: hR *1.2,
         }}
         customLabelStyle={{ fontSize: sR * 1.2 }}
-      />
+      /> */}
     </TouchableOpacity>
   );
 };

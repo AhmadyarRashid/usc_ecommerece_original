@@ -1,23 +1,25 @@
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, TextStyle} from 'react-native';
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, TextStyle } from "react-native";
 
-import {THEME} from '../../../constants/colors';
-import {PROXIMA_NOVA_SEMIBOLD} from '../../../constants/fonts';
-import {sR} from '../../../constants/dimensions';
+import { THEME } from "../../../constants/colors";
+import { PROXIMA_NOVA_SEMIBOLD } from "../../../constants/fonts";
+import { sR } from "../../../constants/dimensions";
 
 interface TextButtonProps {
   label: string;
   onPress?: () => void;
   customLabelStyle?: TextStyle;
+  disabled: boolean;
 }
 
 const TextButton: React.FC<TextButtonProps> = ({
   label,
   onPress,
   customLabelStyle,
+  disabled,
 }) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
       <Text style={[styles.labelText, customLabelStyle]}>{label}</Text>
     </TouchableOpacity>
   );

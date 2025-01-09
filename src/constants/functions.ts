@@ -1,4 +1,5 @@
-import Toast,{BaseToast} from "react-native-toast-message";
+import { Linking } from "react-native";
+import Toast, { BaseToast } from "react-native-toast-message";
 
 interface ToastParams {
   type: string;
@@ -91,4 +92,8 @@ export const removeFromCart = (cartList: any, idToRemove: number) => {
       return item;
     })
     .filter((item: any) => item !== null);
+};
+
+export const openURL = (str: string) => {
+  Linking.openURL(str);
 };

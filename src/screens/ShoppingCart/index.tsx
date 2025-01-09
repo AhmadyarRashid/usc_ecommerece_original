@@ -72,16 +72,9 @@ const ShoppingCartScreen: React.FC = () => {
         text2: `Order confirmed! Thank you for shopping with us`,
       });
 
-      goToOrders();
+      goBack();
     }
   };
-
-  const goToOrders = useCallback(() => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Orders" }],
-    });
-  }, [navigation]);
 
   const goBack = useCallback(() => {
     navigation.goBack();
