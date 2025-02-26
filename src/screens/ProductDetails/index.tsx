@@ -114,9 +114,10 @@ const ProductDetailsScreen: React.FC = () => {
           <VerticalSpace h={2} />
           <Image
             source={
-              productByID.image_128
-                ? { uri: productByID.image_128 }
-                : images.COFFEE
+              // productByID.image_128
+              //   ? { uri: productByID.image_128 }
+              //   : images.COFFEE
+              images.COFFEE
             }
             style={styles.productImage}
           />
