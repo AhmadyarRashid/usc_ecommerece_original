@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
 import { useCallback } from "react";
 import { Image } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -14,6 +15,7 @@ import { PROXIMA_NOVA_SEMIBOLD } from "../../constants/fonts";
 
 const AppInfoScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
+  const { t } = useTranslation();
 
   const goBack = useCallback(() => {
     navigation.goBack();
@@ -21,7 +23,7 @@ const AppInfoScreen: React.FC = () => {
   
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label={`About MyUSC`} onPress={goBack} />
+      <HeaderPrimary label={t(`ABOUT_MYUSC.ABOUT_MYUSC`)} onPress={goBack} />
 
       <View style={styles.contentContainer}>
         <Text style={styles.appNameText}>MyUSC</Text>

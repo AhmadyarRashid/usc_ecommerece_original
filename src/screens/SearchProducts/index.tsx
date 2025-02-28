@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { AxiosRequestHeaders } from "axios";
+import { useTranslation } from "react-i18next";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -26,6 +27,7 @@ const SearchProductsScreen: React.FC = () => {
   const dispatch = useDispatch();
   const { product } = useDynamicSliceSelector(["product"]);
   const isFocused = useIsFocused();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isFocused) {
@@ -69,13 +71,13 @@ const SearchProductsScreen: React.FC = () => {
 
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label="Search Products" onPress={goBack} />
+      <HeaderPrimary label={t(`SEARCH_PRODUCTS.SEARCH_PRODUCTS`)} onPress={goBack} />
 
       <View style={styles.secondaryContainer}>
         <VerticalSpace h={2} />
 
         <SearchBox
-          placeholder="Search anything you want..."
+          placeholder={t(`SEARCH_PRODUCTS.PLACEHOLDER`)}
           onChangeText={handleProductsSearch}
         />
 
@@ -89,8 +91,7 @@ const SearchProductsScreen: React.FC = () => {
               loop={true}
             />
             <Text style={styles.quicklySearchProductsText}>
-              Quickly search for products in your inventory with ease. Enter
-              keywords or filters to locate the items you need in no time.
+            {t(`SEARCH_PRODUCTS.DESCRIPTION`)}
             </Text>
           </View>
         )}

@@ -11,6 +11,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { AxiosRequestHeaders } from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty } from "lodash";
+import { useTranslation } from "react-i18next";
 
 import HeaderSecondary from "../../components/Header/HeaderSecondary";
 import SearchBox from "../../components/SearchBox";
@@ -91,6 +92,7 @@ const HomeScreen = () => {
     "product",
   ]);
   const isFocused = useIsFocused();
+  const { t } = useTranslation();
 
   const [count, setCount] = useState(1);
 
@@ -226,7 +228,7 @@ const HomeScreen = () => {
 
         <VerticalSpace h={2} />
 
-        <SectionTitleWithAction title="Explore Categories" />
+        <SectionTitleWithAction title={t(`HOME.EXPLORE_CATEGORIES`)} />
 
         <VerticalSpace h={2} />
 
@@ -241,7 +243,7 @@ const HomeScreen = () => {
         <VerticalSpace h={2} />
 
         <SectionTitleWithAction
-          title="Fresh Sale"
+          title={t(`HOME.FRESH_SALE`)}
           onViewAllPress={goToViewAllProducts}
         />
 
@@ -258,7 +260,7 @@ const HomeScreen = () => {
         <VerticalSpace h={2} />
 
         <SectionTitleWithAction
-          title="Frequently Ordered"
+          title={t(`HOME.FREQUENTLY_ORDERED`)}
           onViewAllPress={goToViewAllProducts}
         />
 

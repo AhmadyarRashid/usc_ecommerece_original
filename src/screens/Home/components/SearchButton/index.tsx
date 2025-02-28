@@ -1,5 +1,6 @@
 import { Platform, Pressable, StyleSheet, Text } from "react-native";
 import { SearchNormal1 } from "iconsax-react-native";
+import { useTranslation } from "react-i18next";
 
 import HorizontalSpace from "../../../../components/HorizontalSpace";
 
@@ -12,13 +13,15 @@ interface SearchButtonProps {
 }
 
 const SearchButton: React.FC<SearchButtonProps> = ({ onSearchButtonPress }) => {
+  const { t } = useTranslation();
+
   return (
     <Pressable style={styles.rootContainer} onPress={onSearchButtonPress}>
       <SearchNormal1 size={sR * 1.6} color={THEME} />
 
       <HorizontalSpace w={4} />
 
-      <Text style={styles.buttonText}>Search anything you want...</Text>
+      <Text style={styles.buttonText}>{t(`HOME.SEARCH_ANYTHING`)}</Text>
     </Pressable>
   );
 };

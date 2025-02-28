@@ -4,6 +4,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Field, Formik, FormikProps } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { isUndefined } from "lodash";
+import { useTranslation } from "react-i18next";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -39,6 +40,7 @@ const ConfirmAddressScreen: React.FC = () => {
   const { handleRestApi, restApiLoading } = useApiHook();
   const dispatch = useDispatch();
   const { addressData } = route?.params || {};
+  const { t } = useTranslation();
 
   const INITIAL_VALUES: AddressValues = isUndefined(addressData?.id)
     ? {
@@ -136,7 +138,7 @@ const ConfirmAddressScreen: React.FC = () => {
     <View style={styles.rootContainer}>
       {restApiLoading && <Loader />}
 
-      <HeaderPrimary label="Confirm Address" onPress={goBack} />
+      <HeaderPrimary label={t(`CONFIRM_ADDRESS.CONFIRM_ADDRESS`)} onPress={goBack} />
 
       <ScrollView
         contentContainerStyle={styles.scrollViewContainer}
@@ -145,10 +147,7 @@ const ConfirmAddressScreen: React.FC = () => {
         <VerticalSpace h={2} />
 
         <Text style={styles.normalText}>
-          By adding your address, we will make sure your orders are delivered
-          correctly and on time. This also speeds up the checkout process for
-          future purchases, ensuring smooth transactions and accurate shipping
-          options.
+        {t(`CONFIRM_ADDRESS.MESSAGE`)}
         </Text>
 
         <VerticalSpace h={2} />
@@ -165,38 +164,38 @@ const ConfirmAddressScreen: React.FC = () => {
         >
           {({ handleSubmit }) => (
             <>
-              <Text style={styles.labelText}>Name*</Text>
+              <Text style={styles.labelText}>{t(`CONFIRM_ADDRESS.NAME`)}*</Text>
               <VerticalSpace h={2} />
-              {renderInputField("name", "Name")}
+              {renderInputField("name",t(`CONFIRM_ADDRESS.NAME`))}
 
               <VerticalSpace h={2} />
               <Text style={styles.labelText}>
-                House/building/flat & street #*
+              {t(`CONFIRM_ADDRESS.HOUSE_STREET`)}*
               </Text>
               <VerticalSpace h={2} />
               {renderInputField(
                 "street",
-                "Enter house/building/flat & street #"
+                t(`CONFIRM_ADDRESS.ENTER_HOUSE_STREET`)
               )}
 
               <VerticalSpace h={2} />
-              <Text style={styles.labelText}>City*</Text>
+              <Text style={styles.labelText}>{t(`CONFIRM_ADDRESS.CITY`)}*</Text>
               <VerticalSpace h={2} />
-              {renderInputField("city", "Enter city")}
+              {renderInputField("city", t(`CONFIRM_ADDRESS.ENTER_CITY`))}
 
               <VerticalSpace h={2} />
               <Text style={styles.labelText}>
-                Additional Delivery Notes/Alternate Contact Information etc.
+                {t(`CONFIRM_ADDRESS.ADDITIONAL_NOTES`)}
               </Text>
               <VerticalSpace h={2} />
               {renderInputField(
                 "additionalNotes",
-                "Note to rider - e.g landmark"
+                t(`CONFIRM_ADDRESS.NOTE_TO_RIDER`)
               )}
 
               <VerticalSpace h={2} />
               <SolidButton
-                label="Save & Continue"
+                label={t(`CONFIRM_ADDRESS.SAVE_CONTINUE`)}
                 size="xl"
                 onPress={handleSubmit}
               />

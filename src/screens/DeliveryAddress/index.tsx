@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import useStateRef from "react-usestateref";
 import { isNull } from "lodash";
+import { useTranslation } from "react-i18next";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -60,6 +61,8 @@ const DeliveryAddressScreen: React.FC = () => {
   const { auth, address } = useDynamicSliceSelector(["auth", "address"]);
   const [actionModal, toggleActionModal] = useToggle(false);
   const { location, requestUserCurrentLocation } = useUserCurrentLocation();
+  const { t } = useTranslation();
+
   const [region, setRegion] = useState<Region>({
     latitudeDelta,
     longitudeDelta,
@@ -141,18 +144,18 @@ const DeliveryAddressScreen: React.FC = () => {
 
   const updateAddress = useCallback(async () => {
     if (!idRef.current) return;
-  
+
     const itemToUpdate = address?.addressList.find(
       (item) => item.id === idRef.current
     );
-  
+
     const { latitudeDelta, longitudeDelta, ...restRegionData } = region;
-  
+
     const addressData = {
       ...itemToUpdate,
-      ...restRegionData
+      ...restRegionData,
     };
-  
+
     goToConfirmAddress(addressData);
   }, [address, region]);
 
@@ -187,7 +190,10 @@ const DeliveryAddressScreen: React.FC = () => {
         handleDelete={deleteAddress}
       />
 
-      <HeaderPrimary label="Delivery Address" onPress={goBack} />
+      <HeaderPrimary
+        label={t(`DELIVERY_ADDRESS.DELIVERY_ADDRESS`)}
+        onPress={goBack}
+      />
 
       <MapView
         ref={mapRef}
@@ -220,7 +226,7 @@ const DeliveryAddressScreen: React.FC = () => {
               <HorizontalSpace w={4} />
 
               <Text style={styles.currentLocationText}>
-                Use my current location
+                {t(`DELIVERY_ADDRESS.USE_CURRENT_LOCATION`)}
               </Text>
             </TouchableOpacity>
 
@@ -235,11 +241,10 @@ const DeliveryAddressScreen: React.FC = () => {
                 />
 
                 <Text style={styles.addressNotFoundPrimaryText}>
-                  Your address book is empty
+                  {t(`DELIVERY_ADDRESS.EMPTY_ADDRESS_BOOK`)}
                 </Text>
                 <Text style={styles.addressNotFoundSecondaryText}>
-                  Add your preferred delivery address{`\n`}to help us serve you
-                  better
+                  {t(`DELIVERY_ADDRESS.ADD_ADDRESS_NOTE`)}
                 </Text>
               </View>
             ) : (
@@ -270,7 +275,7 @@ const DeliveryAddressScreen: React.FC = () => {
             <VerticalSpace h={2} />
 
             <SolidButton
-              label="Create Address"
+              label={t(`DELIVERY_ADDRESS.CREATE_ADDRESS_BUTTON`)}
               size="xl"
               onPress={() => goToConfirmAddress(region)}
             />

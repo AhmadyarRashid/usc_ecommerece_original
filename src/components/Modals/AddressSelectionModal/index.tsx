@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Location, TickSquare } from "iconsax-react-native";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import ModalWrapper from "../ModalWrapper";
 import VerticalSpace from "../../VerticalSpace";
@@ -35,6 +36,7 @@ const AddressSelectionModal: React.FC<AddressSelectionModalProps> = ({
   const { address } = useDynamicSliceSelector(["address"]);
   const [cardHeight, setCardHeight] = useState(0);
   const dispatch = useDispatch()
+    const { t } = useTranslation();
 
   const addressList = address?.addressList || [];
   const [updatedAddresses, setUpdatedAddresses] = useState(
@@ -68,10 +70,10 @@ const AddressSelectionModal: React.FC<AddressSelectionModalProps> = ({
     <ModalWrapper
       isVisible={isVisible}
       onClose={onClose}
-      title="Select Delivery Address"
+      title={t(`SHOPPING_CART.SELECT_DELIVERY_ADDRESS`)}
     >
       <Text style={styles.normalText}>
-        Choose the right delivery address instantly for a hassle-free experience.
+      {t(`SHOPPING_CART.DELIVERY_ADDRESS_NOTE`)}
       </Text>
 
       <VerticalSpace h={2} />

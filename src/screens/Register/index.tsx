@@ -20,15 +20,16 @@ import HorizontalSpace from "../../components/HorizontalSpace";
 import TextButton from "../../components/Button/TextButton";
 import SolidButton from "../../components/Button/SolidButton";
 
-import { BLACK, PINBALL, THEME, WHITE } from "../../constants/colors";
+import { BLACK, PINBALL, RED_DOOR, THEME, WHITE } from "../../constants/colors";
 import { sR, wR } from "../../constants/dimensions";
-import { PROXIMA_NOVA_REGULAR } from "../../constants/fonts";
+import { PROXIMA_NOVA_BOLD, PROXIMA_NOVA_REGULAR } from "../../constants/fonts";
 import useToggle from "../../hooks/useToggle";
 import { AppNavigationProps } from "../../constants/navigationTypes";
 import useApiHook from "../../hooks/rest/useApi";
 import { displayToast, validatePhone } from "../../constants/functions";
 import { setContactFields } from "../../redux/slices/contact";
 import { openURL } from "../../constants/functions";
+import { useTranslation } from "react-i18next";
 
 const WEBURL = `https://usc.org.pk/`;
 
@@ -37,6 +38,7 @@ const RegisterScreen: React.FC = () => {
   const dispatch = useDispatch();
   const [registerConsent, toggleRegisterConsent] = useToggle(true);
   const { handleRestApi, restApiLoading } = useApiHook();
+  const { t } = useTranslation();
 
   const [mobile, setMobile] = useState<string | null>(null);
 
@@ -72,18 +74,22 @@ const RegisterScreen: React.FC = () => {
     navigation.navigate("VerifyPhone");
   }, [navigation]);
 
+  const goBack = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
   return (
     <View style={styles.rootContainer}>
       {restApiLoading && <Loader />}
 
-      <HeaderPrimary label="Register" onPress={() => alert(`MyUSC`)} />
+      <HeaderPrimary label={t(`REGISTER.REGISTER`)} onPress={goBack} />
 
       <View style={styles.contentContainer}>
         <View>
           <VerticalSpace h={2} />
 
           <PhoneInput
-            placeholder="Phone number"
+            placeholder={t(`REGISTER.PHONE_NUMBER`)}
             maxLength={11}
             onChangeText={(e) => setMobile(e)}
           />
@@ -91,7 +97,13 @@ const RegisterScreen: React.FC = () => {
           <VerticalSpace h={2} />
 
           <Text style={styles.messageText}>
-            We will send a verification code to your number to confirm it's you.
+            {t(`REGISTER.VERIFICATION_MESSAGE`)}
+          </Text>
+
+          <VerticalSpace h={1} />
+
+          <Text style={styles.infoText}>
+            {t(`REGISTER.CONVERTED_SIM_NOTE`)}
           </Text>
         </View>
 
@@ -109,19 +121,19 @@ const RegisterScreen: React.FC = () => {
 
             <View>
               <Text style={styles.messageText}>
-                By selecting Agree &{"\n"}Continue, I agree with
+                {t(`REGISTER.AGREE_CONTINUE`)}
               </Text>
 
               <View style={styles.consentButtonsContainer}>
                 <TextButton
-                  label="Terms & Conditions"
+                  label={t(`REGISTER.TERMS_CONDITIONS`)}
                   onPress={() => openURL(WEBURL)}
                 />
 
-                <Text style={styles.messageText}> & </Text>
+                <Text style={styles.messageText}> {t(`REGISTER.AND`)} </Text>
 
                 <TextButton
-                  label="Privacy Policy"
+                  label={t(`REGISTER.PRIVACY_POLICY`)}
                   onPress={() => openURL(WEBURL)}
                 />
               </View>
@@ -132,7 +144,7 @@ const RegisterScreen: React.FC = () => {
 
           <SolidButton
             size={`xl`}
-            label={`Agree & Continue`}
+            label={t(`REGISTER.AGREE_BUTTON`)}
             onPress={registerUser}
           />
 
@@ -157,6 +169,11 @@ const styles = StyleSheet.create({
     color: BLACK,
     fontFamily: PROXIMA_NOVA_REGULAR,
     fontSize: sR * 1.3,
+  },
+  infoText: {
+    color: RED_DOOR,
+    fontFamily: PROXIMA_NOVA_BOLD,
+    fontSize: sR,
   },
   consentContainer: {
     flexDirection: "row",

@@ -5,6 +5,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { AxiosRequestHeaders } from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty } from "lodash";
+import { useTranslation } from "react-i18next";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import OrdersCard from "../../components/Cards/OrdersCard";
@@ -33,6 +34,7 @@ const MyOrdersScreen: React.FC = () => {
   );
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const { t } = useTranslation();
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
@@ -82,7 +84,7 @@ const MyOrdersScreen: React.FC = () => {
     >
       {restApiLoading && <Loader />}
 
-      <HeaderPrimary label={`My Orders`} onPress={goBack} />
+      <HeaderPrimary label={t(`MY_ORDERS.MY_ORDERS`)} onPress={goBack} />
 
       <VerticalSpace h={2} />
 
@@ -99,10 +101,10 @@ const MyOrdersScreen: React.FC = () => {
                 }}
               >
                 <NoContentDisplay
-                  label="No Orders Available"
-                  info="No orders available at the moment. Create your first order now!"
+                  label={t(`MY_ORDERS.NO_ORDERS_AVAILABLE`)}
+                  info={t(`MY_ORDERS.NO_ORDERS_MESSAGE`)}
                   displayActionButton={true}
-                  actionButtonText={"Order Now"}
+                  actionButtonText={t(`MY_ORDERS.ORDER_NOW`)}
                   onActionButtonPress={goBack}
                 />
               </View>

@@ -3,6 +3,7 @@ import { Alert, FlatList, StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { isEmpty } from "lodash";
+import { useTranslation } from "react-i18next";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import CartItemCard from "../../components/Cards/CartItemCard";
@@ -31,6 +32,7 @@ const ShoppingCartScreen: React.FC = () => {
   const dispatch = useDispatch();
   const [locationModal, toggleLocationModal] = useToggle(false);
   const { handleRestApi, restApiLoading } = useApiHook();
+  const { t } = useTranslation();
 
   const handleRemoveCartItem = (id: number) => {
     dispatch(
@@ -91,13 +93,13 @@ const ShoppingCartScreen: React.FC = () => {
         onClose={toggleLocationModal}
       />
 
-      <HeaderPrimary label="Shopping Cart" onPress={goBack} />
+      <HeaderPrimary label={t(`SHOPPING_CART.SHOPPING_CART`)} onPress={goBack} />
 
       {isEmpty(cart?.cartList) ? (
         <View style={styles.noContentDisplayContainer}>
           <NoContentDisplay
-            label="No Items Yet"
-            info="Oops! Your cart is empty. Browse our collection to start shopping!"
+            label={t(`SHOPPING_CART.NO_ITEMS_YET`)}
+            info={t(`SHOPPING_CART.EMPTY_CART_MESSAGE`)}
             displayActionButton={false}
           />
         </View>

@@ -13,3 +13,16 @@ export const ButtonSize: ButtonSize = {
   lg: wR * 62,
   xl: wR * 92,
 };
+
+export const LANGUAGE = {
+  ur: {
+    greeting: "السلام علیکم 👋",
+    inquiry: "کیا آپ ٹھیک ہیں؟",
+    languageText: "اردو",
+  },
+  en: {
+    greeting: "Hi 👋",
+    inquiry: "Are you ok?",
+    languageText: "English",
+  },
+};

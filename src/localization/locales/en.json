@@ -1,0 +1,141 @@
+{
+  "REGISTER": {
+    "REGISTER": "Register",
+    "PHONE_NUMBER": "Phone number",
+    "VERIFICATION_MESSAGE": "We will send a verification code to your number to confirm it's you.",
+    "CONVERTED_SIM_NOTE": "Note: You won’t receive the verification code on a converted SIM.",
+    "AGREE_CONTINUE": "By selecting Agree &\nContinue, I agree with",
+    "TERMS_CONDITIONS": "Terms & Conditions",
+    "AND": "&",
+    "PRIVACY_POLICY": "Privacy Policy",
+    "AGREE_BUTTON": "Agree & Continue"
+  },
+
+  "VERIFY_YOUR_IDENTITY": {
+    "VERIFY_YOUR_IDENTITY": "Verify your identity",
+    "ENTER_CODE": "Enter the 6-digit code we texted to",
+    "SECURITY_MESSAGE": "This helps us keep your account secure by verifying that it's really you.",
+    "RESEND_OTP": "Resend OTP",
+    "VERIFY_BUTTON": "Verify"
+  },
+
+  "ACCOUNT_CREATION_SUCCESS": {
+    "ACCOUNT_CREATION_SUCCESS": "You Have Been Authenticated!",
+    "MESSAGE": "Add your address to discover products and items that are available near you. This helps us provide a more personalized shopping experience!",
+    "SETUP_ADDRESS_BUTTON": "Set Up Your Address"
+  },
+
+  "DELIVERY_ADDRESS": {
+    "DELIVERY_ADDRESS": "Delivery Address",
+    "USE_CURRENT_LOCATION": "Use my current location",
+    "EMPTY_ADDRESS_BOOK": "Your address book is empty",
+    "ADD_ADDRESS_NOTE": "Add your preferred delivery address\n to help us serve you better",
+    "CREATE_ADDRESS_BUTTON": "Create Address"
+  },
+
+  "CONFIRM_ADDRESS": {
+    "CONFIRM_ADDRESS": "Confirm Address",
+    "MESSAGE": "By adding your address, we will make sure your orders are delivered correctly and on time. This also speeds up the checkout process for future purchases, ensuring smooth transactions and accurate shipping options.",
+    "NAME": "Name",
+    "HOUSE_STREET": "House/building/flat & street #",
+    "ENTER_HOUSE_STREET": "Enter house/building/flat & street #",
+    "CITY": "City",
+    "ENTER_CITY": "Enter city",
+    "ADDITIONAL_NOTES": "Additional Delivery Notes/Alternate Contact Information etc.",
+    "NOTE_TO_RIDER": "Note to rider - e.g landmark",
+    "SAVE_CONTINUE": "Save & Continue"
+  },
+
+  "EXPLORE": {
+    "EXPLORE": "Explore",
+    "PROFILE": "PROFILE",
+    "SIGN_OUT": "Sign Out",
+    "PROFILE_INFO": "This section showcases your profile image, name, and contact details. Don’t forget to log out when you’re done.",
+    "SUPPORT": "SUPPORT",
+    "FEEDBACK": "Feedback",
+    "CONTACT_US": "Contact Us",
+    "REGISTER_COMPLAINT": "Register Complaint",
+    "MY_COMPLAINTS": "My Complaints",
+    "MY_ORDERS": "My Orders",
+    "SUPPORT_INFO": "This section showcases the various ways you can get in touch with us. Share your feedback or contact support for assistance.",
+    "ABOUT_US": "ABOUT US",
+    "PRIVACY_POLICY": "Privacy Policy",
+    "TERMS_CONDITIONS": "Terms & Conditions",
+    "VISIT_WEBSITE": "Visit Our Website",
+    "APP_INFO": "App Info",
+    "ABOUT_US_INFO": "This section showcases essential information about us. Read the Privacy Policy and Terms & Conditions, check out the app details, visit our website for more, and invite a friend to join the experience."
+  },
+
+  "REGISTER_COMPLAINT": {
+    "REGISTER_COMPLAINT": "Register Complaint",
+    "COMPLAINT_TITLE": "Complaint Title",
+    "COMPLAINT_MESSAGE": "Complaint Message",
+    "LODGE_COMPLAINT": "Lodge Complaint",
+    "SUBMITTING": "Submitting..."
+  },
+
+  "MY_COMPLAINTS": {
+    "MY_COMPLAINTS": "My Complaints",
+    "NO_COMPLAINT_AVAILABLE": "No Complaint Available",
+    "NO_COMPLAINT_MESSAGE": "No complaint is available right now. Kindly register a complaint first!",
+    "REGISTER_COMPLAINT_BUTTON": "Register Complaint"
+  },
+
+  "MY_ORDERS": {
+    "MY_ORDERS": "My Orders",
+    "NO_ORDERS_AVAILABLE": "No Orders Available",
+    "NO_ORDERS_MESSAGE": "No orders available at the moment. Create your first order now!",
+    "ORDER_NOW": "Order Now"
+  },
+
+  "ABOUT_MYUSC": {
+    "ABOUT_MYUSC": "About MyUSC"
+  },
+
+  "SHOPPING_CART": {
+    "SHOPPING_CART": "Shopping Cart",
+    "NO_ITEMS_YET": "No Items Yet",
+    "EMPTY_CART_MESSAGE": "Oops! Your cart is empty. Browse our collection to start shopping!",
+    "DISCOUNT_MESSAGE": "Discounts have been automatically applied to all of your shopping items. Enjoy your savings on every purchase!",
+    "DELIVERY_ADDRESS": "Delivery Address",
+    "ADJUST": "Adjust",
+    "MY_ORDERS":"My Orders",
+    "SUBTOTAL": "Subtotal",
+    "STANDARD_DELIVERY": "Standard Delivery",
+    "PLATFORM_FEES": "Platform Fees",
+    "VAT": "VAT",
+    "GRAND_TOTAL": "Grand Total",
+    "NO_VOUCHERS_NOTE": "Note! This outlet doesn't accept vouchers.",
+    "DELIVERY_DISCOUNT": "Enjoy a reduced delivery fee of PKR 100, down from PKR 200!",
+    "PLACE_ORDER": "Place Order",
+    "PROCEED_TO_CHECKOUT": "Proceed to Checkout",
+    "SELECT_DELIVERY_ADDRESS": "Select Delivery Address",
+    "DELIVERY_ADDRESS_NOTE": "Choose the right delivery address instantly for a hassle-free experience."
+  },
+
+  "HOME": {
+    "SEARCH_ANYTHING": "Search anything you want...",
+    "EXPLORE_CATEGORIES": "Explore Categories",
+    "VIEW_ALL": "View All",
+    "FRESH_SALE": "Fresh Sale",
+    "FREQUENTLY_ORDERED": "Frequently Ordered"
+  },
+
+  "SEARCH_PRODUCTS": {
+    "SEARCH_PRODUCTS": "Search Products",
+    "PLACEHOLDER": "Search anything you want...",
+    "DESCRIPTION": "Quickly search for products in your inventory with ease. Enter keywords or filters to locate the items you need in no time."
+  },
+
+  "PRODUCT_DETAILS": {
+    "PRODUCT_DETAILS": "Product Details",
+    "INFORMATION": "Product Information",
+    "AVAILABLE_IN_STOCK": "Available in Stock",
+    "OUT_OF_STOCK": "Out of Stock",
+    "ADD_TO_CART": "Add to cart"
+  },
+
+  "SELECT_LANGUAGE": {
+    "NEXT": "Next"
+  }
+}

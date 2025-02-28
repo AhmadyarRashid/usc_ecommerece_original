@@ -8,6 +8,7 @@ import AccountCreationSuccessScreen from "../../screens/AccountCreationSuccess";
 import AppBottomTab from "../AppBottomTab";
 import AddressStack from "../AddressStack";
 import ExploreStack from "../ExploreStack";
+import SelectLanguageScreen from "../../screens/SelectLanguage";
 
 import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
 
@@ -22,7 +23,7 @@ const AuthStack: React.FC = () => {
     ? routeToAddress
       ? "Address"
       : "AppBottomTab"
-    : "Register";
+    : "SelectLanguage";
 
   return (
     <Stack.Navigator
@@ -31,6 +32,7 @@ const AuthStack: React.FC = () => {
         headerShown: false,
       }}
     >
+      <Stack.Screen name="SelectLanguage" component={SelectLanguageScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="VerifyPhone" component={VerifyPhoneScreen} />
       <Stack.Screen

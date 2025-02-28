@@ -1598,6 +1598,8 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - RNLocalize (3.4.1):
+    - React-Core
   - RNPermissions (5.2.1):
     - React-Core
   - RNReanimated (3.15.3):
@@ -1764,6 +1766,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNLocalize (from `../node_modules/react-native-localize`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -1917,6 +1920,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNLocalize:
+    :path: "../node_modules/react-native-localize"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
   RNReanimated:
@@ -2001,6 +2006,7 @@ SPEC CHECKSUMS:
   ReactCommon: 6ef348087d250257c44c0204461c03f036650e9b
   RNCAsyncStorage: d35c79ffba52c1013013e16b1fc295aec2feabb6
   RNGestureHandler: 6dfe7692a191ee224748964127114edf057a1475
+  RNLocalize: 06991b9c31e7a898a9fa6ddb204ce0f53a967248
   RNPermissions: 29f757b2e88f8f5c03a434d1d3036172b183e029
   RNReanimated: c543567b3482ea54dec3216811d2360e581d35d0
   RNScreens: 19719a9c326e925498ac3b2d35c4e50fe87afc06

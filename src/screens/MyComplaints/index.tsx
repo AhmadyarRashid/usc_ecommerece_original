@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AxiosRequestHeaders } from "axios";
 import { useDispatch } from "react-redux";
 import { isEmpty } from "lodash";
+import { useTranslation } from "react-i18next";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import ComplaintCard from "../../components/Cards/ComplaintCard";
@@ -14,7 +15,7 @@ import NoContentDisplay from "../../components/NoContentDisplay";
 import { WHITE } from "../../constants/colors";
 import { AppNavigationProps } from "../../constants/navigationTypes";
 import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
-import useApiHook from "../../hooks/rest/useApi"
+import useApiHook from "../../hooks/rest/useApi";
 import { setComplaintFields } from "../../redux/slices/complaint";
 
 const MyComplaintsScreen = () => {
@@ -22,6 +23,7 @@ const MyComplaintsScreen = () => {
   const { complaint, auth } = useDynamicSliceSelector(["complaint", "auth"]);
   const { handleRestApi, restApiLoading } = useApiHook();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const complaints = complaint?.complaintList;
 
@@ -43,7 +45,9 @@ const MyComplaintsScreen = () => {
     });
 
     if (response.data.result.status === 200) {
-      dispatch(setComplaintFields({complaintList:response?.data?.result?.review}));
+      dispatch(
+        setComplaintFields({ complaintList: response?.data?.result?.review })
+      );
     }
   };
 
@@ -60,15 +64,18 @@ const MyComplaintsScreen = () => {
     >
       {restApiLoading && <Loader />}
 
-      <HeaderPrimary label={`My Complaints`} onPress={goBack} />
+      <HeaderPrimary
+        label={t(`MY_COMPLAINTS.MY_COMPLAINTS`)}
+        onPress={goBack}
+      />
 
       {isEmpty(complaints) ? (
         <View style={styles.emptyListContainer}>
           <NoContentDisplay
-            label="No Complaint Available"
-            info="No complaint is available right now. Kindly register a complaint first!"
+            label={t(`MY_COMPLAINTS.NO_COMPLAINT_AVAILABLE`)}
+            info={t(`MY_COMPLAINTS.NO_COMPLAINT_MESSAGE`)}
             displayActionButton={true}
-            actionButtonText={"Register Complaint"}
+            actionButtonText={t(`MY_COMPLAINTS.REGISTER_COMPLAINT_BUTTON`)}
             onActionButtonPress={goBack}
           />
         </View>

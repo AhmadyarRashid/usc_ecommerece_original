@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { AxiosRequestHeaders } from "axios";
+import { useTranslation } from "react-i18next";
+import { isEmpty } from "lodash";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -26,13 +28,13 @@ import { RootState } from "../../redux/store";
 import useApiHook from "../../hooks/rest/useApi";
 import { setAuthFields } from "../../redux/slices/auth";
 import { setAddressFields } from "../../redux/slices/address";
-import { isEmpty } from "lodash";
 
 const VerifyPhoneScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
   const contact = useSelector((state: RootState) => state.contact.contactInfo);
   const { handleRestApi, restApiLoading } = useApiHook();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [otp, setOTP] = useState<string>("");
   const [resendDisabled, setResendDisabled] = useState<boolean>(true);
@@ -134,21 +136,20 @@ const VerifyPhoneScreen: React.FC = () => {
     <View style={styles.rootContainer}>
       {restApiLoading && <Loader />}
 
-      <HeaderPrimary label="Verify your identity" onPress={navigateBack} />
+      <HeaderPrimary label={t(`VERIFY_YOUR_IDENTITY.VERIFY_YOUR_IDENTITY`)} onPress={navigateBack} />
 
       <VerticalSpace h={2} />
 
       <View style={styles.childContainer}>
         <View>
           <Text style={styles.enterCodeText}>
-            Enter the 6-digit code we texted to {contact}
+            {t(`VERIFY_YOUR_IDENTITY.ENTER_CODE`)} {contact}
           </Text>
 
           <VerticalSpace h={2} />
 
           <Text style={styles.helpText}>
-            This helps us keep your account secure by verifying that it's really
-            you.
+          {t(`VERIFY_YOUR_IDENTITY.SECURITY_MESSAGE`)}
           </Text>
 
           <VerticalSpace h={2} />
@@ -159,7 +160,7 @@ const VerifyPhoneScreen: React.FC = () => {
 
           <View style={styles.resendOTPContainer}>
             <TextButton
-              label={`Resend OTP ${resendDisabled ? `(${timer}s)` : ""}`}
+              label={`${t(`VERIFY_YOUR_IDENTITY.RESEND_OTP`)} ${resendDisabled ? `(${timer}s)` : ""}`}
               onPress={handleResendOTP}
               disabled={resendDisabled}
               customLabelStyle={{ color: resendDisabled ? LUCKY_GREY : THEME }}
@@ -167,7 +168,7 @@ const VerifyPhoneScreen: React.FC = () => {
           </View>
         </View>
 
-        <SolidButton label="Verify" size="xl" onPress={verifyOTP} />
+        <SolidButton label={t(`VERIFY_YOUR_IDENTITY.VERIFY_BUTTON`)} size="xl" onPress={verifyOTP} />
       </View>
     </View>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity, View, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { PROXIMA_NOVA_REGULAR, PROXIMA_NOVA_SEMIBOLD } from '../../../../constants/fonts';
 import { sR } from '../../../../constants/dimensions';
@@ -11,12 +12,14 @@ interface SectionTitleWithActionProps {
 }
 
 const SectionTitleWithAction: React.FC<SectionTitleWithActionProps> = ({ title, onViewAllPress }) => {
+    const { t } = useTranslation();
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
        
       <TouchableOpacity onPress={onViewAllPress}>
-        <Text style={styles.actionButtonText}>View All</Text>
+        <Text style={styles.actionButtonText}>{t(`HOME.VIEW_ALL`)}</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,23 +1,25 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { AxiosRequestHeaders } from "axios";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
-
-import { WHITE } from "../../constants/colors";
-import { AppNavigationProps } from "../../constants/navigationTypes";
-import VerticalSpace from "../../components/VerticalSpace";
-import { Field, FieldProps, Formik, FormikProps } from "formik";
-import { complaintOrderSchema } from "../../constants/schemas";
 import InputField from "../../components/TextInput/InputField";
 import TextArea from "../../components/TextInput/TextArea";
 import SolidButton from "../../components/Button/SolidButton";
+import VerticalSpace from "../../components/VerticalSpace";
+import Loader from "../../components/Loader";
+
+import { WHITE } from "../../constants/colors";
+import { AppNavigationProps } from "../../constants/navigationTypes";
+import { Field, FieldProps, Formik, FormikProps } from "formik";
+import { complaintOrderSchema } from "../../constants/schemas";
+
 import { sR, wR } from "../../constants/dimensions";
 import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
 import useApiHook from "../../hooks/rest/useApi";
-import { AxiosRequestHeaders } from "axios";
 import { displayToast } from "../../constants/functions";
-import Loader from "../../components/Loader";
 
 interface RegisterComplaintValues {
   title: string;
@@ -29,6 +31,7 @@ const RegisterComplaintScreen = () => {
   const formikRef = useRef<FormikProps<RegisterComplaintValues>>(null);
   const { auth } = useDynamicSliceSelector(["auth"]);
   const { handleRestApi, restApiLoading } = useApiHook();
+  const { t } = useTranslation();
 
   const handleRegisterComplaint = async (
     values: RegisterComplaintValues
@@ -67,7 +70,10 @@ const RegisterComplaintScreen = () => {
     <View style={styles.rootContainer}>
       {restApiLoading && <Loader />}
 
-      <HeaderPrimary label="Register Complaint" onPress={goBack} />
+      <HeaderPrimary
+        label={t(`REGISTER_COMPLAINT.REGISTER_COMPLAINT`)}
+        onPress={goBack}
+      />
 
       <VerticalSpace h={2} />
 
@@ -93,7 +99,7 @@ const RegisterComplaintScreen = () => {
                 {({ field, meta }: FieldProps) => (
                   <>
                     <InputField
-                      placeholder="Complaint Title"
+                      placeholder={t(`REGISTER_COMPLAINT.COMPLAINT_TITLE`)}
                       onChangeText={field.onChange("title")}
                       onBlur={field.onBlur("title")}
                       value={field.value}
@@ -115,7 +121,7 @@ const RegisterComplaintScreen = () => {
                 {({ field, meta }: FieldProps) => (
                   <>
                     <TextArea
-                      placeholder="Complaint Message"
+                      placeholder={t(`REGISTER_COMPLAINT.COMPLAINT_MESSAGE`)}
                       onChangeText={field.onChange("message")}
                       onBlur={field.onBlur("message")}
                       value={field.value}
@@ -134,7 +140,11 @@ const RegisterComplaintScreen = () => {
 
               {/* Submit Button */}
               <SolidButton
-                label={restApiLoading ? "Submitting..." : "Lodge Complaint"}
+                label={
+                  restApiLoading
+                    ? t(`REGISTER_COMPLAINT.SUBMITTING`)
+                    : t(`REGISTER_COMPLAINT.LODGE_COMPLAINT`)
+                }
                 size="xl"
                 onPress={handleSubmit}
                 disabled={!isValid || restApiLoading}

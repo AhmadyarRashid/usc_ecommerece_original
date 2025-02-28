@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
 import { Location } from "iconsax-react-native";
 import { isNull } from "lodash";
+import { useTranslation } from "react-i18next";
 
 import VerticalSpace from "../../../../components/VerticalSpace";
 import HorizontalSpace from "../../../../components/HorizontalSpace";
@@ -29,6 +30,7 @@ const ShoppingCartListHeader: React.FC<ShoppingCartListHeaderProps> = ({
   onEditPress,
 }) => {
   const { address } = useDynamicSliceSelector(["address"]);
+  const { t } = useTranslation();
 
   const { name = "", street = "", city = "" } = address?.selectedAddress || {};
 
@@ -38,8 +40,7 @@ const ShoppingCartListHeader: React.FC<ShoppingCartListHeaderProps> = ({
 
       <View style={styles.primaryInfoContainer}>
         <Text style={styles.primaryInfoText}>
-          Discounts have been automatically applied to all of your shopping
-          items. Enjoy your savings on every purchase!
+          {t(`SHOPPING_CART.DISCOUNT_MESSAGE`)}
         </Text>
       </View>
 
@@ -47,7 +48,7 @@ const ShoppingCartListHeader: React.FC<ShoppingCartListHeaderProps> = ({
 
       {isNull(address?.selectedAddress) ? null : (
         <>
-          <Text style={styles.headingText}>Delivery Address</Text>
+          <Text style={styles.headingText}>{t(`SHOPPING_CART.DELIVERY_ADDRESS`)}</Text>
 
           <VerticalSpace h={2} />
 
@@ -72,14 +73,14 @@ const ShoppingCartListHeader: React.FC<ShoppingCartListHeaderProps> = ({
               </View>
             </View>
 
-            <TextButton label={`Adjust`} onPress={onEditPress} />
+            <TextButton label={t(`SHOPPING_CART.ADJUST`)} onPress={onEditPress} />
           </View>
 
           <VerticalSpace h={2} />
         </>
       )}
 
-      <Text style={styles.headingText}>My Orders</Text>
+      <Text style={styles.headingText}>{t(`SHOPPING_CART.MY_ORDERS`)}</Text>
 
       <VerticalSpace h={2} />
     </View>

@@ -22,6 +22,7 @@ import {
   Task,
 } from "iconsax-react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useTranslation } from "react-i18next";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -59,21 +60,22 @@ const ExploreScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
   const { auth } = useDynamicSliceSelector(["auth"]);
   const tabBarHeight = useBottomTabBarHeight();
+  const { t } = useTranslation();
 
   const logout = () => {
     store.dispatch({ type: "RESET_APP" });
 
     navigation.reset({
       index: 0,
-      routes: [{ name: "Register" }],
+      routes: [{ name: "SelectLanguage" }],
     });
   };
 
-  const handleURL = () =>{
-    console.log('asds');
-    
+  const handleURL = () => {
+    console.log("asds");
+
     // openURL(WEBURL)
-  }
+  };
 
   const goToMyComplaints = useCallback(() => {
     navigation.navigate("MyComplaints");
@@ -97,7 +99,7 @@ const ExploreScreen: React.FC = () => {
 
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label="Explore" onPress={goBack} />
+      <HeaderPrimary label={t(`EXPLORE.EXPLORE`)} onPress={goBack} />
 
       <View style={styles.scrollContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -107,7 +109,7 @@ const ExploreScreen: React.FC = () => {
 
           <VerticalSpace h={2} />
 
-          <Text style={styles.sectionHeaderText}>PROFILE</Text>
+          <Text style={styles.sectionHeaderText}>{t(`EXPLORE.PROFILE`)}</Text>
           <View style={{ ...styles.sectionContainer, paddingVertical: hR * 2 }}>
             <View style={styles.profileDetailsContainer}>
               <Image source={images.PROFILE} style={styles.profileImage} />
@@ -123,7 +125,7 @@ const ExploreScreen: React.FC = () => {
                 <VerticalSpace h={1} />
 
                 <TextButton
-                  label="Sign Out"
+                  label={t(`EXPLORE.SIGN_OUT`)}
                   customLabelStyle={{ color: RED_DOOR }}
                   onPress={logout}
                 />
@@ -131,15 +133,13 @@ const ExploreScreen: React.FC = () => {
             </View>
           </View>
 
-          <SectionDescriptionText
-            text={`This section showcases your profile image, name, and contact details. Don’t forget to log out when you’re done.`}
-          />
+          <SectionDescriptionText text={t(`EXPLORE.PROFILE_INFO`)} />
 
-          <Text style={styles.sectionHeaderText}>SUPPORT</Text>
+          <Text style={styles.sectionHeaderText}>{t(`EXPLORE.SUPPORT`)}</Text>
 
           <View style={styles.sectionContainer}>
             <MenuItem
-              label="Feedback"
+              label={t(`EXPLORE.FEEDBACK`)}
               icon={<MessageAdd size={ICON_SIZE} color={ICON_COLOR} />}
               onMenuItemPress={() => openURL(MAIL_TO)}
             />
@@ -147,7 +147,7 @@ const ExploreScreen: React.FC = () => {
             <HorizontalLine />
 
             <MenuItem
-              label="Contact Us"
+              label={t(`EXPLORE.CONTACT_US`)}
               icon={<CallAdd size={ICON_SIZE} color={ICON_COLOR} />}
               onMenuItemPress={() => openURL(TELL)}
             />
@@ -155,7 +155,7 @@ const ExploreScreen: React.FC = () => {
             <HorizontalLine />
 
             <MenuItem
-              label="Register Complaint"
+              label={t(`EXPLORE.REGISTER_COMPLAINT`)}
               icon={<FolderAdd size={ICON_SIZE} color={ICON_COLOR} />}
               onMenuItemPress={goToRegisterComplaint}
             />
@@ -163,7 +163,7 @@ const ExploreScreen: React.FC = () => {
             <HorizontalLine />
 
             <MenuItem
-              label="My Complaints"
+              label={t(`EXPLORE.MY_COMPLAINTS`)}
               icon={<MenuBoard size={ICON_SIZE} color={ICON_COLOR} />}
               onMenuItemPress={goToMyComplaints}
             />
@@ -171,21 +171,19 @@ const ExploreScreen: React.FC = () => {
             <HorizontalLine />
 
             <MenuItem
-              label="My Orders"
+              label={t(`EXPLORE.MY_ORDERS`)}
               icon={<DirectboxReceive size={ICON_SIZE} color={ICON_COLOR} />}
               onMenuItemPress={goToOrders}
             />
           </View>
 
-          <SectionDescriptionText
-            text={`This section showcases the various ways you can get in touch with us. Share your feedback or contact support for assistance.`}
-          />
+          <SectionDescriptionText text={t(`EXPLORE.SUPPORT_INFO`)} />
 
-          <Text style={styles.sectionHeaderText}>ABOUT US</Text>
+          <Text style={styles.sectionHeaderText}>{t(`EXPLORE.ABOUT_US`)}</Text>
 
           <View style={styles.sectionContainer}>
             <MenuItem
-              label="Privacy Policy"
+              label={t(`EXPLORE.PRIVACY_POLICY`)}
               icon={<ShieldTick size={ICON_SIZE} color={ICON_COLOR} />}
               onPress={handleURL}
             />
@@ -193,7 +191,7 @@ const ExploreScreen: React.FC = () => {
             <HorizontalLine />
 
             <MenuItem
-              label="Terms & Conditions"
+              label={t(`EXPLORE.TERMS_CONDITIONS`)}
               icon={<Document size={ICON_SIZE} color={ICON_COLOR} />}
               onPress={handleURL}
             />
@@ -201,7 +199,7 @@ const ExploreScreen: React.FC = () => {
             <HorizontalLine />
 
             <MenuItem
-              label="Visit Our Website"
+              label={t(`EXPLORE.VISIT_WEBSITE`)}
               icon={<Global size={ICON_SIZE} color={ICON_COLOR} />}
               onPress={handleURL}
             />
@@ -209,7 +207,7 @@ const ExploreScreen: React.FC = () => {
             <HorizontalLine />
 
             <MenuItem
-              label="App Info"
+              label={t(`EXPLORE.APP_INFO`)}
               icon={<DocumentCode2 size={ICON_SIZE} color={ICON_COLOR} />}
               onMenuItemPress={goToAppInfo}
             />
@@ -229,9 +227,7 @@ const ExploreScreen: React.FC = () => {
             /> */}
           </View>
 
-          <SectionDescriptionText
-            text={`This section showcases essential information about us. Read the Privacy Policy and Terms & Conditions, check out the app details, visit our website for more, and invite a friend to join the experience.`}
-          />
+          <SectionDescriptionText text={t(`EXPLORE.ABOUT_US_INFO`)} />
         </ScrollView>
       </View>
 
@@ -266,6 +262,7 @@ const styles = StyleSheet.create({
   },
   profileDetailsContainer: {
     flexDirection: "row",
+    alignItems:"center"
   },
   profileImage: {
     height: sR * 5,

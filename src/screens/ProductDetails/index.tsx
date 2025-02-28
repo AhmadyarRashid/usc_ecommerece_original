@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { isUndefined } from "lodash";
+import { useTranslation } from "react-i18next";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import VerticalSpace from "../../components/VerticalSpace";
@@ -40,6 +41,7 @@ const ProductDetailsScreen: React.FC = () => {
     selectAuthAddressOrder(state)
   );
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [count, setCount] = useState(1);
 
@@ -65,7 +67,7 @@ const ProductDetailsScreen: React.FC = () => {
     const existingItem = cart.cartList.find(
       (item) => item.id === productByID.id
     );
-    
+
     const newCount = existingItem ? existingItem.count + count : count;
 
     // if (newCount > productByID.qty_available) {
@@ -108,7 +110,7 @@ const ProductDetailsScreen: React.FC = () => {
 
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label="Product Details" onPress={goBack} />
+      <HeaderPrimary label={t(`PRODUCT_DETAILS.PRODUCT_DETAILS`)} onPress={goBack} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.childContainer}>
           <VerticalSpace h={2} />
@@ -134,14 +136,14 @@ const ProductDetailsScreen: React.FC = () => {
             </View>
             <Text style={styles.productAvailabilityText}>
               {productByID.qty_available > 0
-                ? "Available in Stock"
-                : "Out of Stock"}
+                ? t(`PRODUCT_DETAILS.AVAILABLE_IN_STOCK`)
+                : t(`PRODUCT_DETAILS.OUT_OF_STOCK`)}
             </Text>
           </View>
           <VerticalSpace h={2} />
           <HorizontalLine />
           <VerticalSpace h={2} />
-          <Text style={styles.productInfoHeadingText}>Product Information</Text>
+          <Text style={styles.productInfoHeadingText}>{t(`PRODUCT_DETAILS.INFORMATION`)}</Text>
           <VerticalSpace h={2} />
           <Text style={styles.productInfoText}>N/A</Text>
         </View>
