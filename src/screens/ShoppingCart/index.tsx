@@ -1,9 +1,17 @@
 import React, { useCallback } from "react";
-import { Alert, FlatList, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { isEmpty } from "lodash";
 import { useTranslation } from "react-i18next";
+import { SwipeListView } from "react-native-swipe-list-view";
 
 import HeaderPrimary from "../../components/Header/HeaderPrimary";
 import CartItemCard from "../../components/Cards/CartItemCard";
@@ -13,14 +21,21 @@ import NoContentDisplay from "../../components/NoContentDisplay";
 import AddressSelectionModal from "../../components/Modals/AddressSelectionModal";
 import Loader from "../../components/Loader";
 
-import { WHITE } from "../../constants/colors";
-import { wR } from "../../constants/dimensions";
+import {
+  COMMUNIST,
+  HULK,
+  PINBALL,
+  RED_DOOR,
+  WHITE,
+} from "../../constants/colors";
+import { hR, sR, wR } from "../../constants/dimensions";
 import { AppNavigationProps } from "../../constants/navigationTypes";
 import { setCartFields } from "../../redux/slices/cart";
 import { displayToast } from "../../constants/functions";
 import useToggle from "../../hooks/useToggle";
 import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
 import useApiHook from "../../hooks/rest/useApi";
+import { Trash } from "iconsax-react-native";
 
 const ShoppingCartScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
@@ -84,16 +99,17 @@ const ShoppingCartScreen: React.FC = () => {
 
   return (
     <View style={styles.rootContainer}>
-      {
-        restApiLoading && <Loader />
-      }
+      {restApiLoading && <Loader />}
 
       <AddressSelectionModal
         isVisible={locationModal}
         onClose={toggleLocationModal}
       />
 
-      <HeaderPrimary label={t(`SHOPPING_CART.SHOPPING_CART`)} onPress={goBack} />
+      <HeaderPrimary
+        label={t(`SHOPPING_CART.SHOPPING_CART`)}
+        onPress={goBack}
+      />
 
       {isEmpty(cart?.cartList) ? (
         <View style={styles.noContentDisplayContainer}>
@@ -104,7 +120,7 @@ const ShoppingCartScreen: React.FC = () => {
           />
         </View>
       ) : (
-        <FlatList
+        <SwipeListView
           data={cart?.cartList}
           renderItem={({ item }) => (
             <CartItemCard
@@ -124,6 +140,13 @@ const ShoppingCartScreen: React.FC = () => {
             />
           }
           contentContainerStyle={styles.flatListContentContainer}
+          renderHiddenItem={({item}) => (
+            <TouchableOpacity style={styles.swipeDeleteContainer} onPress={()=>handleRemoveCartItem(item.id)}>
+              <Trash size={sR * 2} color={WHITE} variant="Bold" />
+            </TouchableOpacity>
+          )}
+          rightOpenValue={-wR * 12}
+          disableRightSwipe={true}
         />
       )}
     </View>
@@ -144,5 +167,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  swipeDeleteContainer: {
+    borderRadius: sR,
+    marginBottom: hR * 2,
+    flex: 1,
+    backgroundColor: COMMUNIST,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    paddingRight: wR * 4,
   },
 });

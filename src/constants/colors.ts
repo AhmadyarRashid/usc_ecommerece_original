@@ -30,6 +30,8 @@ const RED_DOOR = "#AE0000"
 
 const LUCKY_GREY = "#7777"
 
+const COMMUNIST = '#C70000'
+
 export {
   WHITE,
   THEME,
@@ -55,5 +57,6 @@ export {
   EPHEMERAL_MIST,
   VITAMIN_C,
   RED_DOOR,
-  LUCKY_GREY
+  LUCKY_GREY,
+  COMMUNIST
 };

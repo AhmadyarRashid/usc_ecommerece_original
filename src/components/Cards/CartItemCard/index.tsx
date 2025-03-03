@@ -16,6 +16,7 @@ import {
   FLINT_STONE,
   PINBALL,
   THEME,
+  WHITE,
   WHITE_SMOKE,
 } from "../../../constants/colors";
 import { hR, sR, wR } from "../../../constants/dimensions";
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
     paddingVertical: hR * 2,
     width: wR * 92,
     marginBottom: hR * 2,
+    backgroundColor:WHITE
   },
   leftContainer: {
     flexDirection: "row",

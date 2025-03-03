@@ -232,6 +232,14 @@ const DeliveryAddressScreen: React.FC = () => {
 
             <VerticalSpace h={2} />
 
+            <SolidButton
+              label={t(`DELIVERY_ADDRESS.CREATE_ADDRESS_BUTTON`)}
+              size="xl"
+              onPress={() => goToConfirmAddress(region)}
+            />
+
+            <VerticalSpace h={2} />
+
             {address?.addressList?.length === 0 ? (
               <View style={styles.addressNotFoundContainer}>
                 <LottieAnimation
@@ -271,14 +279,6 @@ const DeliveryAddressScreen: React.FC = () => {
                 </View>
               ))
             )}
-
-            <VerticalSpace h={2} />
-
-            <SolidButton
-              label={t(`DELIVERY_ADDRESS.CREATE_ADDRESS_BUTTON`)}
-              size="xl"
-              onPress={() => goToConfirmAddress(region)}
-            />
           </View>
         </ScrollView>
       </BottomSheet>
