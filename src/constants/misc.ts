@@ -14,3 +14,14 @@ export const tabHiddenRoutes = [
 
 export const latitudeDelta = 0.025;
 export const longitudeDelta = 0.025;
+
+export const languageOptions = [
+  {
+    label: "English",
+    value: "en",
+  },
+  {
+    label: "اردو",
+    value: "ur",
+  },
+];

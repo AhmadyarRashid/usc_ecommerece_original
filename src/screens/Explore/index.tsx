@@ -1,11 +1,4 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Linking,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useCallback } from "react";
 import {
@@ -17,9 +10,7 @@ import {
   Global,
   MenuBoard,
   MessageAdd,
-  ProfileAdd,
   ShieldTick,
-  Task,
 } from "iconsax-react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useTranslation } from "react-i18next";
@@ -30,6 +21,7 @@ import HorizontalSpace from "../../components/HorizontalSpace";
 import SectionDescriptionText from "./components/SectionDescriptionText";
 import MenuItem from "./components/MenuItem";
 import HorizontalLine from "../../components/HorizontalLine";
+import LanguageToggle from "./components/LanguageToggle";
 
 import {
   BLACK,
@@ -49,6 +41,8 @@ import {
 import { store } from "../../redux/store";
 import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
 import { openURL } from "../../constants/functions";
+import { languageOptions } from "../../constants/misc";
+import i18n from "../../localization/i18n";
 
 const ICON_SIZE = sR * 1.8;
 const ICON_COLOR = FLINT_STONE;
@@ -72,9 +66,11 @@ const ExploreScreen: React.FC = () => {
   };
 
   const handleURL = () => {
-    console.log("asds");
-
     // openURL(WEBURL)
+  };
+
+  const handleLanguageToggle = (val: "en"|"ur") => {
+    i18n.changeLanguage(val);
   };
 
   const goToMyComplaints = useCallback(() => {
@@ -110,6 +106,7 @@ const ExploreScreen: React.FC = () => {
           <VerticalSpace h={2} />
 
           <Text style={styles.sectionHeaderText}>{t(`EXPLORE.PROFILE`)}</Text>
+
           <View style={{ ...styles.sectionContainer, paddingVertical: hR * 2 }}>
             <View style={styles.profileDetailsContainer}>
               <Image source={images.PROFILE} style={styles.profileImage} />
@@ -131,6 +128,13 @@ const ExploreScreen: React.FC = () => {
                 />
               </View>
             </View>
+
+            <VerticalSpace h={4} />
+
+            <LanguageToggle
+              options={languageOptions}
+              onPress={handleLanguageToggle}
+            />
           </View>
 
           <SectionDescriptionText text={t(`EXPLORE.PROFILE_INFO`)} />
@@ -262,7 +266,7 @@ const styles = StyleSheet.create({
   },
   profileDetailsContainer: {
     flexDirection: "row",
-    alignItems:"center"
+    alignItems: "center",
   },
   profileImage: {
     height: sR * 5,
