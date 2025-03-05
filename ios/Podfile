@@ -1,16 +1,9 @@
-# Define a helper function to resolve scripts using Node.js
-def node_require(script)
-  # Resolve the script with Node.js to allow for hoisting
-  require Pod::Executable.execute_command('node', ['-p',
-    "require.resolve(
-      '#{script}',
-      {paths: [process.argv[1]]},
-    )", __dir__]).strip
-end
-
-# Use the helper function to resolve react_native_pods.rb and setup.rb
-node_require('react-native/scripts/react_native_pods.rb')
-node_require('react-native-permissions/scripts/setup.rb')
+# Resolve react_native_pods.rb with node to allow for hoisting
+require Pod::Executable.execute_command('node', ['-p',
+  'require.resolve(
+    "react-native/scripts/react_native_pods.rb",
+    {paths: [process.argv[1]]},
+  )', __dir__]).strip
 
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
@@ -21,17 +14,6 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-# React Native Maps dependencies
-rn_maps_path = '../node_modules/react-native-maps'
-pod 'react-native-google-maps', :path => rn_maps_path
-
-# Call setup_permissions with the permissions you need
-setup_permissions([
-  'LocationAccuracy',
-  'LocationAlways',
-  'LocationWhenInUse',
-])
-
 target 'MyUSC' do
   config = use_native_modules!
 
@@ -41,13 +23,8 @@ target 'MyUSC' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'MyUSCTests' do
-    inherit! :complete
-    # Pods for testing
-  end
-
   post_install do |installer|
-    # Configure the React Native post-install script
+    # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(
       installer,
       config[:reactNativePath],
