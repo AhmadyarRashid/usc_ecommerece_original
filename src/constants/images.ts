@@ -4,4 +4,6 @@ export default {
     COFFEE: require("../assets/images/coffee.png"),
     PROFILE: require("../assets/images/profile.jpg"),
     LOGO: require("../assets/images/logo.png"),
+    WELCOME: require("../assets/images/welcome.png"),
+    LOGO_PRIMARY: require("../assets/images/logo-primary.png")
 }

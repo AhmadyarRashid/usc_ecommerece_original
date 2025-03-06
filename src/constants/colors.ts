@@ -1,5 +1,5 @@
 const WHITE = "#ffffff";
-const THEME = "#1b6333";
+const THEME = "#81BB50";
 const BLACK = "#000000";
 const PINBALL = "#D3D3D3";
 const FLINT_STONE = "#2f353b";

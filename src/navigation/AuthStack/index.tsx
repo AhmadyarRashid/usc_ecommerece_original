@@ -9,6 +9,7 @@ import AppBottomTab from "../AppBottomTab";
 import AddressStack from "../AddressStack";
 import ExploreStack from "../ExploreStack";
 import SelectLanguageScreen from "../../screens/SelectLanguage";
+import WelcomeScreen from "../../screens/Welcome";
 
 import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
 
@@ -23,7 +24,7 @@ const AuthStack: React.FC = () => {
     ? routeToAddress
       ? "Address"
       : "AppBottomTab"
-    : "SelectLanguage";
+    : "Welcome";
 
   return (
     <Stack.Navigator
@@ -32,7 +33,8 @@ const AuthStack: React.FC = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="SelectLanguage" component={SelectLanguageScreen} />
+      <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      {/* <Stack.Screen name="SelectLanguage" component={SelectLanguageScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="VerifyPhone" component={VerifyPhoneScreen} />
       <Stack.Screen
@@ -41,7 +43,7 @@ const AuthStack: React.FC = () => {
       />
       <Stack.Screen name="AppBottomTab" component={AppBottomTab} />
       <Stack.Screen name="Address" component={AddressStack} />
-      <Stack.Screen name="Explore" component={ExploreStack} />
+      <Stack.Screen name="Explore" component={ExploreStack} /> */}
     </Stack.Navigator>
   );
 };
