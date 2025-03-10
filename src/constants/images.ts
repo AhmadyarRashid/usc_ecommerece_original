@@ -5,5 +5,6 @@ export default {
     PROFILE: require("../assets/images/profile.jpg"),
     LOGO: require("../assets/images/logo.png"),
     WELCOME: require("../assets/images/welcome.png"),
-    LOGO_PRIMARY: require("../assets/images/logo-primary.png")
+    LOGO_PRIMARY: require("../assets/images/logo-primary.png"),
+    LOGO_SECONDARY: require("../assets/images/logo-secondary.png")
 }

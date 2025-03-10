@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Image, ImageBackground, Text, View, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import SolidButton from '../../components/Button/SolidButton';
 import VerticalSpace from '../../components/VerticalSpace';
@@ -8,8 +9,15 @@ import {WHITE} from '../../constants/colors';
 import images from '../../constants/images';
 import {sR} from '../../constants/dimensions';
 import {PROXIMA_NOVA_SEMIBOLD} from '../../constants/fonts';
+import {AppNavigationProps} from '../../constants/navigationTypes';
 
 const WelcomeScreen: React.FC = () => {
+  const navigation = useNavigation<AppNavigationProps>();
+
+  const goToSelectLanguage = useCallback(() => {
+    navigation.navigate('SelectLanguage');
+  }, [navigation]);
+
   return (
     <ImageBackground
       source={images.WELCOME}
@@ -31,7 +39,7 @@ const WelcomeScreen: React.FC = () => {
 
         <VerticalSpace h={2} />
 
-        <SolidButton label="Next" size="xl" />
+        <SolidButton label="Next" size="xl" onPress={goToSelectLanguage} />
 
         <VerticalSpace h={4} />
       </View>
