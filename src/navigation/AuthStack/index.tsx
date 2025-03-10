@@ -35,8 +35,8 @@ const AuthStack: React.FC = () => {
     >
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="SelectLanguage" component={SelectLanguageScreen} />
-      {/* 
       <Stack.Screen name="Register" component={RegisterScreen} />
+      {/* 
       <Stack.Screen name="VerifyPhone" component={VerifyPhoneScreen} />
       <Stack.Screen
         name="AccountCreationSuccess"

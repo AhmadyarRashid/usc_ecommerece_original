@@ -9,16 +9,18 @@ interface PhoneInputProps {
   placeholder: string;
   maxLength: number;
   onChangeText: (text: string) => void;
+  extraInputStyle: {}
 }
 
 const PhoneInput: React.FC<PhoneInputProps> = ({
   placeholder,
   maxLength,
   onChangeText,
+  extraInputStyle
 }) => {
   return (
     <TextInput
-      style={styles.input}
+      style={[styles.input, extraInputStyle]}
       placeholder={placeholder}
       autoCapitalize={"none"}
       keyboardType={"numeric"}
