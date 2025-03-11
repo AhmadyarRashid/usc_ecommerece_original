@@ -3,7 +3,7 @@ import { OtpInput } from "react-native-otp-entry";
 import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 
 import { THEME } from "../../../constants/colors";
-import { sR } from "../../../constants/dimensions";
+import { hR, sR } from "../../../constants/dimensions";
 import { PROXIMA_NOVA_REGULAR } from "../../../constants/fonts";
 
 interface InputOTPProps {
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   } as ViewStyle,
   pinCodeContainer: {
     borderWidth: 2,
+    height:hR*6
   } as ViewStyle,
   pinCodeText: {
     fontFamily: PROXIMA_NOVA_REGULAR,

@@ -1,14 +1,29 @@
 {
-  "SELECT_LANGUAGE" : {
-    "SELECT_LANGUAGE" : "Select Language",
-    "MESSAGE" : "Select Language to proceed further.",
+  "SELECT_LANGUAGE": {
+    "SELECT_LANGUAGE": "Select Language",
+    "MESSAGE": "Select Language to proceed further.",
     "NEXT": "Next"
   },
 
-  "REGISTER" : {
+  "REGISTER": {
     "REGISTER": "Register",
-    "VERIFICATION_MESSAGE":"We will send you a verification code to confirm it’s you.",
+    "VERIFICATION_MESSAGE": "We will send you a verification code to confirm it’s you.",
     "ENTER_PHONE_NUMBER": "Enter Phone Number",
-    "AGREE_CONTINUE":"Agree & Continue"
+    "AGREE_CONTINUE": "Agree & Continue"
+  },
+
+  "VERIFY_YOUR_IDENTITY": {
+    "VERIFY_YOUR_IDENTITY": "Verify Your Identity",
+    "ENTER_CODE": "Enter the 6-digit code we texted to",
+    "SECURITY_MESSAGE": "This helps us keep your account secure by verifying that it's really you.",
+    "RESEND_OTP": "Resend OTP",
+    "VERIFY_BUTTON": "Verify"
+  },
+
+  "ACCOUNT_CREATION_SUCCESS": {
+    "AUTHENTICATED": "Authenticated",
+    "ACCOUNT_CREATION_SUCCESS": "You Have Been Authenticated!",
+    "MESSAGE": "Add your address to discover products and items that are available near you. This helps us provide a more personalized shopping experience!",
+    "SETUP_ADDRESS_BUTTON": "Set Up Your Address"
   }
 }

@@ -5,10 +5,25 @@
     "NEXT": "آگے بڑھیے"
   },
 
-  "REGISTER" : {
+  "REGISTER": {
     "REGISTER": "رجسٹر کریں",
     "VERIFICATION_MESSAGE": "ہم آپ کو ایک تصدیقی کوڈ بھیجیں گے تاکہ تصدیق ہو سکے کہ یہ آپ ہی ہیں۔",
     "ENTER_PHONE_NUMBER": "فون نمبر درج کریں",
     "AGREE_CONTINUE": "متفق ہوں اور جاری رکھیں"
+  },
+
+  "VERIFY_YOUR_IDENTITY": {
+    "VERIFY_YOUR_IDENTITY": "اپنی شناخت کی تصدیق کریں",
+    "ENTER_CODE": "وہ 6 ہندسوں کا کوڈ درج کریں جو ہم نے آپ کو بھیجا ہے",
+    "SECURITY_MESSAGE": "یہ ہمیں آپ کے اکاؤنٹ کو محفوظ رکھنے میں مدد دیتا ہے تاکہ تصدیق ہو سکے کہ یہ واقعی آپ ہیں۔",
+    "RESEND_OTP": "او ٹی پی دوبارہ بھیجیں",
+    "VERIFY_BUTTON": "تصدیق کریں"
+  },
+
+  "ACCOUNT_CREATION_SUCCESS": {
+    "AUTHENTICATED": "تصدیق شدہ",
+    "ACCOUNT_CREATION_SUCCESS": "آپ کی تصدیق ہو چکی ہے!",
+    "MESSAGE": "اپنا پتہ شامل کریں تاکہ آپ کے قریب دستیاب اشیاء اور مصنوعات دریافت کر سکیں۔ یہ آپ کے لیے خریداری کو مزید آسان بنائے گا۔",
+    "SETUP_ADDRESS_BUTTON": "اپنا پتہ ترتیب دیں"
   }
 }
