@@ -1,29 +1,35 @@
-import React from "react";
-import { TextInput, StyleSheet } from "react-native";
+import React from 'react';
+import {TextInput, StyleSheet} from 'react-native';
 
-import { hR, sR, wR } from "../../../constants/dimensions";
-import {  BLACK, PINBALL } from "../../../constants/colors";
-import { PROXIMA_NOVA_REGULAR } from "../../../constants/fonts";
+import {hR, sR, wR} from '../../../constants/dimensions';
+import {BLACK, LUCKY_GREY, WHITE} from '../../../constants/colors';
+import {PROXIMA_NOVA_REGULAR} from '../../../constants/fonts';
 
 interface InputFieldProps {
   placeholder: string;
   onChangeText: (text: string) => void;
   onBlur: () => void;
   value: string;
-  keyboardType:string
+  keyboardType: string;
 }
 
-const InputField: React.FC<InputFieldProps> = ({ placeholder, onChangeText, onBlur, value,keyboardType }) => {
+const InputField: React.FC<InputFieldProps> = ({
+  placeholder,
+  onChangeText,
+  onBlur,
+  value,
+  keyboardType,
+}) => {
   return (
     <TextInput
       style={styles.input}
       placeholder={placeholder}
-      autoCapitalize={"none"}
+      autoCapitalize={'none'}
       keyboardType={keyboardType}
       onChangeText={onChangeText}
       onBlur={onBlur}
       value={value}
-      placeholderTextColor={BLACK}
+      placeholderTextColor={LUCKY_GREY}
     />
   );
 };
@@ -33,13 +39,21 @@ export default InputField;
 const styles = StyleSheet.create({
   input: {
     width: wR * 92,
-    borderWidth: 1.2,
-    borderColor: PINBALL,
     paddingVertical: hR * 1.6,
     paddingHorizontal: wR * 4,
     borderRadius: sR,
     fontSize: sR * 1.2,
     fontFamily: PROXIMA_NOVA_REGULAR,
-    color:BLACK
+    color: BLACK,
+    backgroundColor: WHITE,
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
   },
 });

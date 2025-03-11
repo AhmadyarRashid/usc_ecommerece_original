@@ -1,29 +1,29 @@
-import React, { useCallback, useRef } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { Field, Formik, FormikProps } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import { isUndefined } from "lodash";
-import { useTranslation } from "react-i18next";
+import React, {useCallback, useRef} from 'react';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {Field, Formik, FormikProps} from 'formik';
+import {useDispatch, useSelector} from 'react-redux';
+import {isUndefined} from 'lodash';
+import {useTranslation} from 'react-i18next';
 
-import HeaderPrimary from "../../components/Header/HeaderPrimary";
-import VerticalSpace from "../../components/VerticalSpace";
-import InputField from "../../components/TextInput/InputField";
-import SolidButton from "../../components/Button/SolidButton";
-import Loader from "../../components/Loader";
+import HeaderPrimary from '../../components/Header/HeaderPrimary';
+import VerticalSpace from '../../components/VerticalSpace';
+import InputField from '../../components/TextInput/InputField';
+import SolidButton from '../../components/Button/SolidButton';
+import Loader from '../../components/Loader';
 
-import { BLACK, FLINT_STONE, WHITE } from "../../constants/colors";
-import { AppNavigationProps } from "../../constants/navigationTypes";
-import { sR, wR } from "../../constants/dimensions";
+import {BLACK, FLINT_STONE, WHITE} from '../../constants/colors';
+import {AppNavigationProps} from '../../constants/navigationTypes';
+import {sR, wR} from '../../constants/dimensions';
 import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
-} from "../../constants/fonts";
-import { createAddressSchema } from "../../constants/schemas";
-import { RootState } from "../../redux/store";
-import useApiHook from "../../hooks/rest/useApi";
-import { displayToast } from "../../constants/functions";
-import { setAddressFields } from "../../redux/slices/address";
+} from '../../constants/fonts';
+import {createAddressSchema} from '../../constants/schemas';
+import {RootState} from '../../redux/store';
+import useApiHook from '../../hooks/rest/useApi';
+import {displayToast} from '../../constants/functions';
+import {setAddressFields} from '../../redux/slices/address';
 
 interface AddressValues {
   name: string;
@@ -37,23 +37,23 @@ const ConfirmAddressScreen: React.FC = () => {
   const route = useRoute();
   const formikRef = useRef<FormikProps<AddressValues>>(null);
   const auth = useSelector((state: RootState) => state.auth);
-  const { handleRestApi, restApiLoading } = useApiHook();
+  const {handleRestApi, restApiLoading} = useApiHook();
   const dispatch = useDispatch();
-  const { addressData } = route?.params || {};
-  const { t } = useTranslation();
+  const {addressData} = route?.params || {};
+  const {t} = useTranslation();
 
   const INITIAL_VALUES: AddressValues = isUndefined(addressData?.id)
     ? {
-        name: "",
-        street: "",
-        city: "",
-        additionalNotes: "",
+        name: '',
+        street: '',
+        city: '',
+        additionalNotes: '',
       }
     : {
-        name: addressData?.name || "",
-        street: addressData?.street || "",
-        city: addressData?.city || "",
-        additionalNotes: addressData?.notes || "",
+        name: addressData?.name || '',
+        street: addressData?.street || '',
+        city: addressData?.city || '',
+        additionalNotes: addressData?.notes || '',
       };
 
   const saveAddress = async (values: AddressValues, isUpdate: boolean) => {
@@ -63,18 +63,18 @@ const ConfirmAddressScreen: React.FC = () => {
       name: values.name,
       street: values.street,
       city: values.city,
-      phone: "",
+      phone: '',
       mobile: auth.userName,
       notes: values.additionalNotes,
-      latitude: addressData?.latitude?.toString() || "",
-      longitude: addressData?.longitude?.toString() || "",
-      ...(isUpdate && { id: addressData?.id }),
+      // latitude: addressData?.latitude?.toString() || "",
+      // longitude: addressData?.longitude?.toString() || "",
+      ...(isUpdate && {id: addressData?.id}),
     };
 
-    const endpoint = isUpdate ? "user_address_upd" : "user_address_create";
+    const endpoint = isUpdate ? 'user_address_upd' : 'user_address_create';
 
     const response = await handleRestApi({
-      method: "post",
+      method: 'post',
       url: endpoint,
       data,
     });
@@ -86,14 +86,14 @@ const ConfirmAddressScreen: React.FC = () => {
 
   const fetchAndDispatchAddresses = async () => {
     const response = await handleRestApi({
-      method: "post",
-      url: "user_address_view_all",
-      data: { auth_token: auth.accessToken, login: auth.userName },
+      method: 'post',
+      url: 'user_address_view_all',
+      data: {auth_token: auth.accessToken, login: auth.userName},
     });
 
     if (isResponseSuccess(response)) {
       const addressList = response?.data?.result?.address || [];
-      dispatch(setAddressFields({ addressList }));
+      dispatch(setAddressFields({addressList}));
       goToAppBottomTab();
     }
   };
@@ -103,19 +103,23 @@ const ConfirmAddressScreen: React.FC = () => {
   };
 
   const goBack = useCallback(() => {
-    navigation.goBack();
+    if(navigation.canGoBack()){
+       navigation.goBack();
+    }
+
+    return
   }, [navigation]);
 
   const goToAppBottomTab = useCallback(() => {
     navigation.reset({
       index: 0,
-      routes: [{ name: "AppBottomTab" }],
+      routes: [{name: 'AppBottomTab'}],
     });
   }, [navigation]);
 
   const renderInputField = (name: keyof AddressValues, placeholder: string) => (
     <Field name={name}>
-      {({ field, meta }: any) => (
+      {({field, meta}: any) => (
         <>
           <InputField
             placeholder={placeholder}
@@ -126,6 +130,7 @@ const ConfirmAddressScreen: React.FC = () => {
           {meta.touched && meta.error && (
             <>
               <VerticalSpace h={1} />
+
               <Text style={styles.errorText}>{meta.error}</Text>
             </>
           )}
@@ -135,19 +140,18 @@ const ConfirmAddressScreen: React.FC = () => {
   );
 
   return (
-    <View style={styles.rootContainer}>
-      {restApiLoading && <Loader />}
-
-      <HeaderPrimary label={t(`CONFIRM_ADDRESS.CONFIRM_ADDRESS`)} onPress={goBack} />
+    <View
+      style={styles.rootContainer}>
+      <HeaderPrimary label="Set Up Your Address" onPress={goBack} />
 
       <ScrollView
-        contentContainerStyle={styles.scrollViewContainer}
-        showsVerticalScrollIndicator={false}
-      >
+        contentContainerStyle={styles.scrollViewContainer}>
         <VerticalSpace h={2} />
 
         <Text style={styles.normalText}>
-        {t(`CONFIRM_ADDRESS.MESSAGE`)}
+          Add your address to ensure accurate and timely deliveries. It also
+          streamlines checkout for future purchases, providing a hassle-free
+          journey and reliable shipping.
         </Text>
 
         <VerticalSpace h={2} />
@@ -156,46 +160,59 @@ const ConfirmAddressScreen: React.FC = () => {
           innerRef={formikRef}
           validateOnChange={true}
           validateOnBlur={true}
-          onSubmit={(values) =>
+          onSubmit={values =>
             saveAddress(values, !isUndefined(addressData?.id))
           }
           initialValues={INITIAL_VALUES}
-          validationSchema={createAddressSchema}
-        >
-          {({ handleSubmit }) => (
+          validationSchema={createAddressSchema}>
+          {({handleSubmit}) => (
             <>
-              <Text style={styles.labelText}>{t(`CONFIRM_ADDRESS.NAME`)}*</Text>
-              <VerticalSpace h={2} />
-              {renderInputField("name",t(`CONFIRM_ADDRESS.NAME`))}
+              <Text style={styles.labelText}>Name*</Text>
 
               <VerticalSpace h={2} />
-              <Text style={styles.labelText}>
-              {t(`CONFIRM_ADDRESS.HOUSE_STREET`)}*
-              </Text>
+
+              {renderInputField('name', 'Enter Your Name')}
+
               <VerticalSpace h={2} />
+
+              <Text style={styles.labelText}>
+                House/Building/Flat & Street No*
+              </Text>
+
+              <VerticalSpace h={2} />
+
               {renderInputField(
-                "street",
-                t(`CONFIRM_ADDRESS.ENTER_HOUSE_STREET`)
+                'street',
+                `Enter House/Building/Flat & Street No*`,
               )}
 
               <VerticalSpace h={2} />
-              <Text style={styles.labelText}>{t(`CONFIRM_ADDRESS.CITY`)}*</Text>
-              <VerticalSpace h={2} />
-              {renderInputField("city", t(`CONFIRM_ADDRESS.ENTER_CITY`))}
+
+              <Text style={styles.labelText}>City*</Text>
 
               <VerticalSpace h={2} />
-              <Text style={styles.labelText}>
-                {t(`CONFIRM_ADDRESS.ADDITIONAL_NOTES`)}
-              </Text>
+
+              {renderInputField('city', `Enter Your City`)}
+
+              <VerticalSpace h={4} />
+
               <VerticalSpace h={2} />
+
+              <Text style={styles.labelText}>
+                Additional Delivery Notes/Alternate Contact information etc.
+              </Text>
+
+              <VerticalSpace h={2} />
+
               {renderInputField(
-                "additionalNotes",
-                t(`CONFIRM_ADDRESS.NOTE_TO_RIDER`)
+                'additionalNotes',
+                `Note to rider-e.g landmark`,
               )}
 
-              <VerticalSpace h={2} />
+              <VerticalSpace h={4} />
+
               <SolidButton
-                label={t(`CONFIRM_ADDRESS.SAVE_CONTINUE`)}
+                label={`Save & Continue`}
                 size="xl"
                 onPress={handleSubmit}
               />
@@ -210,8 +227,8 @@ const ConfirmAddressScreen: React.FC = () => {
 export default ConfirmAddressScreen;
 
 const styles = StyleSheet.create({
-  rootContainer: { flex: 1, backgroundColor: WHITE },
-  scrollViewContainer: { paddingHorizontal: wR * 4 },
+  rootContainer: {flex: 1, backgroundColor: WHITE},
+  scrollViewContainer: {paddingHorizontal: wR * 4},
   labelText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     color: BLACK,
@@ -224,7 +241,7 @@ const styles = StyleSheet.create({
     fontSize: sR * 1.2,
   },
   errorText: {
-    color: "red",
+    color: 'red',
     fontSize: sR * 1.2,
   },
 });
