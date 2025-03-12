@@ -21,7 +21,7 @@ const AccountCreationSuccessScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
   const {t} = useTranslation();
 
-  const goToAppBottomTab = useCallback(() => {
+  const goToAddress = useCallback(() => {
     navigation.navigate('Address');
   }, [navigation]);
 
@@ -52,7 +52,7 @@ const AccountCreationSuccessScreen: React.FC = () => {
       <SolidButton
         label={t(`ACCOUNT_CREATION_SUCCESS.SETUP_ADDRESS_BUTTON`)}
         size={`xl`}
-        onPress={goToAppBottomTab}
+        onPress={goToAddress}
         customButtonStyle={{
           width: wR * 84,
         }}

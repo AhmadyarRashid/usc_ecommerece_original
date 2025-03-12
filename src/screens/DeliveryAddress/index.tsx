@@ -1,33 +1,27 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import MapView, { Region } from "react-native-maps";
-import BottomSheet from "@gorhom/bottom-sheet";
-import { Gps, Location, MoreCircle } from "iconsax-react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
-import useStateRef from "react-usestateref";
-import { isNull } from "lodash";
-import { useTranslation } from "react-i18next";
+} from 'react-native';
+import MapView, {Region} from 'react-native-maps';
+import BottomSheet from '@gorhom/bottom-sheet';
+import {Gps, Location, MoreCircle} from 'iconsax-react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import useStateRef from 'react-usestateref';
+import {isNull} from 'lodash';
+import {useTranslation} from 'react-i18next';
 
-import HeaderPrimary from "../../components/Header/HeaderPrimary";
-import VerticalSpace from "../../components/VerticalSpace";
-import LottieAnimation from "../../components/LottieAnimation";
-import SolidButton from "../../components/Button/SolidButton";
-import HorizontalSpace from "../../components/HorizontalSpace";
-import Loader from "../../components/Loader";
-import AddressActionModal from "../../components/Modals/AddressActionModal";
+import HeaderPrimary from '../../components/Header/HeaderPrimary';
+import VerticalSpace from '../../components/VerticalSpace';
+import LottieAnimation from '../../components/LottieAnimation';
+import SolidButton from '../../components/Button/SolidButton';
+import HorizontalSpace from '../../components/HorizontalSpace';
+import Loader from '../../components/Loader';
+import AddressActionModal from '../../components/Modals/AddressActionModal';
 
 import {
   BLACK,
@@ -35,33 +29,33 @@ import {
   THEME,
   WHITE,
   WHITE_SMOKE,
-} from "../../constants/colors";
-import { MARKER, NO_ADDRESS_FOUND } from "../../constants/animations";
-import { hR, sR, wR } from "../../constants/dimensions";
+} from '../../constants/colors';
+import {MARKER, NO_ADDRESS_FOUND} from '../../constants/animations';
+import {hR, sR, wR} from '../../constants/dimensions';
 import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
-} from "../../constants/fonts";
-import { AppNavigationProps } from "../../constants/navigationTypes";
-import useApiHook from "../../hooks/rest/useApi";
-import { setAddressFields } from "../../redux/slices/address";
-import { displayToast } from "../../constants/functions";
-import { latitudeDelta, longitudeDelta } from "../../constants/misc";
-import useToggle from "../../hooks/useToggle";
-import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
-import useUserCurrentLocation from "../../hooks/useUserCurrentLocation";
+} from '../../constants/fonts';
+import {AppNavigationProps} from '../../constants/navigationTypes';
+import useApiHook from '../../hooks/rest/useApi';
+import {setAddressFields} from '../../redux/slices/address';
+import {displayToast} from '../../constants/functions';
+import {latitudeDelta, longitudeDelta} from '../../constants/misc';
+import useToggle from '../../hooks/useToggle';
+import useDynamicSliceSelector from '../../hooks/useDynamicSliceSelector';
+import useUserCurrentLocation from '../../hooks/useUserCurrentLocation';
 
 const DeliveryAddressScreen: React.FC = () => {
   const bottomSheetRef = useRef<BottomSheet>(null);
   const navigation = useNavigation<AppNavigationProps>();
   const dispatch = useDispatch();
   const mapRef = useRef<MapView>(null);
-  const snapPoints = useMemo(() => ["32%", "80%"], []);
-  const { handleRestApi, restApiLoading } = useApiHook();
-  const { auth, address } = useDynamicSliceSelector(["auth", "address"]);
+  const snapPoints = useMemo(() => ['42%', '88%'], []);
+  const {handleRestApi, restApiLoading} = useApiHook();
+  const {auth, address} = useDynamicSliceSelector(['auth', 'address']);
   const [actionModal, toggleActionModal] = useToggle(false);
-  const { location, requestUserCurrentLocation } = useUserCurrentLocation();
-  const { t } = useTranslation();
+  const {location, requestUserCurrentLocation} = useUserCurrentLocation();
+  const {t} = useTranslation();
 
   const [region, setRegion] = useState<Region>({
     latitudeDelta,
@@ -73,7 +67,7 @@ const DeliveryAddressScreen: React.FC = () => {
 
   useEffect(() => {
     if (location && location.latitude && location.longitude) {
-      setRegion((prev) => ({
+      setRegion(prev => ({
         ...prev,
         ...location,
       }));
@@ -93,7 +87,7 @@ const DeliveryAddressScreen: React.FC = () => {
   const deleteAddress = useCallback(async () => {
     if (address?.addressList.length < 2) {
       alert(
-        `Please ensure your address book contains more than one addresses before deleting!`
+        `Please ensure your address book contains more than one addresses before deleting!`,
       );
 
       toggleActionModal();
@@ -110,8 +104,8 @@ const DeliveryAddressScreen: React.FC = () => {
     };
 
     const response = await handleRestApi({
-      method: "post",
-      url: "user_address_delete",
+      method: 'post',
+      url: 'user_address_delete',
       data,
     });
 
@@ -119,15 +113,15 @@ const DeliveryAddressScreen: React.FC = () => {
       dispatch(
         setAddressFields({
           addressList: address?.addressList.filter(
-            (item) => item.id !== idRef.current
+            item => item.id !== idRef.current,
           ),
-        })
+        }),
       );
 
       displayToast({
-        type: "success",
-        text1: "Success",
-        text2: "Selected address has been successfully deleted!",
+        type: 'success',
+        text1: 'Success',
+        text2: 'Selected address has been successfully deleted!',
       });
 
       toggleActionModal();
@@ -146,10 +140,10 @@ const DeliveryAddressScreen: React.FC = () => {
     if (!idRef.current) return;
 
     const itemToUpdate = address?.addressList.find(
-      (item) => item.id === idRef.current
+      item => item.id === idRef.current,
     );
 
-    const { latitudeDelta, longitudeDelta, ...restRegionData } = region;
+    const {latitudeDelta, longitudeDelta, ...restRegionData} = region;
 
     const addressData = {
       ...itemToUpdate,
@@ -169,11 +163,11 @@ const DeliveryAddressScreen: React.FC = () => {
 
   const goToConfirmAddress = useCallback(
     (data: any) => {
-      navigation.navigate("ConfirmAddress", {
+      navigation.navigate('ConfirmAddress', {
         addressData: data,
       });
     },
-    [navigation]
+    [navigation],
   );
 
   return (
@@ -190,35 +184,30 @@ const DeliveryAddressScreen: React.FC = () => {
         handleDelete={deleteAddress}
       />
 
-      <HeaderPrimary
-        label={t(`DELIVERY_ADDRESS.DELIVERY_ADDRESS`)}
-        onPress={goBack}
-      />
+      <HeaderPrimary label={`Address`} onPress={goBack} />
 
-      <MapView
+      {/* <MapView
         ref={mapRef}
         style={{ flex: 1 }}
         initialRegion={region}
         onRegionChangeComplete={onRegionChange}
         provider="google"
-      />
+      /> */}
 
-      <View style={styles.markerContainer}>
+      {/* <View style={styles.markerContainer}>
         <LottieAnimation source={MARKER} customStyle={styles.marker} />
-      </View>
+      </View> */}
 
       <BottomSheet
         ref={bottomSheetRef}
         index={0}
         snapPoints={snapPoints}
-        backgroundStyle={styles.bottomSheetBackground}
-      >
+        backgroundStyle={styles.bottomSheetBackground}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.bottomSheetRootContainer}>
             <TouchableOpacity
               style={styles.currentLocationButton}
-              onPress={requestUserCurrentLocation}
-            >
+              onPress={requestUserCurrentLocation}>
               <View style={styles.gpsContainer}>
                 <Gps size={sR * 1.6} color={WHITE} variant="Bold" />
               </View>
@@ -229,16 +218,6 @@ const DeliveryAddressScreen: React.FC = () => {
                 {t(`DELIVERY_ADDRESS.USE_CURRENT_LOCATION`)}
               </Text>
             </TouchableOpacity>
-
-            <VerticalSpace h={2} />
-
-            <SolidButton
-              label={t(`DELIVERY_ADDRESS.CREATE_ADDRESS_BUTTON`)}
-              size="xl"
-              onPress={() => goToConfirmAddress(region)}
-            />
-
-            <VerticalSpace h={2} />
 
             {address?.addressList?.length === 0 ? (
               <View style={styles.addressNotFoundContainer}>
@@ -272,13 +251,20 @@ const DeliveryAddressScreen: React.FC = () => {
                     onPress={() => {
                       setId(item?.id);
                       toggleActionModal();
-                    }}
-                  >
+                    }}>
                     <MoreCircle size={sR * 1.6} color={THEME} />
                   </TouchableOpacity>
                 </View>
               ))
             )}
+
+            <VerticalSpace h={2} />
+
+            <SolidButton
+              label={t(`DELIVERY_ADDRESS.CREATE_ADDRESS_BUTTON`)}
+              size="xl"
+              onPress={() => goToConfirmAddress(region)}
+            />
           </View>
         </ScrollView>
       </BottomSheet>
@@ -289,7 +275,7 @@ const DeliveryAddressScreen: React.FC = () => {
 export default DeliveryAddressScreen;
 
 const styles = StyleSheet.create({
-  rootContainer: { flex: 1, backgroundColor: WHITE },
+  rootContainer: {flex: 1, backgroundColor: 'red'},
   bottomSheetBackground: {
     backgroundColor: WHITE,
   },
@@ -299,7 +285,7 @@ const styles = StyleSheet.create({
     paddingVertical: hR * 2,
   },
   addressNotFoundContainer: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   animation: {
     height: sR * 12,
@@ -315,15 +301,24 @@ const styles = StyleSheet.create({
     fontSize: sR * 1.2,
     color: FLINT_STONE,
     opacity: 0.6,
-    textAlign: "center",
+    textAlign: 'center',
   },
   currentLocationButton: {
-    paddingVertical: hR * 2,
+    paddingVertical: hR * 1.4,
     paddingHorizontal: wR * 4,
-    backgroundColor: WHITE_SMOKE,
+    backgroundColor: WHITE,
     borderRadius: sR,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
   },
   gpsContainer: {
     padding: sR * 0.8,
@@ -336,15 +331,15 @@ const styles = StyleSheet.create({
     color: FLINT_STONE,
   },
   addressButton: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginVertical: hR * 2,
     paddingHorizontal: wR * 2,
-    alignItems: "center",
-    justifyContent: "space-between",
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   addressInfoContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   addressLabelText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
@@ -359,9 +354,9 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   markerContainer: {
-    position: "absolute",
-    alignSelf: "center",
-    top: "48%",
+    position: 'absolute',
+    alignSelf: 'center',
+    top: '48%',
   },
-  marker: { height: sR * 6, width: sR * 6 },
+  marker: {height: sR * 6, width: sR * 6},
 });

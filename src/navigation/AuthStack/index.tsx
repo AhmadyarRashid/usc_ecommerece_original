@@ -41,11 +41,8 @@ const AuthStack: React.FC = () => {
         component={AccountCreationSuccessScreen}
       />
       <Stack.Screen name="Address" component={AddressStack} />
-      {/* 
-
       <Stack.Screen name="AppBottomTab" component={AppBottomTab} />
-      <Stack.Screen name="Address" component={AddressStack} />
-      <Stack.Screen name="Explore" component={ExploreStack} /> */}
+      <Stack.Screen name="Explore" component={ExploreStack} />
     </Stack.Navigator>
   );
 };

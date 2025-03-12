@@ -1,24 +1,24 @@
-import React, { createRef, useCallback } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { CurvedBottomBar } from "react-native-curved-bottom-bar";
+import React, {createRef, useCallback} from 'react';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {CurvedBottomBar} from 'react-native-curved-bottom-bar';
 import {
   DirectboxReceive,
   Home2,
   SearchNormal1,
   Setting2,
-} from "iconsax-react-native";
-import { useNavigation } from "@react-navigation/native";
+} from 'iconsax-react-native';
+import {useNavigation} from '@react-navigation/native';
 
-import VerticalSpace from "../../components/VerticalSpace";
+import VerticalSpace from '../../components/VerticalSpace';
 
-import HomeStack from "../HomeStack";
-import OrdersStack from "../OrdersStack";
-import ExlporeStack from "../ExploreStack";
+import HomeStack from '../HomeStack';
+import OrdersStack from '../OrdersStack';
+import ExlporeStack from '../ExploreStack';
 
-import { BLACK, THEME, WHITE } from "../../constants/colors";
-import { hR, sR } from "../../constants/dimensions";
-import { PROXIMA_NOVA_SEMIBOLD } from "../../constants/fonts";
-import { AppNavigationProps } from "../../constants/navigationTypes";
+import {BLACK, THEME, WHITE} from '../../constants/colors';
+import {hR, sR} from '../../constants/dimensions';
+import {PROXIMA_NOVA_SEMIBOLD} from '../../constants/fonts';
+import {AppNavigationProps} from '../../constants/navigationTypes';
 
 const ICON_SIZE = sR * 1.8;
 export const tabBarRef = createRef();
@@ -32,7 +32,7 @@ interface TabItemProps {
 const AppTabs: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
 
-  const tabItem = ({ routeName, selectedTab, navigate }: TabItemProps) => {
+  const tabItem = ({routeName, selectedTab, navigate}: TabItemProps) => {
     const iconConfig: {
       [key: string]: {
         icon: React.ReactElement;
@@ -43,7 +43,7 @@ const AppTabs: React.FC = () => {
         icon: (
           <Home2
             size={ICON_SIZE}
-            color={selectedTab === "Home" ? THEME : BLACK}
+            color={selectedTab === 'Home' ? THEME : BLACK}
           />
         ),
         text: routeName,
@@ -52,14 +52,14 @@ const AppTabs: React.FC = () => {
         icon: (
           <Setting2
             size={ICON_SIZE}
-            color={selectedTab === "Explore" ? THEME : BLACK}
+            color={selectedTab === 'Explore' ? THEME : BLACK}
           />
         ),
         text: routeName,
       },
     };
 
-    const { icon, text } = iconConfig[routeName] || { icon: null, text: "" };
+    const {icon, text} = iconConfig[routeName] || {icon: null, text: ''};
 
     const textStyles = {
       fontFamily: PROXIMA_NOVA_SEMIBOLD,
@@ -70,8 +70,7 @@ const AppTabs: React.FC = () => {
     return (
       <TouchableOpacity
         onPress={() => navigate(routeName)}
-        style={styles.tabBarItem}
-      >
+        style={styles.tabBarItem}>
         {icon}
 
         <VerticalSpace h={0.6} />
@@ -85,15 +84,14 @@ const AppTabs: React.FC = () => {
     return (
       <TouchableOpacity
         style={styles.circleButton}
-        onPress={goToSearchProducts}
-      >
+        onPress={goToSearchProducts}>
         <SearchNormal1 size={sR * 2} color={WHITE} />
       </TouchableOpacity>
     );
   };
 
   const goToSearchProducts = useCallback(() => {
-    navigation.navigate("SearchProducts");
+    navigation.navigate('SearchProducts');
   }, [navigation]);
 
   return (
@@ -105,9 +103,9 @@ const AppTabs: React.FC = () => {
         initialRouteName="Home"
         renderCircle={tabCenterIcon}
         tabBar={tabItem}
-        screenOptions={{ headerShown: false }}
+        screenOptions={{headerShown: false}}
         shadowStyle={{
-          shadowColor: "#000",
+          shadowColor: '#000',
           shadowOffset: {
             width: 0,
             height: 1,
@@ -115,8 +113,7 @@ const AppTabs: React.FC = () => {
           shadowOpacity: 0.22,
           shadowRadius: 2.22,
           elevation: 3,
-        }}
-      >
+        }}>
         <CurvedBottomBar.Screen
           name="Home"
           position="LEFT"
@@ -141,15 +138,15 @@ const styles = StyleSheet.create({
   },
   tabBarItem: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   circleButton: {
     width: sR * 4,
     height: sR * 4,
     backgroundColor: THEME,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: sR * 2.5,
     bottom: hR * 2,
 

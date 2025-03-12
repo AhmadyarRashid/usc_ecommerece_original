@@ -25,5 +25,26 @@
     "ACCOUNT_CREATION_SUCCESS": "You Have Been Authenticated!",
     "MESSAGE": "Add your address to discover products and items that are available near you. This helps us provide a more personalized shopping experience!",
     "SETUP_ADDRESS_BUTTON": "Set Up Your Address"
+  },
+
+  "DELIVERY_ADDRESS": {
+    "DELIVERY_ADDRESS": "Delivery Address",
+    "USE_CURRENT_LOCATION": "Use my current location",
+    "EMPTY_ADDRESS_BOOK": "Your address book is empty",
+    "ADD_ADDRESS_NOTE": "Add your preferred delivery address\n to help us serve you better",
+    "CREATE_ADDRESS_BUTTON": "Create Address"
+  },
+
+  "CONFIRM_ADDRESS": {
+    "SET_UP_ADDRESS": "Set Up Address",
+    "MESSAGE": "By adding your address, we will make sure your orders are delivered correctly and on time. This also speeds up the checkout process for future purchases, ensuring smooth transactions and accurate shipping options.",
+    "NAME": "Name",
+    "HOUSE_STREET": "House/building/flat & street #",
+    "ENTER_HOUSE_STREET": "Enter house/building/flat & street #",
+    "CITY": "City",
+    "ENTER_CITY": "Enter city",
+    "ADDITIONAL_NOTES": "Additional Delivery Notes/Alternate Contact Information etc.",
+    "NOTE_TO_RIDER": "Note to rider - e.g landmark",
+    "SAVE_CONTINUE": "Save & Continue"
   }
 }

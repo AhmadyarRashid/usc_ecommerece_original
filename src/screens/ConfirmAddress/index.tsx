@@ -142,16 +142,15 @@ const ConfirmAddressScreen: React.FC = () => {
   return (
     <View
       style={styles.rootContainer}>
-      <HeaderPrimary label="Set Up Your Address" onPress={goBack} />
+      <HeaderPrimary label={t(`CONFIRM_ADDRESS.SET_UP_ADDRESS`)} onPress={goBack} />
 
       <ScrollView
         contentContainerStyle={styles.scrollViewContainer}>
-        <VerticalSpace h={2} />
 
+        <VerticalSpace h={2} />
+        
         <Text style={styles.normalText}>
-          Add your address to ensure accurate and timely deliveries. It also
-          streamlines checkout for future purchases, providing a hassle-free
-          journey and reliable shipping.
+        {t(`CONFIRM_ADDRESS.MESSAGE`)}
         </Text>
 
         <VerticalSpace h={2} />
@@ -167,52 +166,52 @@ const ConfirmAddressScreen: React.FC = () => {
           validationSchema={createAddressSchema}>
           {({handleSubmit}) => (
             <>
-              <Text style={styles.labelText}>Name*</Text>
+              <Text style={styles.labelText}>{t(`CONFIRM_ADDRESS.NAME`)}*</Text>
 
               <VerticalSpace h={2} />
 
-              {renderInputField('name', 'Enter Your Name')}
+              {renderInputField('name', t(`CONFIRM_ADDRESS.NAME`))}
 
               <VerticalSpace h={2} />
 
               <Text style={styles.labelText}>
-                House/Building/Flat & Street No*
+              {t(`CONFIRM_ADDRESS.HOUSE_STREET`)}*
               </Text>
 
               <VerticalSpace h={2} />
 
               {renderInputField(
                 'street',
-                `Enter House/Building/Flat & Street No*`,
+                t(`CONFIRM_ADDRESS.ENTER_HOUSE_STREET`),
               )}
 
               <VerticalSpace h={2} />
 
-              <Text style={styles.labelText}>City*</Text>
+              <Text style={styles.labelText}>{t(`CONFIRM_ADDRESS.CITY`)}*</Text>
 
               <VerticalSpace h={2} />
 
-              {renderInputField('city', `Enter Your City`)}
+              {renderInputField('city', t(`CONFIRM_ADDRESS.ENTER_CITY`))}
 
               <VerticalSpace h={4} />
 
               <VerticalSpace h={2} />
 
               <Text style={styles.labelText}>
-                Additional Delivery Notes/Alternate Contact information etc.
+              {t(`CONFIRM_ADDRESS.ADDITIONAL_NOTES`)}
               </Text>
 
               <VerticalSpace h={2} />
 
               {renderInputField(
                 'additionalNotes',
-                `Note to rider-e.g landmark`,
+                t(`CONFIRM_ADDRESS.NOTE_TO_RIDER`),
               )}
 
               <VerticalSpace h={4} />
 
               <SolidButton
-                label={`Save & Continue`}
+                label={t(`CONFIRM_ADDRESS.SAVE_CONTINUE`)}
                 size="xl"
                 onPress={handleSubmit}
               />

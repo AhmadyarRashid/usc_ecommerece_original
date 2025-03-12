@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator();
 const AddressStack: React.FC = () => {
   return (
     <Stack.Navigator
-      initialRouteName={"ConfirmAddress"}
+      initialRouteName={"DeliveryAddress"}
       screenOptions={{
         headerShown: false,
       }}
