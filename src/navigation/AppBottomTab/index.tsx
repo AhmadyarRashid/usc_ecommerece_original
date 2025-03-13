@@ -4,8 +4,10 @@ import {CurvedBottomBar} from 'react-native-curved-bottom-bar';
 import {
   DirectboxReceive,
   Home2,
+  Profile,
   SearchNormal1,
   Setting2,
+  ShoppingCart,
 } from 'iconsax-react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -14,13 +16,14 @@ import VerticalSpace from '../../components/VerticalSpace';
 import HomeStack from '../HomeStack';
 import OrdersStack from '../OrdersStack';
 import ExlporeStack from '../ExploreStack';
+import MyProfileScreen from '../../screens/MyProfile';
 
 import {BLACK, THEME, WHITE} from '../../constants/colors';
 import {hR, sR} from '../../constants/dimensions';
 import {PROXIMA_NOVA_SEMIBOLD} from '../../constants/fonts';
 import {AppNavigationProps} from '../../constants/navigationTypes';
 
-const ICON_SIZE = sR * 1.8;
+const ICON_SIZE = sR * 2.4;
 export const tabBarRef = createRef();
 
 interface TabItemProps {
@@ -44,6 +47,17 @@ const AppTabs: React.FC = () => {
           <Home2
             size={ICON_SIZE}
             color={selectedTab === 'Home' ? THEME : BLACK}
+            variant="Broken"
+          />
+        ),
+        text: routeName,
+      },
+      ShoppingCart: {
+        icon: (
+          <ShoppingCart
+            size={ICON_SIZE}
+            color={selectedTab === 'ShoppingCart' ? THEME : BLACK}
+            variant="Broken"
           />
         ),
         text: routeName,
@@ -53,6 +67,17 @@ const AppTabs: React.FC = () => {
           <Setting2
             size={ICON_SIZE}
             color={selectedTab === 'Explore' ? THEME : BLACK}
+            variant="Broken"
+          />
+        ),
+        text: routeName,
+      },
+      MyProfile: {
+        icon: (
+          <Profile
+            size={ICON_SIZE}
+            color={selectedTab === 'MyProfile' ? THEME : BLACK}
+            variant="Broken"
           />
         ),
         text: routeName,
@@ -72,10 +97,6 @@ const AppTabs: React.FC = () => {
         onPress={() => navigate(routeName)}
         style={styles.tabBarItem}>
         {icon}
-
-        <VerticalSpace h={0.6} />
-
-        <Text style={textStyles}>{text}</Text>
       </TouchableOpacity>
     );
   };
@@ -98,22 +119,12 @@ const AppTabs: React.FC = () => {
     <View style={styles.rootContainer}>
       <CurvedBottomBar.Navigator
         ref={tabBarRef}
-        type="DOWN"
+        type="UP"
         bgColor={WHITE}
         initialRouteName="Home"
         renderCircle={tabCenterIcon}
         tabBar={tabItem}
-        screenOptions={{headerShown: false}}
-        shadowStyle={{
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 1,
-          },
-          shadowOpacity: 0.22,
-          shadowRadius: 2.22,
-          elevation: 3,
-        }}>
+        screenOptions={{headerShown: false}}>
         <CurvedBottomBar.Screen
           name="Home"
           position="LEFT"
@@ -121,9 +132,21 @@ const AppTabs: React.FC = () => {
         />
 
         <CurvedBottomBar.Screen
+          name="ShoppingCart"
+          position="LEFT"
+          component={() => <View />}
+        />
+
+        <CurvedBottomBar.Screen
           name="Explore"
           position="RIGHT"
           component={ExlporeStack}
+        />
+
+        <CurvedBottomBar.Screen
+          name="MyProfile"
+          position="RIGHT"
+          component={MyProfileScreen}
         />
       </CurvedBottomBar.Navigator>
     </View>
@@ -149,14 +172,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: sR * 2.5,
     bottom: hR * 2,
-
-    shadowColor: THEME,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.72,
-    shadowRadius: 16.0,
-    elevation: 24,
   },
 });

@@ -13,6 +13,8 @@ import {persistor, store} from './src/redux/store';
 import i18n from './src/localization/i18n';
 
 const App = () => {
+  console.log('ola');
+  
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <BottomSheetModalProvider>

@@ -46,5 +46,11 @@
     "ADDITIONAL_NOTES": "Additional Delivery Notes/Alternate Contact Information etc.",
     "NOTE_TO_RIDER": "Note to rider - e.g landmark",
     "SAVE_CONTINUE": "Save & Continue"
+  },
+
+  "MY_PROFILE" : {
+    "MY_PROFILE" : "My Profile",
+    "LOGOUT" : "Logout",
+    "SCREEN_INFO":"This section shows your profile image, name & contact details. don’t forget to logout when you’re done."
   }
 }

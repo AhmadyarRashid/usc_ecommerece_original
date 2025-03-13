@@ -1,6 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {isEmpty} from 'lodash';
 import React from 'react';
+import { View} from 'react-native';
 
 import RegisterScreen from '../../screens/Register';
 import VerifyPhoneScreen from '../../screens/VerifyPhone';

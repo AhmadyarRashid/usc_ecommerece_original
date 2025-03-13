@@ -1,7 +1,7 @@
 import React from "react";
 import SwitchSelector from "react-native-switch-selector";
 
-import { THEME, WHITE } from "../../../../constants/colors";
+import { BLACK, THEME, WHITE } from "../../../../constants/colors";
 import { sR } from "../../../../constants/dimensions";
 
 interface LanguageToggleProps {
@@ -16,6 +16,7 @@ const LanguageToggle: React.FC<LanguageToggleProps> = ({ options, onPress }) => 
       initial={0}
       selectedColor={WHITE}
       buttonColor={THEME}
+      textColor={BLACK}
       hasPadding
       valuePadding={2}
       height={54}
