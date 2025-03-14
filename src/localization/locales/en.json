@@ -52,5 +52,53 @@
     "MY_PROFILE" : "My Profile",
     "LOGOUT" : "Logout",
     "SCREEN_INFO":"This section shows your profile image, name & contact details. don’t forget to logout when you’re done."
+  },
+
+  "EXPLORE": {
+    "EXPLORE": "Explore",
+    "SUPPORT": "SUPPORT",
+    "FEEDBACK": "Feedback",
+    "CONTACT_US": "Contact Us",
+    "REGISTER_COMPLAINT": "Register Complaint",
+    "MY_COMPLAINTS": "My Complaints",
+    "MY_ORDERS": "My Orders",
+    "SUPPORT_INFO": "This section showcases the various ways you can get in touch with us. Share your feedback or contact support for assistance.",
+    "ABOUT_US": "ABOUT US",
+    "PRIVACY_POLICY": "Privacy Policy",
+    "TERMS_CONDITIONS": "Terms & Conditions",
+    "VISIT_WEBSITE": "Visit Our Website",
+    "APP_INFO": "App Info",
+    "ABOUT_US_INFO": "This section showcases essential information about us. Read the Privacy Policy and Terms & Conditions, check out the app details, visit our website for more, and invite a friend to join the experience."
+  },
+
+  "REGISTER_COMPLAINT": {
+    "REGISTER_COMPLAINT": "Register Complaint",
+    "COMPLAINT_TITLE": "Complaint Title",
+    "COMPLAINT_MESSAGE": "Complaint Message",
+    "ENTER_TITLE": "Enter Title",
+    "ENTER_MESSAGE": "Enter Message",
+    "LODGE_COMPLAINT": "Lodge Complaint",
+    "SUBMITTING": "Submitting..."
+  },
+
+  "MY_COMPLAINTS": {
+    "MY_COMPLAINTS": "My Complaints",
+    "NO_COMPLAINT_AVAILABLE": "No Complaint Available",
+    "NO_COMPLAINT_MESSAGE": "No complaint is available right now. Kindly register a complaint first!",
+    "REGISTER_COMPLAINT_BUTTON": "Register Complaint"
+  },
+
+  "MY_ORDERS": {
+    "MY_ORDERS": "My Orders",
+    "NO_ORDERS_AVAILABLE": "No Orders Available",
+    "NO_ORDERS_MESSAGE": "No orders available at the moment. Create your first order now!",
+    "ORDER_NOW": "Order Now"
+  },
+
+  "SEARCH_PRODUCTS": {
+    "SEARCH_PRODUCTS": "Search Products",
+    "PLACEHOLDER": "Search anything you want...",
+    "DESCRIPTION": "Quickly search for products in your inventory with ease. Enter keywords or filters to locate the items you need in no time."
   }
+
 }

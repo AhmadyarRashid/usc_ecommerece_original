@@ -1,6 +1,6 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useCallback } from "react";
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useCallback} from 'react';
 import {
   CallAdd,
   DirectboxReceive,
@@ -11,82 +11,70 @@ import {
   MenuBoard,
   MessageAdd,
   ShieldTick,
-} from "iconsax-react-native";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { useTranslation } from "react-i18next";
+} from 'iconsax-react-native';
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {useTranslation} from 'react-i18next';
 
-import HeaderPrimary from "../../components/Header/HeaderPrimary";
-import VerticalSpace from "../../components/VerticalSpace";
-import HorizontalSpace from "../../components/HorizontalSpace";
-import SectionDescriptionText from "./components/SectionDescriptionText";
-import MenuItem from "./components/MenuItem";
-import HorizontalLine from "../../components/HorizontalLine";
-import LanguageToggle from "./components/LanguageToggle";
+import HeaderPrimary from '../../components/Header/HeaderPrimary';
+import VerticalSpace from '../../components/VerticalSpace';
+import HorizontalSpace from '../../components/HorizontalSpace';
+import SectionDescriptionText from './components/SectionDescriptionText';
+import MenuItem from './components/MenuItem';
+import HorizontalLine from '../../components/HorizontalLine';
+import LanguageToggle from './components/LanguageToggle';
 
 import {
   BLACK,
   FLINT_STONE,
   RED_DOOR,
+  STORMY_GREY,
   WHITE,
   WHITE_SMOKE,
-} from "../../constants/colors";
-import { AppNavigationProps } from "../../constants/navigationTypes";
-import images from "../../constants/images";
-import { hR, sR, wR } from "../../constants/dimensions";
-import TextButton from "../../components/Button/TextButton";
+} from '../../constants/colors';
+import {AppNavigationProps} from '../../constants/navigationTypes';
+import images from '../../constants/images';
+import {hR, sR, wR} from '../../constants/dimensions';
+import TextButton from '../../components/Button/TextButton';
 import {
   PROXIMA_NOVA_SEMIBOLD,
   PROXIMA_NOVA_SEMIBOLD_ITALIC,
-} from "../../constants/fonts";
-import { store } from "../../redux/store";
-import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
-import { openURL } from "../../constants/functions";
-import { languageOptions } from "../../constants/misc";
-import i18n from "../../localization/i18n";
+} from '../../constants/fonts';
+import {store} from '../../redux/store';
+import useDynamicSliceSelector from '../../hooks/useDynamicSliceSelector';
+import {openURL} from '../../constants/functions';
+import {languageOptions} from '../../constants/misc';
+import i18n from '../../localization/i18n';
 
 const ICON_SIZE = sR * 1.8;
-const ICON_COLOR = FLINT_STONE;
+const ICON_COLOR = STORMY_GREY;
 const WEBURL = `https://usc.org.pk/`;
 const TELL = `tel:+9234564345`;
 const MAIL_TO = `mailto:support@example.com`;
 
 const ExploreScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
-  const { auth } = useDynamicSliceSelector(["auth"]);
+  const {auth} = useDynamicSliceSelector(['auth']);
   const tabBarHeight = useBottomTabBarHeight();
-  const { t } = useTranslation();
-
-  const logout = () => {
-    store.dispatch({ type: "RESET_APP" });
-
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "SelectLanguage" }],
-    });
-  };
+  const {t} = useTranslation();
 
   const handleURL = () => {
     // openURL(WEBURL)
   };
-
-  const handleLanguageToggle = (val: "en"|"ur") => {
-    i18n.changeLanguage(val);
-  };
-
+  
   const goToMyComplaints = useCallback(() => {
-    navigation.navigate("MyComplaints");
+    navigation.navigate('MyComplaints');
   }, [navigation]);
 
   const goToOrders = useCallback(() => {
-    navigation.navigate("Orders");
+    navigation.navigate('Orders');
   }, [navigation]);
 
   const goToRegisterComplaint = useCallback(() => {
-    navigation.navigate("RegisterComplaint");
+    navigation.navigate('RegisterComplaint');
   }, [navigation]);
 
   const goToAppInfo = useCallback(() => {
-    navigation.navigate("AppInfo");
+    navigation.navigate('AppInfo');
   }, [navigation]);
 
   const goBack = useCallback(() => {
@@ -100,44 +88,6 @@ const ExploreScreen: React.FC = () => {
       <View style={styles.scrollContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <VerticalSpace h={2} />
-
-          <Image source={images.LOGO} style={styles.logo} />
-
-          <VerticalSpace h={2} />
-
-          <Text style={styles.sectionHeaderText}>{t(`EXPLORE.PROFILE`)}</Text>
-
-          <View style={{ ...styles.sectionContainer, paddingVertical: hR * 2 }}>
-            <View style={styles.profileDetailsContainer}>
-              <Image source={images.PROFILE} style={styles.profileImage} />
-
-              <HorizontalSpace w={4} />
-
-              <View>
-                <View>
-                  {/* <Text style={styles.userNameText}>Saran Ahmed</Text> */}
-                  <Text style={styles.contactInfoText}>{auth?.userName}</Text>
-                </View>
-
-                <VerticalSpace h={1} />
-
-                <TextButton
-                  label={t(`EXPLORE.SIGN_OUT`)}
-                  customLabelStyle={{ color: RED_DOOR }}
-                  onPress={logout}
-                />
-              </View>
-            </View>
-
-            <VerticalSpace h={4} />
-
-            <LanguageToggle
-              options={languageOptions}
-              onPress={handleLanguageToggle}
-            />
-          </View>
-
-          <SectionDescriptionText text={t(`EXPLORE.PROFILE_INFO`)} />
 
           <Text style={styles.sectionHeaderText}>{t(`EXPLORE.SUPPORT`)}</Text>
 
@@ -235,7 +185,7 @@ const ExploreScreen: React.FC = () => {
         </ScrollView>
       </View>
 
-      <View style={{ height: tabBarHeight }} />
+      <View style={{height: tabBarHeight}} />
     </View>
   );
 };
@@ -250,7 +200,7 @@ const styles = StyleSheet.create({
   logo: {
     height: sR * 8,
     width: sR * 8,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   sectionHeaderText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD_ITALIC,
@@ -259,14 +209,13 @@ const styles = StyleSheet.create({
     marginBottom: hR * 2,
     marginLeft: wR * 4,
   },
-  scrollContainer: { flex: 1 },
+  scrollContainer: {flex: 1},
   sectionContainer: {
     paddingHorizontal: wR * 4,
-    backgroundColor: WHITE_SMOKE,
   },
   profileDetailsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   profileImage: {
     height: sR * 5,

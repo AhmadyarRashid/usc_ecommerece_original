@@ -1,25 +1,25 @@
-import React, { useCallback, useEffect } from "react";
-import { StyleSheet, TextInput, View, Platform } from "react-native";
-import { SearchNormal1 } from "iconsax-react-native";
-import { debounce } from "lodash";
+import React, {useCallback, useEffect} from 'react';
+import {StyleSheet, TextInput, View, Platform} from 'react-native';
+import {SearchNormal1} from 'iconsax-react-native';
+import {debounce} from 'lodash';
 
-import HorizontalSpace from "../HorizontalSpace";
+import HorizontalSpace from '../HorizontalSpace';
 
-import { hR, sR, wR } from "../../constants/dimensions";
-import { BLACK, BRILLIANCE, PINBALL, THEME } from "../../constants/colors";
-import { PROXIMA_NOVA_REGULAR } from "../../constants/fonts";
+import {hR, sR, wR} from '../../constants/dimensions';
+import {BLACK, LUCKY_GREY, WHITE} from '../../constants/colors';
+import {PROXIMA_NOVA_REGULAR} from '../../constants/fonts';
 
 interface SearchBoxProps {
   placeholder: string;
   onChangeText: (text: string) => void;
 }
 
-const SearchBox: React.FC<SearchBoxProps> = ({ placeholder, onChangeText }) => {
+const SearchBox: React.FC<SearchBoxProps> = ({placeholder, onChangeText}) => {
   const debouncedOnChange = useCallback(
     debounce((text: string) => {
       onChangeText(text);
     }, 1000),
-    [onChangeText]
+    [onChangeText],
   );
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ placeholder, onChangeText }) => {
 
   return (
     <View style={styles.rootContainer}>
-      <SearchNormal1 size={sR * 1.6} color={THEME} />
+      <SearchNormal1 size={sR * 1.6} color={LUCKY_GREY} />
 
       <HorizontalSpace w={4} />
 
@@ -39,7 +39,7 @@ const SearchBox: React.FC<SearchBoxProps> = ({ placeholder, onChangeText }) => {
         style={styles.searchInput}
         onChangeText={debouncedOnChange}
         autoCapitalize={false}
-        placeholderTextColor={BLACK}
+        placeholderTextColor={LUCKY_GREY}
       />
     </View>
   );
@@ -47,20 +47,27 @@ const SearchBox: React.FC<SearchBoxProps> = ({ placeholder, onChangeText }) => {
 
 const styles = StyleSheet.create({
   rootContainer: {
-    borderWidth: 1.6,
-    paddingVertical: Platform.OS === "android" ? 0 : hR * 1.4,
+    paddingVertical: Platform.OS === 'android' ? 0 : hR * 1.4,
     paddingHorizontal: wR * 4,
-    borderColor: PINBALL,
     borderRadius: sR,
-    backgroundColor: BRILLIANCE,
-    flexDirection: "row",
-    alignItems: "center",
+    backgroundColor: WHITE,
+    flexDirection: 'row',
+    alignItems: 'center',
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
   },
   searchInput: {
     fontFamily: PROXIMA_NOVA_REGULAR,
     fontSize: sR * 1.2,
     width: wR * 72,
-    color:BLACK
+    color: BLACK,
   },
 });
 

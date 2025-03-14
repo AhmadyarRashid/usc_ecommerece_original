@@ -72,10 +72,7 @@ const MyProfileScreen: React.FC = () => {
             alignItems:"center"
         }}>
           <Image
-            style={{
-                height:sR*8,
-                width:sR*8,
-            }}
+            style={styles.logo}
             source={images.LOGO_PRIMARY}
           />
 
@@ -137,6 +134,10 @@ const styles = StyleSheet.create({
     fontSize: sR,
     opacity:0.6
   },
+  logo:{
+    height:sR*8,
+    width:sR*8,
+}
 });
 
 export default MyProfileScreen;

@@ -1,68 +1,71 @@
-import React, { useCallback, useEffect } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
-import { AxiosRequestHeaders } from "axios";
-import { useTranslation } from "react-i18next";
+import React, {useCallback, useEffect} from 'react';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {AxiosRequestHeaders} from 'axios';
+import {useTranslation} from 'react-i18next';
 
-import HeaderPrimary from "../../components/Header/HeaderPrimary";
-import VerticalSpace from "../../components/VerticalSpace";
-import SearchBox from "../../components/SearchBox";
-import LottieAnimation from "../../components/LottieAnimation";
-import ProductsSecondaryCard from "../../components/Cards/ProductsSecondaryCard";
+import HeaderPrimary from '../../components/Header/HeaderPrimary';
+import VerticalSpace from '../../components/VerticalSpace';
+import SearchBox from '../../components/SearchBox';
+import LottieAnimation from '../../components/LottieAnimation';
+import ProductsSecondaryCard from '../../components/Cards/ProductsSecondaryCard';
 
-import { BLACK, WHITE } from "../../constants/colors";
-import { AppNavigationProps } from "../../constants/navigationTypes";
-import { sR, wR } from "../../constants/dimensions";
-import { SEARCH_PRODUCTS } from "../../constants/animations";
-import { PROXIMA_NOVA_REGULAR } from "../../constants/fonts";
+import {FLINT_STONE, LUCKY_GREY, WHITE} from '../../constants/colors';
+import {AppNavigationProps} from '../../constants/navigationTypes';
+import {sR, wR} from '../../constants/dimensions';
+import {SEARCH_PRODUCTS} from '../../constants/animations';
+import {PROXIMA_NOVA_REGULAR} from '../../constants/fonts';
 
-import useApiHook from "../../hooks/rest/useApi";
-import { setProductFields } from "../../redux/slices/product";
-import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
+import useApiHook from '../../hooks/rest/useApi';
+import {setProductFields} from '../../redux/slices/product';
+import useDynamicSliceSelector from '../../hooks/useDynamicSliceSelector';
 
 const SearchProductsScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
-  const { handleRestApi, restApiLoading } = useApiHook();
+  const {handleRestApi, restApiLoading} = useApiHook();
   const dispatch = useDispatch();
-  const { product } = useDynamicSliceSelector(["product"]);
+  const {product} = useDynamicSliceSelector(['product']);
   const isFocused = useIsFocused();
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   useEffect(() => {
     if (isFocused) {
-      dispatch(setProductFields({ searchedProductList: [] }));
+      dispatch(setProductFields({searchedProductList: []}));
     }
   }, [isFocused]);
 
   const handleProductsSearch = useCallback(
     async (value: string) => {
-      if (value.trim() === "") {
-        dispatch(setProductFields({ searchedProductList: [] }));
+      if (value.trim() === '') {
+        dispatch(setProductFields({searchedProductList: []}));
         return;
       }
 
       const response = await handleRestApi({
-        method: "post",
-        url: "product_get",
-        headers: { Authorization: "none" } as AxiosRequestHeaders,
-        data: { name: value },
+        method: 'post',
+        url: 'product_get',
+        headers: {Authorization: 'none'} as AxiosRequestHeaders,
+        data: {name: value},
       });
 
       if (response?.data?.result?.data) {
         dispatch(
-          setProductFields({ searchedProductList: response.data.result.data })
+          setProductFields({searchedProductList: response.data.result.data}),
         );
       }
     },
-    [dispatch, handleRestApi]
+    [dispatch, handleRestApi],
   );
 
   const goToProductDetails = useCallback(
     (productID: string) => {
-      navigation.navigate("ProductDetails", { productID, arrayToSearch:`searchedProductList` });
+      navigation.navigate('ProductDetails', {
+        productID,
+        arrayToSearch: `searchedProductList`,
+      });
     },
-    [navigation]
+    [navigation],
   );
 
   const goBack = useCallback(() => {
@@ -71,7 +74,10 @@ const SearchProductsScreen: React.FC = () => {
 
   return (
     <View style={styles.rootContainer}>
-      <HeaderPrimary label={t(`SEARCH_PRODUCTS.SEARCH_PRODUCTS`)} onPress={goBack} />
+      <HeaderPrimary
+        label={t(`SEARCH_PRODUCTS.SEARCH_PRODUCTS`)}
+        onPress={goBack}
+      />
 
       <View style={styles.secondaryContainer}>
         <VerticalSpace h={2} />
@@ -81,7 +87,7 @@ const SearchProductsScreen: React.FC = () => {
           onChangeText={handleProductsSearch}
         />
 
-        <VerticalSpace h={2} />
+        <VerticalSpace h={4} />
 
         {product?.searchedProductList?.length === 0 && !restApiLoading && (
           <View style={styles.emptyStateContainer}>
@@ -90,15 +96,16 @@ const SearchProductsScreen: React.FC = () => {
               customStyle={styles.searchProductAnimation}
               loop={true}
             />
+
             <Text style={styles.quicklySearchProductsText}>
-            {t(`SEARCH_PRODUCTS.DESCRIPTION`)}
+              {t(`SEARCH_PRODUCTS.DESCRIPTION`)}
             </Text>
           </View>
         )}
 
         <FlatList
           data={product?.searchedProductList || []}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <ProductsSecondaryCard
               data={item}
               onItemPress={() => goToProductDetails(item.id)}
@@ -124,8 +131,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   emptyStateContainer: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   searchProductAnimation: {
     height: sR * 18,
@@ -133,9 +140,9 @@ const styles = StyleSheet.create({
   },
   quicklySearchProductsText: {
     fontFamily: PROXIMA_NOVA_REGULAR,
-    textAlign: "center",
-    fontSize: sR * 1.3,
-    color: BLACK,
-    opacity: 0.6,
+    textAlign: 'center',
+    fontSize: sR * 1.2,
+    color: FLINT_STONE,
+    opacity: 0.4,
   },
 });
