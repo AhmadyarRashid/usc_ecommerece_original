@@ -99,6 +99,14 @@
     "SEARCH_PRODUCTS": "Search Products",
     "PLACEHOLDER": "Search anything you want...",
     "DESCRIPTION": "Quickly search for products in your inventory with ease. Enter keywords or filters to locate the items you need in no time."
+  },
+
+  "PRODUCT_DETAILS": {
+    "PRODUCT_DETAILS": "Product Details",
+    "INFORMATION": "Product Information",
+    "AVAILABLE_IN_STOCK": "Available in Stock",
+    "OUT_OF_STOCK": "Out of Stock",
+    "ADD_TO_CART": "Add to cart"
   }
 
 }

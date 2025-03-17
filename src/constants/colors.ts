@@ -22,7 +22,6 @@ const PRELUDE = '#dee9f0';
 const ORCA_WHITE = '#cfcbc9';
 const ALBESCENT_WHITE = '#e1dacc';
 const EPHEMERAL_MIST = '#c5cfd4';
-const VITAMIN_C = '#ff9900';
 const RED_DOOR = '#AE0000';
 
 const LUCKY_GREY = '#7777';
@@ -36,6 +35,7 @@ const THEME = '#81BB50';
 const BLACK = '#000000';
 const COMMUNIST = '#C70000';
 const STORMY_GREY = "#7D7B7B"
+const VITAMIN_C = '#ff9900';
 
 export {
   PINBALL,
