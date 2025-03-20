@@ -25,3 +25,14 @@ export const languageOptions = [
     value: "ur",
   },
 ];
+
+export const ordersOptions =[
+  {
+    label: "Previous",
+    value: "previous",
+  },
+  {
+    label: "Upcoming",
+    value: "upcoming",
+  },
+]

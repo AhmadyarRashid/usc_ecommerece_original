@@ -36,6 +36,7 @@ const BLACK = '#000000';
 const COMMUNIST = '#C70000';
 const STORMY_GREY = "#7D7B7B"
 const VITAMIN_C = '#ff9900';
+const GREY=  `#808080`
 
 export {
   PINBALL,
@@ -65,5 +66,6 @@ export {
   WHITE,
   THEME,
   BLACK,
-  STORMY_GREY
+  STORMY_GREY,
+  GREY
 };

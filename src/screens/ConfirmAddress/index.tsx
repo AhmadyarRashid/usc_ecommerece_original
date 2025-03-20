@@ -94,7 +94,7 @@ const ConfirmAddressScreen: React.FC = () => {
     if (isResponseSuccess(response)) {
       const addressList = response?.data?.result?.address || [];
       dispatch(setAddressFields({addressList}));
-      goToAppBottomTab();
+      // goToAppBottomTab();
     }
   };
 
@@ -107,7 +107,7 @@ const ConfirmAddressScreen: React.FC = () => {
        navigation.goBack();
     }
 
-    return
+    return 
   }, [navigation]);
 
   const goToAppBottomTab = useCallback(() => {

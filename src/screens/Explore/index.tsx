@@ -1,4 +1,4 @@
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import { ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useCallback} from 'react';
 import {
@@ -17,33 +17,24 @@ import {useTranslation} from 'react-i18next';
 
 import HeaderPrimary from '../../components/Header/HeaderPrimary';
 import VerticalSpace from '../../components/VerticalSpace';
-import HorizontalSpace from '../../components/HorizontalSpace';
 import SectionDescriptionText from './components/SectionDescriptionText';
 import MenuItem from './components/MenuItem';
 import HorizontalLine from '../../components/HorizontalLine';
-import LanguageToggle from './components/LanguageToggle';
 
 import {
   BLACK,
   FLINT_STONE,
-  RED_DOOR,
   STORMY_GREY,
   WHITE,
-  WHITE_SMOKE,
 } from '../../constants/colors';
 import {AppNavigationProps} from '../../constants/navigationTypes';
-import images from '../../constants/images';
 import {hR, sR, wR} from '../../constants/dimensions';
-import TextButton from '../../components/Button/TextButton';
 import {
   PROXIMA_NOVA_SEMIBOLD,
   PROXIMA_NOVA_SEMIBOLD_ITALIC,
 } from '../../constants/fonts';
-import {store} from '../../redux/store';
 import useDynamicSliceSelector from '../../hooks/useDynamicSliceSelector';
 import {openURL} from '../../constants/functions';
-import {languageOptions} from '../../constants/misc';
-import i18n from '../../localization/i18n';
 
 const ICON_SIZE = sR * 1.8;
 const ICON_COLOR = STORMY_GREY;
@@ -53,7 +44,6 @@ const MAIL_TO = `mailto:support@example.com`;
 
 const ExploreScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
-  const {auth} = useDynamicSliceSelector(['auth']);
   const tabBarHeight = useBottomTabBarHeight();
   const {t} = useTranslation();
 
@@ -165,20 +155,6 @@ const ExploreScreen: React.FC = () => {
               icon={<DocumentCode2 size={ICON_SIZE} color={ICON_COLOR} />}
               onMenuItemPress={goToAppInfo}
             />
-
-            {/* <HorizontalLine />
-
-            <MenuItem
-              label="Invite A Friend"
-              icon={<ProfileAdd size={ICON_SIZE} color={ICON_COLOR} />}
-            />
-
-            <HorizontalLine />
-
-            <MenuItem
-              label="How To Use?"
-              icon={<Task size={ICON_SIZE} color={ICON_COLOR} />}
-            /> */}
           </View>
 
           <SectionDescriptionText text={t(`EXPLORE.ABOUT_US_INFO`)} />
@@ -197,11 +173,6 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
     flex: 1,
   },
-  logo: {
-    height: sR * 8,
-    width: sR * 8,
-    alignSelf: 'center',
-  },
   sectionHeaderText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD_ITALIC,
     fontSize: sR * 1.4,
@@ -212,25 +183,5 @@ const styles = StyleSheet.create({
   scrollContainer: {flex: 1},
   sectionContainer: {
     paddingHorizontal: wR * 4,
-  },
-  profileDetailsContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  profileImage: {
-    height: sR * 5,
-    width: sR * 5,
-    borderRadius: sR * 2.5,
-  },
-  userNameText: {
-    fontFamily: PROXIMA_NOVA_SEMIBOLD,
-    fontSize: sR * 1.2,
-    color: BLACK,
-  },
-  contactInfoText: {
-    fontFamily: PROXIMA_NOVA_SEMIBOLD,
-    fontSize: sR,
-    color: FLINT_STONE,
-    opacity: 0.6,
   },
 });

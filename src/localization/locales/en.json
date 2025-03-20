@@ -107,6 +107,10 @@
     "AVAILABLE_IN_STOCK": "Available in Stock",
     "OUT_OF_STOCK": "Out of Stock",
     "ADD_TO_CART": "Add to cart"
+  },
+
+  "ABOUT_MYUSC": {
+    "ABOUT_MYUSC": "About MyUSC"
   }
 
 }

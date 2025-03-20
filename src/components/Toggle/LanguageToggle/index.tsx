@@ -1,8 +1,8 @@
 import React from "react";
 import SwitchSelector from "react-native-switch-selector";
 
-import { BLACK, THEME, WHITE } from "../../../../constants/colors";
-import { sR } from "../../../../constants/dimensions";
+import { BLACK,WHITE,THEME } from "../../../constants/colors"; 
+import { sR } from "../../../constants/dimensions";
 
 interface LanguageToggleProps {
   options: { label: string; value: string }[];

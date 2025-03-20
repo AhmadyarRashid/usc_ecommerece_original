@@ -6,7 +6,7 @@ import {useTranslation} from 'react-i18next';
 
 import HeaderPrimary from '../../components/Header/HeaderPrimary';
 import HorizontalSpace from '../../components/HorizontalSpace';
-import LanguageToggle from '../Explore/components/LanguageToggle';
+import LanguageToggle from '../../components/Toggle/LanguageToggle';
 import VerticalSpace from '../../components/VerticalSpace';
 import SolidButton from '../../components/Button/SolidButton';
 

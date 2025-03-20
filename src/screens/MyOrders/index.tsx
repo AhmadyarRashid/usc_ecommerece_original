@@ -1,40 +1,42 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { View, FlatList, Text } from "react-native";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
-import { AxiosRequestHeaders } from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { isEmpty } from "lodash";
-import { useTranslation } from "react-i18next";
+import React, {useCallback, useEffect, useState} from 'react';
+import {View, FlatList, Text} from 'react-native';
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {AxiosRequestHeaders} from 'axios';
+import {useDispatch, useSelector} from 'react-redux';
+import {isEmpty} from 'lodash';
+import {useTranslation} from 'react-i18next';
 
-import HeaderPrimary from "../../components/Header/HeaderPrimary";
-import OrdersCard from "../../components/Cards/OrdersCard";
-import Loader from "../../components/Loader";
-import NoContentDisplay from "../../components/NoContentDisplay";
+import HeaderPrimary from '../../components/Header/HeaderPrimary';
+import Loader from '../../components/Loader';
+import NoContentDisplay from '../../components/NoContentDisplay';
+import PreviousOrders from '../../components/Cards/OrdersCard/PreviousOrders';
 
-import { WHITE } from "../../constants/colors";
-import VerticalSpace from "../../components/VerticalSpace";
-import { wR } from "../../constants/dimensions";
-import { AppNavigationProps } from "../../constants/navigationTypes";
-import useApiHook from "../../hooks/rest/useApi";
-import { RootState } from "../../redux/store";
-import { setOrderFields } from "../../redux/slices/order";
-import { createDynamicSelector } from "../../redux/selectors";
+import {WHITE} from '../../constants/colors';
+import VerticalSpace from '../../components/VerticalSpace';
+import {wR} from '../../constants/dimensions';
+import {AppNavigationProps} from '../../constants/navigationTypes';
+import useApiHook from '../../hooks/rest/useApi';
+import {RootState} from '../../redux/store';
+import {setOrderFields} from '../../redux/slices/order';
+import {createDynamicSelector} from '../../redux/selectors';
+import OrdersToggle from '../../components/Toggle/OrdersToggle';
+import {ordersOptions} from '../../constants/misc';
 
 const MyOrdersScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
   const tabBarHeight = useBottomTabBarHeight();
-  const { handleRestApi, restApiLoading } = useApiHook();
+  const {handleRestApi, restApiLoading} = useApiHook();
   const selectAuthAddressOrder = createDynamicSelector([
-    "auth",
-    "order",
+    'auth',
+    'order',
   ] as const);
-  const { auth, order } = useSelector((state: RootState) =>
-    selectAuthAddressOrder(state)
+  const {auth, order} = useSelector((state: RootState) =>
+    selectAuthAddressOrder(state),
   );
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
@@ -51,24 +53,24 @@ const MyOrdersScreen: React.FC = () => {
     };
 
     const response = await handleRestApi({
-      method: "post",
-      url: "order_view_all",
+      method: 'post',
+      url: 'order_view_all',
       data,
-      headers: { Authorization: "none" } as AxiosRequestHeaders,
+      headers: {Authorization: 'none'} as AxiosRequestHeaders,
     });
 
     if (response.data.result.status === 200) {
-      dispatch(setOrderFields({ orderList: response.data.result.order_list }));
+      dispatch(setOrderFields({orderList: response.data.result.order_list}));
     }
 
     setIsDataLoaded(true);
   };
 
   const goToOrderDetails = useCallback(
-    (id) => {
-      navigation.navigate("OrderDetails", { orderID: id });
+    id => {
+      navigation.navigate('OrderDetails', {orderID: id});
     },
-    [navigation]
+    [navigation],
   );
 
   const goBack = useCallback(() => {
@@ -80,15 +82,14 @@ const MyOrdersScreen: React.FC = () => {
       style={{
         flex: 1,
         backgroundColor: WHITE,
-      }}
-    >
+      }}>
       {restApiLoading && <Loader />}
 
       <HeaderPrimary label={t(`MY_ORDERS.MY_ORDERS`)} onPress={goBack} />
 
       <VerticalSpace h={2} />
 
-      <View style={{ paddingHorizontal: wR * 4, flex: 1 }}>
+      {/* <View style={{ paddingHorizontal: wR * 4, flex: 1 }}>
         {!isDataLoaded || isEmpty(order?.orderList) ? (
           <>
             {!isDataLoaded ? null : (
@@ -123,6 +124,14 @@ const MyOrdersScreen: React.FC = () => {
             ListFooterComponent={<View style={{ height: tabBarHeight }} />}
           />
         )}
+      </View> */}
+
+      <View style={{paddingHorizontal: wR * 4, flex: 1}}>
+        <OrdersToggle options={ordersOptions} />
+
+        <VerticalSpace h={4} />
+
+        <PreviousOrders />
       </View>
     </View>
   );

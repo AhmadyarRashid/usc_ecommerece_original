@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     fontSize: sR * 1.2,
     color: BLACK,
+    fontWeight:"bold"
   },
   logo: {
     height: sR * 12,
