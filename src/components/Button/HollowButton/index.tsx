@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -18,7 +18,7 @@ import {ButtonSize} from '../../../constants/enum';
 
 type ButtonSizeType = 'sm' | 'md' | 'lg' | 'xl';
 
-interface SolidButtonProps {
+interface HollowButtonProps {
   label: string;
   size: ButtonSizeType;
   customButtonStyle?: StyleProp<ViewStyle>;
@@ -27,7 +27,7 @@ interface SolidButtonProps {
   children?: ReactNode;
 }
 
-const SolidButton: React.FC<SolidButtonProps> = ({
+const HollowButton: React.FC<HollowButtonProps> = ({
   label,
   size,
   customButtonStyle,
@@ -48,11 +48,11 @@ const SolidButton: React.FC<SolidButtonProps> = ({
   );
 };
 
-export default SolidButton;
+export default HollowButton;
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: THEME,
+    backgroundColor: WHITE,
     paddingVertical: hR * 1.4,
     borderRadius: sR,
     alignItems: 'center',
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     borderColor: THEME,
   } as ViewStyle,
   buttonText: {
-    color: WHITE,
+    color: THEME,
     fontSize: sR * 1.4,
     fontFamily: PROXIMA_NOVA_BOLD,
   } as TextStyle,

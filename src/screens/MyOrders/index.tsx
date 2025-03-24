@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {View, FlatList, Text} from 'react-native';
+import {View, FlatList, Text, ScrollView} from 'react-native';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {AxiosRequestHeaders} from 'axios';
@@ -11,10 +11,11 @@ import HeaderPrimary from '../../components/Header/HeaderPrimary';
 import Loader from '../../components/Loader';
 import NoContentDisplay from '../../components/NoContentDisplay';
 import PreviousOrders from '../../components/Cards/OrdersCard/PreviousOrders';
+import UpcomingOrders from '../../components/Cards/OrdersCard/UpcomingOrders';
 
 import {WHITE} from '../../constants/colors';
 import VerticalSpace from '../../components/VerticalSpace';
-import {wR} from '../../constants/dimensions';
+import {hR, width, wR} from '../../constants/dimensions';
 import {AppNavigationProps} from '../../constants/navigationTypes';
 import useApiHook from '../../hooks/rest/useApi';
 import {RootState} from '../../redux/store';
@@ -39,6 +40,7 @@ const MyOrdersScreen: React.FC = () => {
   const {t} = useTranslation();
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [activeOrders, setActiveOrders] = useState('upcoming');
 
   useEffect(() => {
     if (isFocused) {
@@ -64,6 +66,10 @@ const MyOrdersScreen: React.FC = () => {
     }
 
     setIsDataLoaded(true);
+  };
+
+  const handleOrdersToggle = (val: `previous` | `upcoming`) => {
+    setActiveOrders(val);
   };
 
   const goToOrderDetails = useCallback(
@@ -126,13 +132,25 @@ const MyOrdersScreen: React.FC = () => {
         )}
       </View> */}
 
-      <View style={{paddingHorizontal: wR * 4, flex: 1}}>
-        <OrdersToggle options={ordersOptions} />
-
-        <VerticalSpace h={4} />
-
-        <PreviousOrders />
+      <View style={{paddingHorizontal: wR * 4}}>
+        <OrdersToggle options={ordersOptions} onPress={handleOrdersToggle} />
       </View>
+
+      <VerticalSpace h={2} />
+
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={[...Array(6)]}
+        keyExtractor={(_, index) => index}
+        renderItem={({_}) =>
+          activeOrders === `upcoming` ? <UpcomingOrders /> : <PreviousOrders />
+        }
+        windowSize={10}
+        removeClippedSubviews={true}
+        contentContainerStyle={{
+          alignItems: 'center',
+        }}
+      />
     </View>
   );
 };

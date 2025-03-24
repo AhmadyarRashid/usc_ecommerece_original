@@ -19,8 +19,10 @@ const MenuItem: React.FC<MenuItemProps> = ({ label, icon, onMenuItemPress }) => 
     <TouchableOpacity style={styles.container} onPress={onMenuItemPress} activeOpacity={0.7}>
       <View style={styles.leftContianer}>
         {icon}
+
         <HorizontalSpace w={4} />
-        <Text style={styles.label}>{label}</Text>å
+        
+        <Text style={styles.label}>{label}</Text>
       </View>
 
       <ArrowRight2 size={sR * 1.8} color={STORMY_GREY} />

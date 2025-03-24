@@ -56,7 +56,9 @@ const MyProfileScreen: React.FC = () => {
             <Text style={styles.userPhoneText}>{auth?.userName}</Text>
           </View>
         </View>
+        
         <VerticalSpace h={4} />
+
         <LanguageToggle
           options={languageOptions}
           onPress={handleLanguageToggle}

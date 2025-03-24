@@ -94,7 +94,7 @@ const ConfirmAddressScreen: React.FC = () => {
     if (isResponseSuccess(response)) {
       const addressList = response?.data?.result?.address || [];
       dispatch(setAddressFields({addressList}));
-      // goToAppBottomTab();
+      goToAppBottomTab();
     }
   };
 
@@ -103,18 +103,20 @@ const ConfirmAddressScreen: React.FC = () => {
   };
 
   const goBack = useCallback(() => {
-    if(navigation.canGoBack()){
-       navigation.goBack();
+    if (navigation.canGoBack()) {
+      navigation.goBack();
     }
 
-    return 
+    return;
   }, [navigation]);
 
   const goToAppBottomTab = useCallback(() => {
-    navigation.reset({
-      index: 0,
-      routes: [{name: 'AppBottomTab'}],
-    });
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{name: 'AppBottomTab'}],
+    // });
+
+    navigation.navigate(`AppBottomTab`)
   }, [navigation]);
 
   const renderInputField = (name: keyof AddressValues, placeholder: string) => (
@@ -140,18 +142,16 @@ const ConfirmAddressScreen: React.FC = () => {
   );
 
   return (
-    <View
-      style={styles.rootContainer}>
-      <HeaderPrimary label={t(`CONFIRM_ADDRESS.SET_UP_ADDRESS`)} onPress={goBack} />
+    <View style={styles.rootContainer}>
+      <HeaderPrimary
+        label={t(`CONFIRM_ADDRESS.SET_UP_ADDRESS`)}
+        onPress={goBack}
+      />
 
-      <ScrollView
-        contentContainerStyle={styles.scrollViewContainer}>
-
+      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <VerticalSpace h={2} />
-        
-        <Text style={styles.normalText}>
-        {t(`CONFIRM_ADDRESS.MESSAGE`)}
-        </Text>
+
+        <Text style={styles.normalText}>{t(`CONFIRM_ADDRESS.MESSAGE`)}</Text>
 
         <VerticalSpace h={2} />
 
@@ -175,7 +175,7 @@ const ConfirmAddressScreen: React.FC = () => {
               <VerticalSpace h={2} />
 
               <Text style={styles.labelText}>
-              {t(`CONFIRM_ADDRESS.HOUSE_STREET`)}*
+                {t(`CONFIRM_ADDRESS.HOUSE_STREET`)}*
               </Text>
 
               <VerticalSpace h={2} />
@@ -198,7 +198,7 @@ const ConfirmAddressScreen: React.FC = () => {
               <VerticalSpace h={2} />
 
               <Text style={styles.labelText}>
-              {t(`CONFIRM_ADDRESS.ADDITIONAL_NOTES`)}
+                {t(`CONFIRM_ADDRESS.ADDITIONAL_NOTES`)}
               </Text>
 
               <VerticalSpace h={2} />

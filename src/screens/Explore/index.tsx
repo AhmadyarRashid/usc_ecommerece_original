@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useCallback} from 'react';
 import {
@@ -21,12 +21,7 @@ import SectionDescriptionText from './components/SectionDescriptionText';
 import MenuItem from './components/MenuItem';
 import HorizontalLine from '../../components/HorizontalLine';
 
-import {
-  BLACK,
-  FLINT_STONE,
-  STORMY_GREY,
-  WHITE,
-} from '../../constants/colors';
+import {BLACK, FLINT_STONE, STORMY_GREY, WHITE} from '../../constants/colors';
 import {AppNavigationProps} from '../../constants/navigationTypes';
 import {hR, sR, wR} from '../../constants/dimensions';
 import {
@@ -50,7 +45,7 @@ const ExploreScreen: React.FC = () => {
   const handleURL = () => {
     // openURL(WEBURL)
   };
-  
+
   const goToMyComplaints = useCallback(() => {
     navigation.navigate('MyComplaints');
   }, [navigation]);
