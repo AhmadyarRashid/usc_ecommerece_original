@@ -1,4 +1,4 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native';
 
 import HorizontalSpace from '../../../HorizontalSpace';
@@ -11,9 +11,9 @@ import {BLACK, GREY, THEME, WHITE} from '../../../../constants/colors';
 import {hR, sR, wR} from '../../../../constants/dimensions';
 import images from '../../../../constants/images';
 
-const PreviousOrders = () => {
+const PreviousOrders = ({onPress}) => {
   return (
-    <View style={styles.rootContainer}>
+    <TouchableOpacity style={styles.rootContainer} onPress={onPress}>
       <View style={styles.topContainer}>
         <View style={styles.topLeftContainer}>
           <View style={styles.imageContainer}>
@@ -66,7 +66,7 @@ const PreviousOrders = () => {
           customButtonStyle={{paddingVertical: hR}}
         />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
     width: wR * 92,
     borderRadius: sR,
-    marginVertical:hR*2,
-    
+    marginVertical: hR * 2,
+
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

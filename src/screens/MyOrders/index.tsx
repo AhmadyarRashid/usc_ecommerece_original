@@ -72,10 +72,15 @@ const MyOrdersScreen: React.FC = () => {
     setActiveOrders(val);
   };
 
+  // const goToOrderDetails = useCallback(
+  //   id => {
+  //     navigation.navigate('OrderDetails', {orderID: id});
+  //   },
+  //   [navigation],
+  // );
+
   const goToOrderDetails = useCallback(
-    id => {
-      navigation.navigate('OrderDetails', {orderID: id});
-    },
+    () => [navigation.navigate('OrderDetails')],
     [navigation],
   );
 
@@ -143,7 +148,11 @@ const MyOrdersScreen: React.FC = () => {
         data={[...Array(6)]}
         keyExtractor={(_, index) => index}
         renderItem={({_}) =>
-          activeOrders === `upcoming` ? <UpcomingOrders /> : <PreviousOrders />
+          activeOrders === `upcoming` ? (
+            <UpcomingOrders onPress={goToOrderDetails} />
+          ) : (
+            <PreviousOrders onPress={goToOrderDetails} />
+          )
         }
         windowSize={10}
         removeClippedSubviews={true}

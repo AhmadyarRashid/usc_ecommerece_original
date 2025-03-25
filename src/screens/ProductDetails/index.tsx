@@ -121,6 +121,7 @@ const ProductDetailsScreen: React.FC = () => {
         label={t(`PRODUCT_DETAILS.PRODUCT_DETAILS`)}
         onPress={goBack}
       />
+      
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.childContainer}>
           <VerticalSpace h={2} />

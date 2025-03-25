@@ -1,24 +1,25 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import { Rating } from "react-native-ratings";
-import { MessageQuestion } from "iconsax-react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { AxiosRequestHeaders } from "axios";
-import moment from "moment";
-import { isEmpty } from "lodash";
+} from 'react-native';
+import {Rating} from 'react-native-ratings';
+import {MessageQuestion} from 'iconsax-react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {AxiosRequestHeaders} from 'axios';
+import moment from 'moment';
+import {isEmpty} from 'lodash';
+import {useTranslation} from 'react-i18next';
 
-import HeaderPrimary from "../../components/Header/HeaderPrimary";
-import VerticalSpace from "../../components/VerticalSpace";
-import HorizontalLine from "../../components/HorizontalLine";
-import CompaintModal from "../../components/Modals/ComplaintModal";
-import Loader from "../../components/Loader";
-import SolidButton from "../../components/Button/SolidButton";
+import HeaderPrimary from '../../components/Header/HeaderPrimary';
+import VerticalSpace from '../../components/VerticalSpace';
+import HorizontalLine from '../../components/HorizontalLine';
+import CompaintModal from '../../components/Modals/ComplaintModal';
+import Loader from '../../components/Loader';
+import SolidButton from '../../components/Button/SolidButton';
 
 import {
   ALBESCENT_WHITE,
@@ -29,17 +30,17 @@ import {
   PRELUDE,
   WHITE,
   WHITE_SMOKE,
-} from "../../constants/colors";
-import { hR, sR, wR } from "../../constants/dimensions";
+} from '../../constants/colors';
+import {hR, sR, wR} from '../../constants/dimensions';
 import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
-} from "../../constants/fonts";
-import useToggle from "../../hooks/useToggle";
-import { AppNavigationProps } from "../../constants/navigationTypes";
-import useApiHook from "../../hooks/rest/useApi";
-import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
-import { displayToast } from "../../constants/functions";
+} from '../../constants/fonts';
+import useToggle from '../../hooks/useToggle';
+import {AppNavigationProps} from '../../constants/navigationTypes';
+import useApiHook from '../../hooks/rest/useApi';
+import useDynamicSliceSelector from '../../hooks/useDynamicSliceSelector';
+import {displayToast} from '../../constants/functions';
 
 type RouteParams = {
   orderID: number;
@@ -48,72 +49,74 @@ type RouteParams = {
 const colors = [PRELUDE, ORCA_WHITE, EPHEMERAL_MIST, ALBESCENT_WHITE];
 
 const OrderDetailsScreen: React.FC = () => {
+  // const route = useRoute();
+  // const {handleRestApi, restApiLoading} = useApiHook();
+  // const {auth} = useDynamicSliceSelector(['auth']);
+  // const ORDER_ID = (route?.params as RouteParams)?.orderID;
+  // const [complaintModal, toggleComplaintModal] = useToggle(false);
+
+  // const [orderDetails, setOrderDetails] = useState({});
+
+  // // const itemTotal = PRODUCT_LIST.reduce(
+  // //   (acc, item) => acc + item.unitPrice * parseInt(item.qty, 10),
+  // //   0
+  // // );
+  // // const tax = itemTotal * 0.05;
+  // // const markdown = 200;
+  // // const aggregateTotal = itemTotal + tax - markdown;
+
+  // useEffect(() => {
+  //   getOrderDetails();
+  // }, []);
+
+  // const getOrderDetails = async () => {
+  //   const data = {
+  //     auth_token: auth.accessToken,
+  //     login: auth.userName,
+  //     orderID: ORDER_ID,
+  //   };
+
+  //   const response = await handleRestApi({
+  //     method: 'post',
+  //     url: 'order_view',
+  //     data,
+  //     headers: {Authorization: 'none'} as AxiosRequestHeaders,
+  //   });
+
+  //   if (response?.data?.result?.status === 200) {
+  //     setOrderDetails(response?.data?.result?.order);
+  //   }
+  // };
+
+  // const cancelOrder = async () => {
+  //   const data = {
+  //     auth_token: auth.accessToken,
+  //     login: auth.userName,
+  //     orderID: ORDER_ID,
+  //   };
+
+  //   const response = await handleRestApi({
+  //     method: 'post',
+  //     url: 'order_cancel',
+  //     data,
+  //     headers: {Authorization: 'none'} as AxiosRequestHeaders,
+  //   });
+
+  //   if (response?.data?.result?.status === 200) {
+  //     displayToast({
+  //       type: 'success',
+  //       text1: 'Success',
+  //       text2: `Your order has been canceled successfully!`,
+  //     });
+
+  //     setTimeout(() => {
+  //       goBack();
+  //     }, 1000);
+  //   }
+  // };
+
+  const {t} = useTranslation();
   const navigation = useNavigation<AppNavigationProps>();
-  const route = useRoute();
-  const { handleRestApi, restApiLoading } = useApiHook();
-  const { auth } = useDynamicSliceSelector(["auth"]);
-  const ORDER_ID = (route?.params as RouteParams)?.orderID;
-  const [complaintModal, toggleComplaintModal] = useToggle(false);
-
-  const [orderDetails, setOrderDetails] = useState({});
-
-  // const itemTotal = PRODUCT_LIST.reduce(
-  //   (acc, item) => acc + item.unitPrice * parseInt(item.qty, 10),
-  //   0
-  // );
-  // const tax = itemTotal * 0.05;
-  // const markdown = 200;
-  // const aggregateTotal = itemTotal + tax - markdown;
-
-  useEffect(() => {
-    getOrderDetails();
-  }, []);
-
-  const getOrderDetails = async () => {
-    const data = {
-      auth_token: auth.accessToken,
-      login: auth.userName,
-      orderID: ORDER_ID,
-    };
-
-    const response = await handleRestApi({
-      method: "post",
-      url: "order_view",
-      data,
-      headers: { Authorization: "none" } as AxiosRequestHeaders,
-    });
-
-    if (response?.data?.result?.status === 200) {
-      setOrderDetails(response?.data?.result?.order);
-    }
-  };
-
-  const cancelOrder = async () => {
-    const data = {
-      auth_token: auth.accessToken,
-      login: auth.userName,
-      orderID: ORDER_ID,
-    };
-
-    const response = await handleRestApi({
-      method: "post",
-      url: "order_cancel",
-      data,
-      headers: { Authorization: "none" } as AxiosRequestHeaders,
-    });
-
-    if (response?.data?.result?.status === 200) {
-      displayToast({
-        type: "success",
-        text1: "Success",
-        text2: `Your order has been canceled successfully!`,
-      });
-
-      setTimeout(() => {
-        goBack();
-      }, 1000);
-    }
-  };
 
   const goBack = useCallback(() => {
     navigation.goBack();
@@ -121,66 +124,53 @@ const OrderDetailsScreen: React.FC = () => {
 
   return (
     <View style={styles.rootContainer}>
-      {restApiLoading && <Loader />}
+      <HeaderPrimary label={`Order Details`} onPress={goBack} />
 
-      <CompaintModal
-        isVisible={complaintModal}
-        onClose={toggleComplaintModal}
-        orderID={ORDER_ID}
-      />
+      <ScrollView>
+        <VerticalSpace h={2} />
 
-      <HeaderPrimary label="Order Details" onPress={goBack}>
-        <TouchableOpacity onPress={toggleComplaintModal}>
-          <MessageQuestion size={sR * 2} color={BLACK} variant="Bold" />
-        </TouchableOpacity>
-      </HeaderPrimary>
+        <Text style={styles.orderNumberText}>Orders # 9653892</Text>
 
-      <VerticalSpace h={2} />
+        <VerticalSpace h={2} />
 
-      <ScrollView
-        contentContainerStyle={styles.scrollViewContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.orderPrimaryInfoContainer}>
-          <Text style={styles.orderNoText}>
-            Order #{orderDetails?.orderNumber}
+        <View style={styles.shipmentDetailsContainer}>
+          <Text style={styles.orderDateAndTimeText}>
+            Pending , 20 Feb 2025 at 03:45 PM
           </Text>
 
-          <Text style={styles.dateDeliveredText}>
-            Delivered on {moment(orderDetails?.date).format("LLL")}
+          <VerticalSpace h={1} />
+
+          <Text style={styles.shipmentDetailsBoldText}>Order From</Text>
+
+          <VerticalSpace h={1} />
+
+          <Text style={styles.shipmentDetailsNormalText}>
+            Utility Stores Corporation, G-9 Markaz, Islamabad
           </Text>
 
-          <VerticalSpace h={2} />
+          <VerticalSpace h={1} />
 
-          <View>
-            <View>
-              <Text style={styles.addressLabelText}>Order from</Text>
-              <Text style={styles.addressValueText}>
-                Utility Stores Corporation Head Office, G-9 Markaz G 9 Markaz
-                G-9, Islamabad, Islamabad Capital Territory
-              </Text>
-            </View>
+          <Text style={styles.shipmentDetailsBoldText}>Order To</Text>
 
-            <VerticalSpace h={2} />
+          <VerticalSpace h={1} />
 
-            <View>
-              <Text style={styles.addressLabelText}>Delivered to</Text>
-              <Text style={styles.addressValueText}>
-                {orderDetails?.deliveryAddress?.name},
-                {orderDetails?.deliveryAddress?.street},
-                {orderDetails?.deliveryAddress?.city}
-              </Text>
-            </View>
-          </View>
+          <Text style={styles.shipmentDetailsNormalText}>
+            House # 412, street 45, I-8/3, Islamabad
+          </Text>
         </View>
 
         <VerticalSpace h={2} />
 
-        <HorizontalLine />
+        <View style={styles.lineContainer}>
+          <HorizontalLine />
+        </View>
 
         <VerticalSpace h={2} />
 
-        <View>
+        <View
+          style={{
+            paddingHorizontal: wR * 4,
+          }}>
           <View style={styles.tableRowContainer}>
             <View style={styles.tableCellContainer}>
               <Text style={styles.tableLabelText}>Product</Text>
@@ -199,34 +189,45 @@ const OrderDetailsScreen: React.FC = () => {
             </View>
           </View>
 
-          {!isEmpty(orderDetails?.productList) &&
-            orderDetails?.productList.map((item, index) => {
+          {!isEmpty([...Array(8)]) &&
+            // orderDetails?.productList.map((item, index) => {
+            [...Array(8)].map((item, index) => {
               const backgroundColor =
                 colors[Math.floor(Math.random() * colors.length)];
               return (
                 <View
-                  key={`${item.name}-${index}`}
+                  // key={`${item.name}-${index}`}
+                  key={`${index}`}
                   style={{
                     ...styles.tableRowContainer,
                     backgroundColor: backgroundColor,
-                  }}
-                >
+                  }}>
                   <View style={styles.tableCellContainer}>
-                    <Text style={styles.tableValueText}>{item.name}</Text>
+                    <Text style={styles.tableValueText}>
+                      {/* {item.name} */}
+                      Atta Chakki
+                    </Text>
                   </View>
 
                   <View style={styles.tableCellContainer}>
-                    <Text style={styles.tableValueText}>{item.quantity}</Text>
+                    <Text style={styles.tableValueText}>
+                      {/* {item.quantity} */}
+                      12
+                    </Text>
                   </View>
 
                   <View style={styles.tableCellContainer}>
-                    <Text style={styles.tableValueText}>{item.unitPrice}</Text>
+                    <Text style={styles.tableValueText}>
+                      {/* {item.unitPrice} */}
+                      1200.00
+                    </Text>
                   </View>
 
                   <View style={styles.tableCellContainer}>
                     <Text style={styles.tableValueText}>
                       {/* {(item.unitPrice * parseInt(item.qty, 10)).toString()} */}
-                      {item?.totalPrice}
+                      {/* {item?.totalPrice} */}
+                      5000.00
                     </Text>
                   </View>
                 </View>
@@ -236,17 +237,20 @@ const OrderDetailsScreen: React.FC = () => {
 
         <VerticalSpace h={2} />
 
-        <HorizontalLine />
+        <View style={styles.lineContainer}>
+          <HorizontalLine />
+        </View>
 
         <VerticalSpace h={2} />
 
-        <View>
+        <View style={{paddingHorizontal: wR * 4}}>
           <View style={styles.orderSecondaryInfoContainer}>
             <Text style={styles.orderSecondaryInfoLabelText}>
               Goods & Services Tax (PKR)
             </Text>
             <Text style={styles.orderSecondaryInfoValueText}>
-              {orderDetails?.totalTaxes}
+              {/* {orderDetails?.totalTaxes} */}
+              5000.00 PKR
             </Text>
           </View>
 
@@ -255,40 +259,43 @@ const OrderDetailsScreen: React.FC = () => {
               Total Price (PKR)
             </Text>
             <Text style={styles.orderSecondaryInfoValueText}>
-              {orderDetails?.totalAmount}
+              {/* {orderDetails?.totalAmount} */}
+              12000.00 PKR
             </Text>
           </View>
         </View>
 
         <VerticalSpace h={2} />
 
-        <HorizontalLine />
+        <SolidButton
+          label="Cancel Order"
+          size="xl"
+          customButtonStyle={{alignSelf: 'center'}}
+        />
 
-        <VerticalSpace h={2} />
-
-        <SolidButton label="Cancel Order" onPress={cancelOrder} />
-
-        {/* <View style={styles.feedbackContainer}>
-          <Text style={styles.howIsOrderText}>How is your order?</Text>
-
-          <Text style={styles.takeMomentToRateText}>
-            Please take a moment to rate...
-          </Text>
-
-          <VerticalSpace h={2} />
-
-          <Rating
-            type="custom"
-            ratingCount={5}
-            imageSize={32}
-            showRating={true}
-          />
-        </View> */}
-
-        <VerticalSpace h={2} />
+        <VerticalSpace h={4} />
       </ScrollView>
     </View>
   );
+
+  {
+    /* <View style={styles.feedbackContainer}>
+        <Text style={styles.howIsOrderText}>How is your order?</Text>
+
+        <Text style={styles.takeMomentToRateText}>
+          Please take a moment to rate...
+        </Text>
+
+        <VerticalSpace h={2} />
+
+        <Rating
+          type="custom"
+          ratingCount={5}
+          imageSize={32}
+          showRating={true}
+        />
+      </View> */
+  }
 };
 
 export default OrderDetailsScreen;
@@ -298,40 +305,46 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: WHITE,
   },
-  scrollViewContainer: {
-    paddingHorizontal: wR * 4,
+  orderNumberText: {
+    alignSelf: 'center',
+    fontSize: sR * 1.3,
+    fontWeight: '500',
   },
-  orderPrimaryInfoContainer: {
-    backgroundColor: WHITE_SMOKE,
+  shipmentDetailsContainer: {
+    width: wR * 92,
+    backgroundColor: WHITE,
+    alignSelf: 'center',
     borderRadius: sR,
-    padding: sR * 2,
+    paddingVertical: hR * 2,
+    paddingHorizontal: wR * 4,
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
   },
-  orderNoText: {
-    fontFamily: PROXIMA_NOVA_SEMIBOLD,
-    fontSize: sR * 1.6,
+  orderDateAndTimeText: {
+    alignSelf: 'center',
+    fontSize: sR,
     color: BLACK,
-    alignSelf: "center",
   },
-  dateDeliveredText: {
-    fontFamily: PROXIMA_NOVA_SEMIBOLD,
-    fontSize: sR * 1.2,
-    color: FLINT_STONE,
-    alignSelf: "center",
-    opacity: 0.6,
-  },
-  addressLabelText: {
-    fontFamily: PROXIMA_NOVA_REGULAR,
-    fontSize: sR * 1.2,
-    color: FLINT_STONE,
-    opacity: 0.6,
-  },
-  addressValueText: {
-    fontFamily: PROXIMA_NOVA_SEMIBOLD,
+  shipmentDetailsBoldText: {
     fontSize: sR * 1.2,
     color: BLACK,
+    fontWeight: '600',
+  },
+  shipmentDetailsNormalText: {
+    fontSize: sR * 1.2,
+    color: FLINT_STONE,
+    opacity: 0.8,
+    marginLeft: wR * 4,
   },
   tableCellContainer: {
-    width: "25%",
+    width: '25%',
   },
   tableLabelText: {
     fontFamily: PROXIMA_NOVA_REGULAR,
@@ -340,22 +353,22 @@ const styles = StyleSheet.create({
     opacity: 0.6,
   },
   tableRowContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: hR * 2,
     paddingLeft: wR * 2,
     borderRadius: sR,
     marginBottom: hR,
   },
   tableValueText: {
-    fontFamily: PROXIMA_NOVA_SEMIBOLD,
     fontSize: sR * 1.2,
     color: BLACK,
   },
+  lineContainer: {width: wR * 92, alignSelf: 'center'},
   orderSecondaryInfoContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: hR,
   },
   orderSecondaryInfoLabelText: {
@@ -369,18 +382,18 @@ const styles = StyleSheet.create({
     fontSize: sR * 1.3,
     color: BLACK,
   },
-  feedbackContainer: {
-    alignItems: "center",
-  },
-  howIsOrderText: {
-    fontFamily: PROXIMA_NOVA_SEMIBOLD,
-    fontSize: sR * 1.4,
-    color: BLACK,
-  },
-  takeMomentToRateText: {
-    fontFamily: PROXIMA_NOVA_REGULAR,
-    fontSize: sR * 1.2,
-    color: FLINT_STONE,
-    opacity: 0.6,
-  },
+  // feedbackContainer: {
+  //   alignItems: 'center',
+  // },
+  // howIsOrderText: {
+  //   fontFamily: PROXIMA_NOVA_SEMIBOLD,
+  //   fontSize: sR * 1.4,
+  //   color: BLACK,
+  // },
+  // takeMomentToRateText: {
+  //   fontFamily: PROXIMA_NOVA_REGULAR,
+  //   fontSize: sR * 1.2,
+  //   color: FLINT_STONE,
+  //   opacity: 0.6,
+  // },
 });

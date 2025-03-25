@@ -1,4 +1,4 @@
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {Text} from 'react-native';
 import {Call, Messages1} from 'iconsax-react-native';
 
@@ -12,9 +12,9 @@ import {BLACK, GREY, THEME, WHITE} from '../../../../constants/colors';
 import {hR, sR, wR} from '../../../../constants/dimensions';
 import images from '../../../../constants/images';
 
-const UpcomingOrders = () => {
+const UpcomingOrders = ({onPress}) => {
   return (
-    <View style={styles.rootContainer}>
+    <TouchableOpacity style={styles.rootContainer} onPress={onPress}>
       <View style={styles.topContainer}>
         <View style={styles.topLeftContainer}>
           <View style={styles.imageContainer}>
@@ -74,7 +74,7 @@ const UpcomingOrders = () => {
           <Call size={sR * 1.6} color={WHITE} />
         </SolidButton>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
