@@ -1,29 +1,29 @@
-import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { AddCircle, MinusCirlce } from "iconsax-react-native";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {AddCircle, MinusCirlce} from 'iconsax-react-native';
+import {useDispatch} from 'react-redux';
 
-import HorizontalSpace from "../../HorizontalSpace";
-import VerticalSpace from "../../VerticalSpace";
+import HorizontalSpace from '../../HorizontalSpace';
+import VerticalSpace from '../../VerticalSpace';
 
 import {
   PROXIMA_NOVA_BOLD,
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
-} from "../../../constants/fonts";
+} from '../../../constants/fonts';
 import {
   BLACK,
   FLINT_STONE,
-  PINBALL,
   THEME,
+  VITAMIN_C,
   WHITE,
   WHITE_SMOKE,
-} from "../../../constants/colors";
-import { hR, sR, wR } from "../../../constants/dimensions";
-import images from "../../../constants/images";
-import useDynamicSliceSelector from "../../../hooks/useDynamicSliceSelector";
-import { setCartFields } from "../../../redux/slices/cart";
-import { addToCart, removeFromCart } from "../../../constants/functions";
+} from '../../../constants/colors';
+import {hR, sR, wR} from '../../../constants/dimensions';
+import images from '../../../constants/images';
+import useDynamicSliceSelector from '../../../hooks/useDynamicSliceSelector';
+import {setCartFields} from '../../../redux/slices/cart';
+import {addToCart, removeFromCart} from '../../../constants/functions';
 interface CartItemCardProps {
   data: {
     id: number;
@@ -33,17 +33,17 @@ interface CartItemCardProps {
   };
 }
 
-const CartItemCard: React.FC<CartItemCardProps> = ({ data }) => {
-  const { cart } = useDynamicSliceSelector(["cart"]);
+const CartItemCard: React.FC<CartItemCardProps> = ({data}) => {
+  const {cart} = useDynamicSliceSelector(['cart']);
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
-    dispatch(setCartFields({ cartList: addToCart(cart?.cartList, data?.id) }));
+    dispatch(setCartFields({cartList: addToCart(cart?.cartList, data?.id)}));
   };
 
   const handleRemoveFromCart = () => {
     dispatch(
-      setCartFields({ cartList: removeFromCart(cart?.cartList, data?.id) })
+      setCartFields({cartList: removeFromCart(cart?.cartList, data?.id)}),
     );
   };
 
@@ -81,7 +81,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ data }) => {
 
       <HorizontalSpace w={2} />
 
-      <View style={{ alignItems: "center" }}>
+      <View style={styles.countContainer}>
         <TouchableOpacity onPress={handleAddToCart}>
           <AddCircle size={sR * 2} color={THEME} variant="Bold" />
         </TouchableOpacity>
@@ -93,7 +93,7 @@ const CartItemCard: React.FC<CartItemCardProps> = ({ data }) => {
         <VerticalSpace h={1} />
 
         <TouchableOpacity onPress={handleRemoveFromCart}>
-          <MinusCirlce size={sR * 2} color={THEME} variant="Bold" />
+          <MinusCirlce size={sR * 2} color={VITAMIN_C} variant="Bold" />
         </TouchableOpacity>
       </View>
     </View>
@@ -104,26 +104,35 @@ export default CartItemCard;
 
 const styles = StyleSheet.create({
   rootContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     borderWidth: 1,
-    borderColor: PINBALL,
+    borderColor: WHITE,
     borderRadius: sR,
     paddingHorizontal: wR * 4,
     paddingVertical: hR * 2,
     width: wR * 92,
     marginBottom: hR * 2,
-    backgroundColor:WHITE
+    backgroundColor: WHITE,
+
+    shadowColor: BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
   },
   leftContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     flex: 1,
   },
   productImageContainer: {
     backgroundColor: WHITE_SMOKE,
-    alignItems: "center",
-    justifyContent:"center",
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: sR,
     borderRadius: sR,
   },
@@ -140,8 +149,8 @@ const styles = StyleSheet.create({
     color: BLACK,
   },
   productCostContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   discountedPriceText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
@@ -153,7 +162,7 @@ const styles = StyleSheet.create({
     fontSize: sR * 1.2,
     color: FLINT_STONE,
     opacity: 0.6,
-    textDecorationLine: "line-through",
+    textDecorationLine: 'line-through',
   },
   qtyText: {
     fontFamily: PROXIMA_NOVA_BOLD,
@@ -163,7 +172,23 @@ const styles = StyleSheet.create({
   },
   countText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
-    fontSize: sR * 1.2,
-    color:BLACK
+    fontSize: sR,
+    color: BLACK,
+  },
+  countContainer: {
+    alignItems: 'center',
+    paddingVertical: hR,
+    paddingHorizontal: wR * 2,
+    backgroundColor: WHITE,
+    borderRadius: sR,
+
+    shadowColor: BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
   },
 });

@@ -111,6 +111,26 @@
 
   "ABOUT_MYUSC": {
     "ABOUT_MYUSC": "About MyUSC"
-  }
+  },
 
+  "SHOPPING_CART": {
+    "SHOPPING_CART": "Shopping Cart",
+    "NO_ITEMS_YET": "No Items Yet",
+    "EMPTY_CART_MESSAGE": "Oops! Your cart is empty. Browse our collection to start shopping!",
+    "DISCOUNT_MESSAGE": "Discounts have been automatically applied to all of your shopping items. Enjoy your savings on every purchase!",
+    "DELIVERY_ADDRESS": "Delivery Address",
+    "ADJUST": "Adjust",
+    "MY_ORDERS":"My Orders",
+    "SUBTOTAL": "Subtotal",
+    "STANDARD_DELIVERY": "Standard Delivery",
+    "PLATFORM_FEES": "Platform Fees",
+    "VAT": "VAT",
+    "GRAND_TOTAL": "Grand Total",
+    "NO_VOUCHERS_NOTE": "Note! This outlet doesn't accept vouchers.",
+    "DELIVERY_DISCOUNT": "Enjoy a reduced delivery fee of PKR 100, down from PKR 200!",
+    "PLACE_ORDER": "Place Order",
+    "PROCEED_TO_CHECKOUT": "Proceed to Checkout",
+    "SELECT_DELIVERY_ADDRESS": "Select Delivery Address",
+    "DELIVERY_ADDRESS_NOTE": "Choose the right delivery address instantly for a hassle-free experience."
+  }
 }

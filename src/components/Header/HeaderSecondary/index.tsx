@@ -1,18 +1,18 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Location, ShoppingCart } from "iconsax-react-native";
+import React from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Location, ShoppingCart} from 'iconsax-react-native';
 
-import HorizontalSpace from "../../HorizontalSpace";
+import HorizontalSpace from '../../HorizontalSpace';
 
-import { hR, sR, wR } from "../../../constants/dimensions";
-import { FLINT_STONE, RED_DOOR, THEME, WHITE } from "../../../constants/colors";
+import {hR, sR, wR} from '../../../constants/dimensions';
+import {FLINT_STONE, RED_DOOR, THEME, WHITE} from '../../../constants/colors';
 import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
-} from "../../../constants/fonts";
-import useDynamicSliceSelector from "../../../hooks/useDynamicSliceSelector";
-import { countCartItem } from "../../../constants/functions";
-import { isEmpty } from "lodash";
+} from '../../../constants/fonts';
+import useDynamicSliceSelector from '../../../hooks/useDynamicSliceSelector';
+import {countCartItem} from '../../../constants/functions';
+import {isEmpty} from 'lodash';
 
 interface HeaderSecondaryProps {
   onLeftPress?: () => void;
@@ -23,14 +23,14 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({
   onLeftPress,
   onRightPress,
 }) => {
-  const { cart, address } = useDynamicSliceSelector(["cart", "address"]);
+  const {cart, address} = useDynamicSliceSelector(['cart', 'address']);
 
   const cartCount = countCartItem(cart?.cartList || []);
 
   return (
     <View style={styles.rootContainer}>
       <TouchableOpacity style={styles.leftContainer} onPress={onLeftPress}>
-        <Location size={sR * 2.6} color={THEME} variant={"Bulk"} />
+        <Location size={sR * 2.6} color={THEME} variant={'Bulk'} />
 
         <HorizontalSpace w={2} />
 
@@ -46,14 +46,14 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({
         ) : null}
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={onRightPress}>
+      {/* <TouchableOpacity onPress={onRightPress}>
         {cartCount > 0 && (
           <View style={styles.cartItemCountContainer}>
             <Text style={styles.cartItemCountText}>{cartCount}</Text>
           </View>
         )}
         <ShoppingCart size={sR * 2.6} color={THEME} variant={"Bulk"} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };
@@ -64,11 +64,11 @@ const styles = StyleSheet.create({
   rootContainer: {
     paddingVertical: hR * 2,
     paddingHorizontal: wR * 4,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     backgroundColor: WHITE,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 0,
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.0,
     elevation: 1,
   },
-  leftContainer: { flexDirection: "row", alignItems: "center" },
+  leftContainer: {flexDirection: 'row', alignItems: 'center'},
   deliveryAddressText: {
     fontFamily: PROXIMA_NOVA_REGULAR,
     color: FLINT_STONE,
@@ -92,12 +92,12 @@ const styles = StyleSheet.create({
     height: sR * 1.2,
     width: sR * 1.2,
     borderRadius: sR,
-    position: "absolute",
+    position: 'absolute',
     zIndex: 1,
     right: 0,
     backgroundColor: RED_DOOR,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   cartItemCountText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,

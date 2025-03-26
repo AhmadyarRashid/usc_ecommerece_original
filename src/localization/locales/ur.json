@@ -111,5 +111,26 @@
 
   "ABOUT_MYUSC": {
     "ABOUT_MYUSC": "میرے USC کے بارے میں"
+  },
+
+  "SHOPPING_CART": {
+    "SHOPPING_CART": "خریداری کی ٹوکری",
+    "NO_ITEMS_YET": "ابھی تک کوئی اشیاء نہیں",
+    "EMPTY_CART_MESSAGE": "اوہ! آپ کی ٹوکری خالی ہے۔ خریداری شروع کرنے کے لیے ہماری کلیکشن براؤز کریں!",
+    "DISCOUNT_MESSAGE": "تمام اشیاء پر خودکار طور پر رعایت لاگو کر دی گئی ہے۔ ہر خریداری پر اپنی بچت کا لطف اٹھائیں!",
+    "DELIVERY_ADDRESS": "ترسیل کا پتہ",
+    "ADJUST": "ایڈجسٹ کریں",
+    "MY_ORDERS": "میرے آرڈرز",
+    "SUBTOTAL": "کل رقم",
+    "STANDARD_DELIVERY": "معیاری ترسیل",
+    "PLATFORM_FEES": "پلیٹ فارم فیس",
+    "VAT": "وی اے ٹی",
+    "GRAND_TOTAL": "مجموعی کل",
+    "NO_VOUCHERS_NOTE": "نوٹ! یہ آؤٹ لیٹ واؤچرز قبول نہیں کرتا۔",
+    "DELIVERY_DISCOUNT": "پی کے آر 100 کی رعایتی ترسیل، جو پہلے پی کے آر 200 تھی!",
+    "PLACE_ORDER": "آرڈر دیں",
+    "PROCEED_TO_CHECKOUT": "چیک آؤٹ پر جائیں",
+    "SELECT_DELIVERY_ADDRESS": "ترسیلی پتہ منتخب کریں",
+    "DELIVERY_ADDRESS_NOTE": "بہترین تجربے کے لیے صحیح ترسیلی پتہ منتخب کریں۔"
   }
 }

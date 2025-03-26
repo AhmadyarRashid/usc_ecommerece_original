@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Platform,
   StyleSheet,
@@ -6,31 +6,32 @@ import {
   TextStyle,
   View,
   ViewStyle,
-} from "react-native";
-import { isNull } from "lodash";
-import { useTranslation } from "react-i18next";
+} from 'react-native';
+import {isNull} from 'lodash';
+import {useTranslation} from 'react-i18next';
 
-import VerticalSpace from "../../../../components/VerticalSpace";
-import SolidButton from "../../../../components/Button/SolidButton";
-import HorizontalLine from "../../../../components/HorizontalLine";
+import VerticalSpace from '../../../../components/VerticalSpace';
+import SolidButton from '../../../../components/Button/SolidButton';
+import HorizontalLine from '../../../../components/HorizontalLine';
 
 import {
   BLACK,
   FLINT_STONE,
   THEME,
+  WHITE,
   WHITE_SMOKE,
-} from "../../../../constants/colors";
-import { hR, sR, wR } from "../../../../constants/dimensions";
-import { PROXIMA_NOVA_SEMIBOLD } from "../../../../constants/fonts";
-import useDynamicSliceSelector from "../../../../hooks/useDynamicSliceSelector";
-import { calculateOrderCost } from "../../../../constants/functions";
+} from '../../../../constants/colors';
+import {hR, sR, wR} from '../../../../constants/dimensions';
+import {PROXIMA_NOVA_SEMIBOLD} from '../../../../constants/fonts';
+import useDynamicSliceSelector from '../../../../hooks/useDynamicSliceSelector';
+import {calculateOrderCost} from '../../../../constants/functions';
 
 interface ShoppingCartListFooterProps {
   onProceedCheckoutPress: () => void;
   onPlaceOrderPress: () => void;
 }
 
-const ReceiptItem = ({ label, value }: { label: string; value: string }) => (
+const ReceiptItem = ({label, value}: {label: string; value: string}) => (
   <View style={styles.recieptItemContainer}>
     <Text style={styles.recieptItemLeftText}>{label}</Text>
     <Text style={styles.recieptItemRightText}>{value} PKR</Text>
@@ -41,10 +42,10 @@ const ShoppingCartListFooter: React.FC<ShoppingCartListFooterProps> = ({
   onProceedCheckoutPress,
   onPlaceOrderPress,
 }) => {
-  const { cart, address } = useDynamicSliceSelector(["cart", "address"]);
-  const { subtotal, standardDelivery, platformFees, vat, grandTotal } =
+  const {cart, address} = useDynamicSliceSelector(['cart', 'address']);
+  const {subtotal, standardDelivery, platformFees, vat, grandTotal} =
     calculateOrderCost(cart?.cartList);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const isAddressSelected = !isNull(address?.selectedAddress);
   const buttonLabel = isAddressSelected
@@ -126,7 +127,7 @@ const ShoppingCartListFooter: React.FC<ShoppingCartListFooterProps> = ({
 
       <SolidButton label={buttonLabel} size="xl" onPress={buttonAction} />
 
-      {Platform.OS === "android" && <VerticalSpace h={2} />}
+      {Platform.OS === 'android' && <VerticalSpace h={2} />}
     </View>
   );
 };
@@ -136,23 +137,32 @@ export default ShoppingCartListFooter;
 const styles = StyleSheet.create({
   receiptInfoContainer: {
     borderRadius: sR,
-    backgroundColor: WHITE_SMOKE,
     paddingHorizontal: wR * 4,
     paddingVertical: hR * 2,
+    backgroundColor:WHITE,
+
+    shadowColor: BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
   } as ViewStyle,
 
   recieptItemContainer: {
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexDirection: "row",
-    width: "100%",
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    width: '100%',
   } as ViewStyle,
 
   recieptItemLeftText: {
     fontFamily: PROXIMA_NOVA_SEMIBOLD,
     fontSize: sR * 1.2,
     color: BLACK,
-    width: "60%",
+    width: '60%',
   } as TextStyle,
 
   recieptItemRightText: {
@@ -160,8 +170,8 @@ const styles = StyleSheet.create({
     fontSize: sR * 1.2,
     color: FLINT_STONE,
     opacity: 0.6,
-    width: "40%",
-    textAlign: "right",
+    width: '40%',
+    textAlign: 'right',
   } as TextStyle,
 
   boldText: {
@@ -170,9 +180,18 @@ const styles = StyleSheet.create({
 
   discountInfoContainer: {
     borderRadius: sR,
-    backgroundColor: WHITE_SMOKE,
+    backgroundColor: WHITE,
     paddingHorizontal: wR * 4,
     paddingVertical: hR * 2,
+
+    shadowColor: BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
   } as ViewStyle,
 
   infoText: {
