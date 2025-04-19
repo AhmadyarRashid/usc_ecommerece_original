@@ -1,12 +1,12 @@
-import React from "react";
-import { StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native";
-import { Location } from "iconsax-react-native";
-import { isNull } from "lodash";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import {StyleSheet, Text, TextStyle, View, ViewStyle} from 'react-native';
+import {Location} from 'iconsax-react-native';
+import {isNull} from 'lodash';
+import {useTranslation} from 'react-i18next';
 
-import VerticalSpace from "../../../../components/VerticalSpace";
-import HorizontalSpace from "../../../../components/HorizontalSpace";
-import TextButton from "../../../../components/Button/TextButton";
+import VerticalSpace from '../../../../components/VerticalSpace';
+import HorizontalSpace from '../../../../components/HorizontalSpace';
+import TextButton from '../../../../components/Button/TextButton';
 
 import {
   AMBROSIA_IVORY,
@@ -14,13 +14,14 @@ import {
   BUCKTHORN_BROWN,
   SAND_MUFFIN,
   THEME,
-} from "../../../../constants/colors";
-import { hR, sR, wR } from "../../../../constants/dimensions";
+  WHITE,
+} from '../../../../constants/colors';
+import {hR, sR, wR} from '../../../../constants/dimensions';
 import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
-} from "../../../../constants/fonts";
-import useDynamicSliceSelector from "../../../../hooks/useDynamicSliceSelector";
+} from '../../../../constants/fonts';
+import useDynamicSliceSelector from '../../../../hooks/useDynamicSliceSelector';
 
 interface ShoppingCartListHeaderProps {
   onEditPress: () => void;
@@ -29,10 +30,10 @@ interface ShoppingCartListHeaderProps {
 const ShoppingCartListHeader: React.FC<ShoppingCartListHeaderProps> = ({
   onEditPress,
 }) => {
-  const { address } = useDynamicSliceSelector(["address"]);
-  const { t } = useTranslation();
+  const {address} = useDynamicSliceSelector(['address']);
+  const {t} = useTranslation();
 
-  const { name = "", street = "", city = "" } = address?.selectedAddress || {};
+  const {name = '', street = '', city = ''} = address?.selectedAddress || {};
 
   return (
     <View>
@@ -48,17 +49,13 @@ const ShoppingCartListHeader: React.FC<ShoppingCartListHeaderProps> = ({
 
       {isNull(address?.selectedAddress) ? null : (
         <>
-          <Text style={styles.headingText}>{t(`SHOPPING_CART.DELIVERY_ADDRESS`)}</Text>
+          <Text style={styles.headingText}>
+            {t(`SHOPPING_CART.DELIVERY_ADDRESS`)}
+          </Text>
 
           <VerticalSpace h={2} />
 
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
+          <View style={styles.selectedAddressContainer}>
             <View style={styles.deliveryAddressContainer}>
               <Location size={sR * 2.6} color={THEME} variant="Bulk" />
 
@@ -73,7 +70,10 @@ const ShoppingCartListHeader: React.FC<ShoppingCartListHeaderProps> = ({
               </View>
             </View>
 
-            <TextButton label={t(`SHOPPING_CART.ADJUST`)} onPress={onEditPress} />
+            <TextButton
+              label={t(`SHOPPING_CART.ADJUST`)}
+              onPress={onEditPress}
+            />
           </View>
 
           <VerticalSpace h={2} />
@@ -95,10 +95,10 @@ const styles = StyleSheet.create({
     borderColor: SAND_MUFFIN,
     borderRadius: sR,
     backgroundColor: AMBROSIA_IVORY,
-    flexDirection: "row",
+    flexDirection: 'row',
     paddingHorizontal: wR * 4,
     paddingVertical: hR * 2,
-    alignItems: "center",
+    alignItems: 'center',
   } as ViewStyle,
 
   primaryInfoText: {
@@ -114,8 +114,8 @@ const styles = StyleSheet.create({
   } as TextStyle,
 
   deliveryAddressContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   } as ViewStyle,
 
   deliveryAddressLabelText: {
@@ -128,5 +128,23 @@ const styles = StyleSheet.create({
     fontFamily: PROXIMA_NOVA_REGULAR,
     fontSize: sR * 1.4,
     color: BLACK,
+  },
+
+  selectedAddressContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: WHITE,
+    paddingVertical: hR * 2,
+    paddingHorizontal: wR * 4,
+    borderRadius: sR,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
   },
 });

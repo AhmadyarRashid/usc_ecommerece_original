@@ -1,18 +1,18 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Location, ShoppingCart} from 'iconsax-react-native';
+import {Location} from 'iconsax-react-native';
+import {isEmpty} from 'lodash';
 
 import HorizontalSpace from '../../HorizontalSpace';
 
 import {hR, sR, wR} from '../../../constants/dimensions';
-import {FLINT_STONE, RED_DOOR, THEME, WHITE} from '../../../constants/colors';
+import {FLINT_STONE, RED_DOOR, VITAMIN_C, WHITE} from '../../../constants/colors';
 import {
   PROXIMA_NOVA_REGULAR,
   PROXIMA_NOVA_SEMIBOLD,
 } from '../../../constants/fonts';
 import useDynamicSliceSelector from '../../../hooks/useDynamicSliceSelector';
 import {countCartItem} from '../../../constants/functions';
-import {isEmpty} from 'lodash';
 
 interface HeaderSecondaryProps {
   onLeftPress?: () => void;
@@ -30,7 +30,7 @@ const HeaderSecondary: React.FC<HeaderSecondaryProps> = ({
   return (
     <View style={styles.rootContainer}>
       <TouchableOpacity style={styles.leftContainer} onPress={onLeftPress}>
-        <Location size={sR * 2.6} color={THEME} variant={'Bulk'} />
+        <Location size={sR * 2.6} color={VITAMIN_C} variant={'Bulk'} />
 
         <HorizontalSpace w={2} />
 

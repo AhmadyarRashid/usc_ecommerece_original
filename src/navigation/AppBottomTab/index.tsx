@@ -14,9 +14,9 @@ import {useNavigation} from '@react-navigation/native';
 import VerticalSpace from '../../components/VerticalSpace';
 
 import HomeStack from '../HomeStack';
-import OrdersStack from '../OrdersStack';
 import ExlporeStack from '../ExploreStack';
 import MyProfileScreen from '../../screens/MyProfile';
+import CartStack from '../CartStack';
 
 import {BLACK, THEME, WHITE} from '../../constants/colors';
 import {hR, sR} from '../../constants/dimensions';
@@ -134,7 +134,7 @@ const AppTabs: React.FC = () => {
         <CurvedBottomBar.Screen
           name="ShoppingCart"
           position="LEFT"
-          component={() => <View />}
+          component={CartStack}
         />
 
         <CurvedBottomBar.Screen

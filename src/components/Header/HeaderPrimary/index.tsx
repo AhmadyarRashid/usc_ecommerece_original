@@ -17,19 +17,30 @@ import {PROXIMA_NOVA_SEMIBOLD} from '../../../constants/fonts';
 interface HeaderPrimaryProps {
   label: string;
   onPress?: (event: GestureResponderEvent) => void;
+  displayBackButton?: boolean;
 }
 
-const HeaderPrimary: React.FC<HeaderPrimaryProps> = ({label, onPress}) => {
+const HeaderPrimary: React.FC<HeaderPrimaryProps> = ({
+  label,
+  onPress,
+  displayBackButton = true,
+}) => {
   return (
     <View style={styles.rootContainer}>
       <View style={styles.leftContainer}>
-        <TouchableOpacity
-          onPress={onPress}
-          activeOpacity={0.7}
-          style={styles.backButton}>
-          <ArrowLeft2 size={sR * 1.6} color={WHITE} />
-        </TouchableOpacity>
-        <HorizontalSpace w={2} />
+        {displayBackButton && (
+          <>
+            <TouchableOpacity
+              onPress={onPress}
+              activeOpacity={0.7}
+              style={styles.backButton}>
+              <ArrowLeft2 size={sR * 1.6} color={WHITE} />
+            </TouchableOpacity>
+
+            <HorizontalSpace w={2} />
+          </>
+        )}
+
         <Text style={styles.headerLabelText}>{label}</Text>
       </View>
     </View>

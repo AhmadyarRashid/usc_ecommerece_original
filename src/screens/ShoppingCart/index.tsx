@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, {useCallback} from 'react';
 import {
   Alert,
   FlatList,
@@ -6,20 +6,21 @@ import {
   Text,
   TouchableOpacity,
   View,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
-import { isEmpty } from "lodash";
-import { useTranslation } from "react-i18next";
-import { SwipeListView } from "react-native-swipe-list-view";
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {isEmpty} from 'lodash';
+import {useTranslation} from 'react-i18next';
+import {SwipeListView} from 'react-native-swipe-list-view';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
-import HeaderPrimary from "../../components/Header/HeaderPrimary";
-import CartItemCard from "../../components/Cards/CartItemCard";
-import ShoppingCartListHeader from "./components/ShoppingCartListHeader";
-import ShoppingCartListFooter from "./components/ShoppingCartListFooter";
-import NoContentDisplay from "../../components/NoContentDisplay";
-import AddressSelectionModal from "../../components/Modals/AddressSelectionModal";
-import Loader from "../../components/Loader";
+import HeaderPrimary from '../../components/Header/HeaderPrimary';
+import CartItemCard from '../../components/Cards/CartItemCard';
+import ShoppingCartListHeader from './components/ShoppingCartListHeader';
+import ShoppingCartListFooter from './components/ShoppingCartListFooter';
+import NoContentDisplay from '../../components/NoContentDisplay';
+import AddressSelectionModal from '../../components/Modals/AddressSelectionModal';
+import Loader from '../../components/Loader';
 
 import {
   COMMUNIST,
@@ -27,38 +28,40 @@ import {
   PINBALL,
   RED_DOOR,
   WHITE,
-} from "../../constants/colors";
-import { hR, sR, wR } from "../../constants/dimensions";
-import { AppNavigationProps } from "../../constants/navigationTypes";
-import { setCartFields } from "../../redux/slices/cart";
-import { displayToast } from "../../constants/functions";
-import useToggle from "../../hooks/useToggle";
-import useDynamicSliceSelector from "../../hooks/useDynamicSliceSelector";
-import useApiHook from "../../hooks/rest/useApi";
-import { Trash } from "iconsax-react-native";
+} from '../../constants/colors';
+import {hR, sR, wR} from '../../constants/dimensions';
+import {AppNavigationProps} from '../../constants/navigationTypes';
+import {setCartFields} from '../../redux/slices/cart';
+import {displayToast} from '../../constants/functions';
+import useToggle from '../../hooks/useToggle';
+import useDynamicSliceSelector from '../../hooks/useDynamicSliceSelector';
+import useApiHook from '../../hooks/rest/useApi';
+import {Trash} from 'iconsax-react-native';
 
 const ShoppingCartScreen: React.FC = () => {
   const navigation = useNavigation<AppNavigationProps>();
-  const { cart, address, auth } = useDynamicSliceSelector([
-    "cart",
-    "address",
-    "auth",
+  const {cart, address, auth} = useDynamicSliceSelector([
+    'cart',
+    'address',
+    'auth',
   ]);
   const dispatch = useDispatch();
   const [locationModal, toggleLocationModal] = useToggle(false);
-  const { handleRestApi, restApiLoading } = useApiHook();
-  const { t } = useTranslation();
+  const {handleRestApi, restApiLoading} = useApiHook();
+  const {t} = useTranslation();
+    const tabBarHeight = useBottomTabBarHeight();
+
 
   const handleRemoveCartItem = (id: number) => {
     dispatch(
       setCartFields({
-        cartList: cart?.cartList.filter((item) => item.id !== id),
-      })
+        cartList: cart?.cartList.filter(item => item.id !== id),
+      }),
     );
 
     displayToast({
-      type: "success",
-      text1: "Success",
+      type: 'success',
+      text1: 'Success',
       text2: `Item successfully removed from your cart!`,
     });
   };
@@ -67,7 +70,7 @@ const ShoppingCartScreen: React.FC = () => {
     const data = {
       auth_token: auth?.accessToken,
       login: auth?.userName,
-      product_list: cart?.cartList.map((item) => ({
+      product_list: cart?.cartList.map(item => ({
         ptid: item?.id,
         quantity: item?.count,
       })),
@@ -75,17 +78,17 @@ const ShoppingCartScreen: React.FC = () => {
     };
 
     const response = await handleRestApi({
-      method: "post",
-      url: "order_create",
+      method: 'post',
+      url: 'order_create',
       data,
     });
 
     if (response?.data?.result?.status === 200) {
-      dispatch(setCartFields({ cartList: [] }));
+      dispatch(setCartFields({cartList: []}));
 
       displayToast({
-        type: "success",
-        text1: "Success",
+        type: 'success',
+        text1: 'Success',
         text2: `Order confirmed! Thank you for shopping with us`,
       });
 
@@ -108,7 +111,7 @@ const ShoppingCartScreen: React.FC = () => {
 
       <HeaderPrimary
         label={t(`SHOPPING_CART.SHOPPING_CART`)}
-        onPress={goBack}
+        displayBackButton={false}
       />
 
       {isEmpty(cart?.cartList) ? (
@@ -122,13 +125,13 @@ const ShoppingCartScreen: React.FC = () => {
       ) : (
         <SwipeListView
           data={cart?.cartList}
-          renderItem={({ item }) => (
+          renderItem={({item}) => (
             <CartItemCard
               data={item}
               onRemoveItemPress={() => handleRemoveCartItem(item.id)}
             />
           )}
-          keyExtractor={(item) => item.name}
+          keyExtractor={item => item.name}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             <ShoppingCartListHeader onEditPress={toggleLocationModal} />
@@ -141,7 +144,9 @@ const ShoppingCartScreen: React.FC = () => {
           }
           contentContainerStyle={styles.flatListContentContainer}
           renderHiddenItem={({item}) => (
-            <TouchableOpacity style={styles.swipeDeleteContainer} onPress={()=>handleRemoveCartItem(item.id)}>
+            <TouchableOpacity
+              style={styles.swipeDeleteContainer}
+              onPress={() => handleRemoveCartItem(item.id)}>
               <Trash size={sR * 2} color={WHITE} variant="Bold" />
             </TouchableOpacity>
           )}
@@ -149,6 +154,8 @@ const ShoppingCartScreen: React.FC = () => {
           disableRightSwipe={true}
         />
       )}
+
+      <View style={{height:tabBarHeight}} />
     </View>
   );
 };
@@ -165,17 +172,17 @@ const styles = StyleSheet.create({
   },
   noContentDisplayContainer: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   swipeDeleteContainer: {
     borderRadius: sR,
     marginBottom: hR * 2,
     flex: 1,
     backgroundColor: COMMUNIST,
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     paddingRight: wR * 4,
   },
 });
